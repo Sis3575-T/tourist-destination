@@ -1,0 +1,16 @@
+{
+  "name": "ethio-tourist-destination",
+  "private": true,
+  "description": "One-command fullstack dev: API (6000) + React (5173, proxied /api)",
+  "scripts": {
+    "postinstall": "npm install --prefix backend && npm install --prefix tourist-destination-campaign",
+    "dev": "concurrently -k -n api,web -c cyan,magenta \"npm run dev --prefix backend\" \"npm run dev --prefix tourist-destination-campaign\"",
+    "build": "npm run build --prefix tourist-destination-campaign",
+    "start": "npm run build --prefix tourist-destination-campaign && npm start --prefix backend",
+    "mongo:up": "docker compose up -d mongo",
+    "mongo:down": "docker compose down"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
