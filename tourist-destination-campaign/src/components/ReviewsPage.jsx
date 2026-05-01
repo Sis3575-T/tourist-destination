@@ -5,7 +5,7 @@ const ReviewsPage = ({ setCurrentPage }) => {
   const [reviews, setReviews] = useState([])
 
   useEffect(() => {
-    fetch(`${VITE_API_URL}/reviews`)
+    fetch(`${import.meta.env.VITE_API_URL}/reviews`)
       .then(r => r.json())
       .then(data => setReviews(Array.isArray(data) ? data : []))
       .catch(() => setReviews([]))

@@ -5,7 +5,7 @@ const FleetServices = ({ setCurrentPage, onSelectService }) => {
   const [fleets, setFleets] = useState([])
 
   useEffect(() => {
-    fetch(`${VITE_API_URL}/fleet`)
+    fetch(`${import.meta.env.VITE_API_URL}/fleet`)
       .then(r => r.json())
       .then(data => setFleets(Array.isArray(data) ? data : []))
       .catch(() => setFleets([]))

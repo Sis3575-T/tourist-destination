@@ -6,7 +6,7 @@ const BlogAndReviews = ({ setCurrentPage, onSelectBlog }) => {
   const [reviews, setReviews] = useState([])
 
   useEffect(() => {
-    fetch(`${VITE_API_URL}/blogs`)
+    fetch(`${import.meta.env.VITE_API_URL}/blogs`)
       .then(r => r.json())
       .then(data => setBlogs(Array.isArray(data) ? data : []))
       .catch(() => setBlogs([]))
