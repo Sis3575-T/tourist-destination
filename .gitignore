@@ -5,3 +5,9 @@ dist
 *.log
 .vscode
 .gemini
+
+# Personal files
+tourist-destination-campaign/src/assets/*.html
+tourist-destination-campaign/src/assets/*.mhtml
+tourist-destination-campaign/src/assets/*_files/
+tourist-destination-campaign/src/assets/cv.*
