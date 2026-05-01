@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 6005;
 
 // Allow requests from frontend origin
 const allowedOrigins = [
-  'https://tourist-destination-3.onrender.com',
+  'https://tourist-destination-2.onrender.com',
   process.env.CLIENT_URL,
 ].filter(Boolean);
 
