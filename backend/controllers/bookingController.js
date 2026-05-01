@@ -60,7 +60,9 @@ exports.createBooking = async (req, res) => {
     if (!phone) return res.status(400).json({ message: 'Phone is required' });
 
     const booking = await Booking.create({
-      userId: userId || new mongoose.Types.ObjectId(),
+      userId: (userId && mongoose.Types.ObjectId.isValid(userId))
+        ? userId
+        : new mongoose.Types.ObjectId(),
       destinationId,
       date,
       travelers: Number(travelers) || 1,

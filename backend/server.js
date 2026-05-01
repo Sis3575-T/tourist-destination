@@ -69,4 +69,5 @@ if (fs.existsSync(spaIndex)) {
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`📦 Booking model: v2 (servicePreview, totalAmount, nationality, paymentMethod)`);
 });
