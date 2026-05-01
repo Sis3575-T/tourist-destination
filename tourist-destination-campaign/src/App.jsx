@@ -6,6 +6,7 @@ import AboutSection from './components/AboutSection'
 import FeaturedDestinations from './components/FeaturedDestinations'
 import FleetServices from './components/FleetServices'
 import BlogAndReviews from './components/BlogAndReviews'
+import TrustSection from './components/TrustSection'
 import SmartRecommendations from './components/SmartRecommendations'
 import DestinationExplorer from './components/DestinationExplorer'
 import DestinationDetail from './components/DestinationDetail'
@@ -45,6 +46,11 @@ function App() {
     bootstrap()
   }, [])
 
+  // Scroll to top on page change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [currentPage])
+
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
@@ -58,9 +64,8 @@ function App() {
               setCurrentPage={setCurrentPage}
               currency={currency}
             />
-            <div className="max-w-6xl mx-auto"><hr className="border-gray-300" /></div>
+            <TrustSection setCurrentPage={setCurrentPage} />
             <FleetServices setCurrentPage={setCurrentPage} onSelectService={setSelectedService} />
-            <AboutSection setCurrentPage={setCurrentPage} />
             <BlogAndReviews setCurrentPage={setCurrentPage} onSelectBlog={setSelectedBlog} />
           </>
         )
@@ -142,7 +147,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div className="min-h-screen bg-white text-slate-900">
       <Navbar
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
@@ -152,8 +157,8 @@ function App() {
         setCurrency={setCurrency}
       />
       {loadError && (
-        <div className="bg-amber-50 border-b border-amber-200 text-amber-900 text-center py-3 px-4 text-sm">
-          {loadError}
+        <div className="bg-amber-50 border-b border-amber-200 text-amber-900 text-center py-3 px-4 text-sm font-medium">
+          ⚠️ {loadError}
         </div>
       )}
       <main>{renderPage()}</main>

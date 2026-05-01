@@ -1,102 +1,79 @@
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import axios from 'axios'
 
+const currencyRates = { USD: 1, EUR: 0.92, GBP: 0.79, ETB: 55 }
+const currencySymbols = { USD: '$', EUR: '€', GBP: '£', ETB: 'Br' }
+
+const paymentMethods = [
+  { id: 'telebirr', name: 'Telebirr', icon: '📱', desc: 'Mobile money transfer', account: '+251 935 756 054', holder: 'Sisay Temesgen' },
+  { id: 'chapa', name: 'Chapa', icon: '💳', desc: 'Secure online payment', account: 'Redirected after submit', holder: 'EthioTour' },
+  { id: 'cbebirr', name: 'CBE Birr', icon: '🏦', desc: 'Commercial Bank of Ethiopia', account: 'Merchant: 847560', holder: 'Ethiopian Tourist Dest.' },
+  { id: 'bank', name: 'Bank Transfer', icon: '🌍', desc: 'International wire transfer', account: 'CBE: 1000345678912', holder: 'Ethiopian Tourist Dest.' },
+]
+
 const Booking = ({ destination, service, setCurrentPage, currency, apiBase, userId }) => {
-  const [bookingData, setBookingData] = useState({
-    travelers: 1,
-    date: '',
-    specialRequests: '',
-    name: '',
-    email: '',
-    phone: '',
-    paymentMethod: 'telebirr'
+  const [step, setStep] = useState(1)
+  const [form, setForm] = useState({
+    name: '', email: '', phone: '', nationality: '',
+    travelers: 1, date: '', specialRequests: '',
+    paymentMethod: '', paymentProof: '',
   })
+  const [submitting, setSubmitting] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [bookingRef, setBookingRef] = useState('')
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const handleInputChange = (field, value) => {
-    setBookingData(prev => ({
-      ...prev,
-      [field]: value
-    }))
+  const fmt = (price) => {
+    const rate = currencyRates[currency] || 1
+    const sym = currencySymbols[currency] || '$'
+    return `${sym}${Math.round(price * rate).toLocaleString()}`
   }
+
+  const set = (field, val) => setForm(p => ({ ...p, [field]: val }))
+
+  const tourPrice = destination?.price || 0
+  const transportPrice = service?.pricePerDay || 0
+  const subtotal = (tourPrice + transportPrice) * Number(form.travelers)
+  const tax = Math.round(subtotal * 0.05)
+  const total = subtotal + tax
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
-    if (!bookingData.paymentMethod) {
-      alert('Please select a payment method')
-      return
-    }
-
-    setIsSubmitting(true)
-
-    const travelersNum = Number(bookingData.travelers)
-
+    setSubmitting(true)
     try {
-      const payload = {
-        userId: userId || 'user1',
+      const { data } = await axios.post(`${apiBase}/bookings`, {
+        userId: userId || '507f1f77bcf86cd799439011',
         destinationId: destination._id,
-        date: bookingData.date,
-        travelers: travelersNum,
+        date: form.date,
+        travelers: Number(form.travelers),
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        specialRequests: form.specialRequests,
+        paymentProof: form.paymentProof,
         destinationPreview: {
           name: destination.name,
           location: destination.location,
           image: destination.image,
           price: destination.price,
         },
-        specialRequests: bookingData.specialRequests,
-        name: bookingData.name,
-        email: bookingData.email,
-        phone: bookingData.phone,
-        paymentProof: bookingData.paymentProof,
-      }
-
-      const { data } = await axios.post(`${apiBase}/bookings`, payload)
-
-      // Simulate specific payment method processing
-      const paymentMessages = {
-        telebirr: 'Please check your phone for the Telebirr push notification.',
-        chapa: 'Redirecting to Chapa secure payment gateway...',
-        cbebirr: 'Dial *847# to complete your CBE Birr payment.',
-        card: 'Processing secure card transaction...'
-      }
-
-      alert(
-        `Booking Initiated for ${destination.name}!\n\n${paymentMessages[bookingData.paymentMethod]}\n\nReference: ${data._id || data.id || 'OK'}`
-      )
-      setCurrentPage('dashboard')
+      })
+      setBookingRef(data._id || data.id || 'ETH-' + Date.now())
+      setSuccess(true)
     } catch (err) {
-      console.error(err)
-      const errorMsg = err.response?.data?.message || err.message || 'Booking failed';
-      const detailMsg = err.response?.data?.error || '';
-      alert(`${errorMsg}\n${detailMsg}`);
+      alert(err.response?.data?.message || 'Booking failed. Please try again.')
     } finally {
-      setIsSubmitting(false)
+      setSubmitting(false)
     }
   }
 
-  const currencyRates = { USD: 1, EUR: 0.92, GBP: 0.79, ETB: 55 }
-  const currencySymbols = { USD: '$', EUR: '€', GBP: '£', ETB: 'Br' }
-  const formatPrice = (price) => {
-    const rate = currencyRates[currency] || 1
-    const symbol = currencySymbols[currency] || '$'
-    return `${symbol}${Math.round(price * rate).toLocaleString()}`
-  }
-
-  const travelersNum = Number(bookingData.travelers)
-  const servicePrice = service?.pricePerDay || 0
-  const totalPrice = (destination.price + servicePrice) * travelersNum
-
   if (!destination) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-[#fcfbf7]">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">No Destination Selected</h1>
-          <button
-            onClick={() => setCurrentPage('explorer')}
-            className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-colors"
-          >
+          <div className="text-6xl mb-4">🗺️</div>
+          <h2 className="text-2xl font-bold text-[#2d3e23] mb-4">No destination selected</h2>
+          <button onClick={() => setCurrentPage('explorer')} className="bg-[#2d3e23] text-white px-8 py-3 rounded-2xl font-bold hover:bg-[#3d4a35] transition-all">
             Browse Destinations
           </button>
         </div>
@@ -104,259 +81,338 @@ const Booking = ({ destination, service, setCurrentPage, currency, apiBase, user
     )
   }
 
+  if (success) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#fcfbf7] px-4">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-white rounded-3xl shadow-2xl p-12 max-w-lg w-full text-center"
+        >
+          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7"/>
+            </svg>
+          </div>
+          <h2 className="text-3xl font-black text-[#2d3e23] mb-3">Booking Confirmed!</h2>
+          <p className="text-gray-500 mb-6">Your adventure to <strong>{destination.name}</strong> has been booked successfully.</p>
+          <div className="bg-[#f8f7f4] rounded-2xl p-4 mb-8">
+            <p className="text-xs text-gray-400 uppercase tracking-widest mb-1">Booking Reference</p>
+            <p className="font-mono font-black text-[#2d3e23] text-lg">{bookingRef}</p>
+          </div>
+          <p className="text-sm text-gray-400 mb-8">A confirmation will be sent to <strong>{form.email}</strong>. Our team will contact you within 24 hours.</p>
+          <div className="flex gap-3">
+            <button onClick={() => setCurrentPage('dashboard')} className="flex-1 bg-[#2d3e23] text-white py-3 rounded-2xl font-bold hover:bg-[#3d4a35] transition-all">
+              View My Trips
+            </button>
+            <button onClick={() => setCurrentPage('home')} className="flex-1 border border-gray-200 text-gray-600 py-3 rounded-2xl font-bold hover:bg-gray-50 transition-all">
+              Back to Home
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    )
+  }
+
+  const selectedPayment = paymentMethods.find(p => p.id === form.paymentMethod)
+
   return (
-    <div className="min-h-screen bg-gray-50 py-16">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Book Your Adventure</h1>
-          <p className="text-lg text-gray-600">Complete your booking for {destination.name}</p>
+    <div className="min-h-screen bg-[#fcfbf7] pt-24 pb-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* Header */}
+        <div className="mb-10">
+          <button onClick={() => setCurrentPage('details')} className="flex items-center gap-2 text-gray-400 hover:text-[#2d3e23] transition-colors mb-4 text-sm font-medium">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/></svg>
+            Back to Details
+          </button>
+          <h1 className="text-4xl font-black text-[#2d3e23]">Complete Your Booking</h1>
+          <p className="text-gray-500 mt-2">Secure your journey to <span className="font-bold text-[#2d3e23]">{destination.name}</span></p>
+        </div>
+
+        {/* Steps */}
+        <div className="flex items-center gap-2 mb-10">
+          {['Traveler Info', 'Payment', 'Confirm'].map((s, i) => (
+            <div key={s} className="flex items-center gap-2">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-black transition-all ${
+                step > i + 1 ? 'bg-green-500 text-white' : step === i + 1 ? 'bg-[#2d3e23] text-white' : 'bg-gray-100 text-gray-400'
+              }`}>
+                {step > i + 1 ? '✓' : i + 1}
+              </div>
+              <span className={`text-sm font-bold hidden sm:block ${step === i + 1 ? 'text-[#2d3e23]' : 'text-gray-400'}`}>{s}</span>
+              {i < 2 && <div className={`flex-1 h-px w-8 sm:w-16 ${step > i + 1 ? 'bg-green-500' : 'bg-gray-200'}`} />}
+            </div>
+          ))}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Booking Form */}
+
+          {/* Form */}
           <div className="lg:col-span-2">
-            <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-semibold mb-6">Traveler Information</h2>
+            <form onSubmit={handleSubmit}>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                  <input
-                    type="text"
-                    required
-                    value={bookingData.name}
-                    onChange={(e) => handleInputChange('name', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                    placeholder="Enter your full name"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                  <input
-                    type="email"
-                    required
-                    value={bookingData.email}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                    placeholder="Enter your email"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-                  <input
-                    type="tel"
-                    required
-                    value={bookingData.phone}
-                    onChange={(e) => handleInputChange('phone', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                    placeholder="Enter your phone number"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Number of Travelers</label>
-                  <select
-                    value={bookingData.travelers}
-                    onChange={(e) => handleInputChange('travelers', Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  >
-                    <option value={1}>1 Traveler</option>
-                    <option value={2}>2 Travelers</option>
-                    <option value={3}>3 Travelers</option>
-                    <option value={4}>4 Travelers</option>
-                    <option value={5}>5+ Travelers</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Start Date</label>
-                <input
-                  type="date"
-                  required
-                  value={bookingData.date}
-                  onChange={(e) => handleInputChange('date', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
-              </div>
-
-              <div className="mb-8">
-                <h2 className="text-xl font-semibold mb-6">Payment Method</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                  {[
-                    { id: 'telebirr', name: 'Telebirr', icon: '📱' },
-                    { id: 'chapa', name: 'Chapa', icon: '💳' },
-                    { id: 'cbebirr', name: 'CBE Birr', icon: '🏦' },
-                    { id: 'card', name: 'Bank Transfer (CBE)', icon: '🌍' }
-                  ].map((method) => (
-                    <div
-                      key={method.id}
-                      onClick={() => handleInputChange('paymentMethod', method.id)}
-                      className={`cursor-pointer p-4 border-2 rounded-xl transition-all flex items-center gap-4 ${
-                        bookingData.paymentMethod === method.id
-                          ? 'border-green-600 bg-green-50 shadow-sm'
-                          : 'border-gray-100 hover:border-gray-200 bg-white'
-                      }`}
-                    >
-                      <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-2xl shadow-sm border border-gray-100">
-                        {method.icon}
-                      </div>
-                      <div>
-                        <p className="font-bold text-slate-800">{method.name}</p>
-                        <p className="text-xs text-slate-500">Instant Payment</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Account Details Display */}
-                {bookingData.paymentMethod && (
-                  <div className="space-y-6 animate-in fade-in slide-in-from-top-4 duration-300">
-                    <div className="bg-slate-900 text-white p-6 rounded-2xl shadow-xl border-l-4 border-green-500">
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                        </div>
-                        <h3 className="text-lg font-bold">Company Account Details</h3>
-                      </div>
-                      
-                      <div className="space-y-4">
-                        {bookingData.paymentMethod === 'telebirr' && (
-                          <div className="flex justify-between items-center bg-white/10 p-3 rounded-xl">
-                            <div>
-                              <p className="text-xs text-green-400 uppercase font-bold tracking-wider">Telebirr Number</p>
-                              <p className="text-xl font-mono">+251 935 756 054</p>
-                            </div>
-                            <p className="text-sm font-bold opacity-80">Account: Sisay Temesgen</p>
-                          </div>
-                        )}
-                        {bookingData.paymentMethod === 'cbebirr' && (
-                          <div className="flex justify-between items-center bg-white/10 p-3 rounded-xl">
-                            <div>
-                              <p className="text-xs text-green-400 uppercase font-bold tracking-wider">CBE Birr Merchant Code</p>
-                              <p className="text-xl font-mono">847560</p>
-                            </div>
-                            <p className="text-sm font-bold opacity-80">Ethiopian Tourist Dest.</p>
-                          </div>
-                        )}
-                        {bookingData.paymentMethod === 'card' && (
-                          <div className="flex justify-between items-center bg-white/10 p-3 rounded-xl">
-                            <div>
-                              <p className="text-xs text-green-400 uppercase font-bold tracking-wider">CBE Account Number</p>
-                              <p className="text-xl font-mono">1000345678912</p>
-                            </div>
-                            <p className="text-sm font-bold opacity-80">Ethiopian Tourist Dest.</p>
-                          </div>
-                        )}
-                        {bookingData.paymentMethod === 'chapa' && (
-                          <div className="bg-white/10 p-3 rounded-xl">
-                            <p className="text-xs text-green-400 uppercase font-bold tracking-wider mb-1">Chapa Payment Link</p>
-                            <p className="text-sm">Redirecting to secure portal after clicking "Complete Booking"</p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Upload Section */}
-                    <div className="bg-green-50 border-2 border-dashed border-green-200 p-8 rounded-2xl text-center">
-                      <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                        </svg>
-                      </div>
-                      <h4 className="text-lg font-bold text-slate-800 mb-1">Upload Payment Screenshot</h4>
-                      <p className="text-sm text-slate-500 mb-6">Please upload the confirmation screenshot of your transfer</p>
-                      
-                      <div className="relative">
-                        <input 
-                          type="file" 
-                          accept="image/*"
-                          required
-                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                          onChange={(e) => {
-                            if (e.target.files?.[0]) {
-                              handleInputChange('paymentProof', e.target.files[0].name)
-                              alert(`File selected: ${e.target.files[0].name}`)
-                            }
-                          }}
+              {/* Step 1: Traveler Info */}
+              {step === 1 && (
+                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+                  <h2 className="text-xl font-black text-[#2d3e23] mb-6">Traveler Information</h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    {[
+                      { label: 'Full Name', field: 'name', type: 'text', placeholder: 'As on passport', required: true },
+                      { label: 'Email Address', field: 'email', type: 'email', placeholder: 'your@email.com', required: true },
+                      { label: 'Phone / WhatsApp', field: 'phone', type: 'tel', placeholder: '+1 234 567 8900', required: true },
+                      { label: 'Nationality', field: 'nationality', type: 'text', placeholder: 'e.g. American', required: false },
+                    ].map(f => (
+                      <div key={f.field}>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">{f.label}</label>
+                        <input
+                          type={f.type}
+                          required={f.required}
+                          placeholder={f.placeholder}
+                          value={form[f.field]}
+                          onChange={e => set(f.field, e.target.value)}
+                          className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#d4af37] text-sm transition-all"
                         />
-                        <div className="bg-white px-6 py-3 border border-gray-200 rounded-xl font-bold text-slate-700 shadow-sm inline-block">
-                          {bookingData.paymentProof ? `✅ ${bookingData.paymentProof}` : 'Choose Screenshot Image'}
-                        </div>
                       </div>
+                    ))}
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Number of Travelers</label>
+                      <select value={form.travelers} onChange={e => set('travelers', e.target.value)} className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#d4af37] text-sm">
+                        {[1,2,3,4,5,6,7,8,9,10].map(n => <option key={n} value={n}>{n} {n === 1 ? 'Traveler' : 'Travelers'}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Preferred Start Date</label>
+                      <input
+                        type="date"
+                        required
+                        value={form.date}
+                        min={new Date().toISOString().split('T')[0]}
+                        onChange={e => set('date', e.target.value)}
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#d4af37] text-sm"
+                      />
+                    </div>
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Special Requests (Optional)</label>
+                      <textarea
+                        value={form.specialRequests}
+                        onChange={e => set('specialRequests', e.target.value)}
+                        rows={3}
+                        placeholder="Dietary requirements, accessibility needs, special occasions..."
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#d4af37] text-sm resize-none"
+                      />
                     </div>
                   </div>
-                )}
-              </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!form.name || !form.email || !form.phone || !form.date) {
+                        alert('Please fill in all required fields.')
+                        return
+                      }
+                      setStep(2)
+                    }}
+                    className="mt-8 w-full bg-[#2d3e23] text-white py-4 rounded-2xl font-black hover:bg-[#3d4a35] transition-all shadow-lg"
+                  >
+                    Continue to Payment →
+                  </button>
+                </motion.div>
+              )}
 
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Special Requests</label>
-                <textarea
-                  value={bookingData.specialRequests}
-                  onChange={(e) => handleInputChange('specialRequests', e.target.value)}
-                  rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  placeholder="Any special requirements or requests..."
-                ></textarea>
-              </div>
+              {/* Step 2: Payment */}
+              {step === 2 && (
+                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+                  <h2 className="text-xl font-black text-[#2d3e23] mb-6">Select Payment Method</h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                    {paymentMethods.map(m => (
+                      <div
+                        key={m.id}
+                        onClick={() => set('paymentMethod', m.id)}
+                        className={`cursor-pointer p-5 rounded-2xl border-2 transition-all ${
+                          form.paymentMethod === m.id
+                            ? 'border-[#2d3e23] bg-[#2d3e23]/5 shadow-md'
+                            : 'border-gray-100 hover:border-gray-200'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="text-2xl">{m.icon}</span>
+                          <div>
+                            <p className="font-black text-[#2d3e23]">{m.name}</p>
+                            <p className="text-xs text-gray-400">{m.desc}</p>
+                          </div>
+                          {form.paymentMethod === m.id && (
+                            <div className="ml-auto w-5 h-5 bg-[#2d3e23] rounded-full flex items-center justify-center">
+                              <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"/></svg>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? 'Processing...' : 'Complete Booking'}
-              </button>
+                  {/* Payment Details */}
+                  {selectedPayment && (
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-[#2d3e23] rounded-2xl p-6 mb-6 text-white">
+                      <p className="text-xs text-[#d4af37] uppercase tracking-widest font-bold mb-3">Transfer Details</p>
+                      <div className="flex justify-between items-center bg-white/10 rounded-xl p-4 mb-3">
+                        <div>
+                          <p className="text-xs text-white/50 mb-1">{selectedPayment.name} Account</p>
+                          <p className="font-mono font-black text-lg">{selectedPayment.account}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-xs text-white/50 mb-1">Account Name</p>
+                          <p className="font-bold text-sm">{selectedPayment.holder}</p>
+                        </div>
+                      </div>
+                      <div className="bg-white/10 rounded-xl p-4">
+                        <p className="text-xs text-white/50 mb-1">Amount to Transfer</p>
+                        <p className="font-black text-2xl text-[#d4af37]">{fmt(total)}</p>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* Upload Proof */}
+                  {selectedPayment && (
+                    <div className="border-2 border-dashed border-gray-200 rounded-2xl p-6 text-center mb-6 hover:border-[#d4af37] transition-all relative">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                        onChange={e => {
+                          if (e.target.files?.[0]) set('paymentProof', e.target.files[0].name)
+                        }}
+                      />
+                      <div className="w-12 h-12 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                        <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                        </svg>
+                      </div>
+                      {form.paymentProof
+                        ? <p className="text-green-600 font-bold text-sm">✅ {form.paymentProof}</p>
+                        : <>
+                            <p className="font-bold text-gray-700 text-sm mb-1">Upload Payment Screenshot</p>
+                            <p className="text-xs text-gray-400">Click to upload proof of transfer (JPG, PNG)</p>
+                          </>
+                      }
+                    </div>
+                  )}
+
+                  <div className="flex gap-3">
+                    <button type="button" onClick={() => setStep(1)} className="flex-1 border border-gray-200 text-gray-600 py-4 rounded-2xl font-bold hover:bg-gray-50 transition-all">
+                      ← Back
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (!form.paymentMethod) { alert('Please select a payment method.'); return }
+                        setStep(3)
+                      }}
+                      className="flex-1 bg-[#2d3e23] text-white py-4 rounded-2xl font-black hover:bg-[#3d4a35] transition-all shadow-lg"
+                    >
+                      Review Booking →
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Step 3: Confirm */}
+              {step === 3 && (
+                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+                  <h2 className="text-xl font-black text-[#2d3e23] mb-6">Review & Confirm</h2>
+
+                  <div className="space-y-4 mb-8">
+                    {[
+                      { label: 'Name', value: form.name },
+                      { label: 'Email', value: form.email },
+                      { label: 'Phone', value: form.phone },
+                      { label: 'Nationality', value: form.nationality || '—' },
+                      { label: 'Travelers', value: `${form.travelers} person(s)` },
+                      { label: 'Start Date', value: form.date },
+                      { label: 'Payment', value: selectedPayment?.name },
+                    ].map(row => (
+                      <div key={row.label} className="flex justify-between items-center py-3 border-b border-gray-50">
+                        <span className="text-sm text-gray-400 font-medium">{row.label}</span>
+                        <span className="text-sm font-bold text-[#2d3e23]">{row.value}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="bg-[#f8f7f4] rounded-2xl p-5 mb-8">
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="text-gray-500">Tour Package × {form.travelers}</span>
+                      <span className="font-bold">{fmt(tourPrice * Number(form.travelers))}</span>
+                    </div>
+                    {service && (
+                      <div className="flex justify-between text-sm mb-2">
+                        <span className="text-gray-500">Transport ({service.name})</span>
+                        <span className="font-bold">{fmt(transportPrice * Number(form.travelers))}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between text-sm mb-3">
+                      <span className="text-gray-500">Service Fee (5%)</span>
+                      <span className="font-bold">{fmt(tax)}</span>
+                    </div>
+                    <div className="flex justify-between pt-3 border-t border-gray-200">
+                      <span className="font-black text-[#2d3e23]">Total</span>
+                      <span className="font-black text-xl text-[#2d3e23]">{fmt(total)}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <button type="button" onClick={() => setStep(2)} className="flex-1 border border-gray-200 text-gray-600 py-4 rounded-2xl font-bold hover:bg-gray-50 transition-all">
+                      ← Back
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="flex-1 bg-[#d4af37] text-[#2d3e23] py-4 rounded-2xl font-black hover:bg-[#f1d38a] transition-all shadow-xl disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      {submitting ? 'Processing...' : '✓ Confirm Booking'}
+                    </button>
+                  </div>
+                </motion.div>
+              )}
             </form>
           </div>
 
-          {/* Booking Summary */}
+          {/* Sidebar Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-md p-6 sticky top-6">
-              <h2 className="text-xl font-semibold mb-6">Booking Summary</h2>
+            <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 sticky top-28">
+              <img src={destination.image} alt={destination.name} className="w-full h-40 object-cover rounded-2xl mb-5" />
+              <h3 className="font-black text-[#2d3e23] text-lg mb-1">{destination.name}</h3>
+              <p className="text-gray-400 text-sm mb-1 flex items-center gap-1">
+                <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/></svg>
+                {destination.location}
+              </p>
+              <p className="text-gray-400 text-sm mb-5">{destination.duration}</p>
 
-              <div className="mb-6">
-                <img
-                  src={destination.image}
-                  alt={destination.name}
-                  className="w-full h-32 object-cover rounded-md mb-4"
-                />
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{destination.name}</h3>
-                <p className="text-gray-600 text-sm mb-2">{destination.location}</p>
-                <p className="text-gray-500 text-sm">{destination.duration}</p>
-              </div>
-
-              <div className="border-t pt-4">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-600">Base Price (Tour)</span>
-                  <span className="font-semibold">{formatPrice(destination.price)}</span>
+              <div className="space-y-2 text-sm border-t border-gray-100 pt-4">
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Tour × {form.travelers}</span>
+                  <span className="font-bold">{fmt(tourPrice * Number(form.travelers))}</span>
                 </div>
                 {service && (
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-gray-600">Transport ({service.name})</span>
-                    <span className="font-semibold">+{formatPrice(service.pricePerDay)}</span>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Transport</span>
+                    <span className="font-bold">{fmt(transportPrice * Number(form.travelers))}</span>
                   </div>
                 )}
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-600">Travelers</span>
-                  <span className="font-semibold">{bookingData.travelers}</span>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Service Fee</span>
+                  <span className="font-bold">{fmt(tax)}</span>
                 </div>
-                <div className="border-t pt-2 mt-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-lg font-semibold">Grand Total</span>
-                    <span className="text-lg font-bold text-green-600">{formatPrice(totalPrice)}</span>
-                  </div>
+                <div className="flex justify-between pt-2 border-t border-gray-100">
+                  <span className="font-black text-[#2d3e23]">Total</span>
+                  <span className="font-black text-[#2d3e23]">{fmt(total)}</span>
                 </div>
               </div>
 
-              <div className="mt-6 text-sm text-gray-500">
-                <p>• Free cancellation up to 24 hours</p>
-                <p>• Instant confirmation</p>
-                <p>• 24/7 support</p>
+              <div className="mt-6 space-y-2">
+                {['Free cancellation 24h before', 'Instant booking confirmation', '24/7 traveler support', 'Secure payment processing'].map(item => (
+                  <div key={item} className="flex items-center gap-2 text-xs text-gray-500">
+                    <svg className="w-4 h-4 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7"/></svg>
+                    {item}
+                  </div>
+                ))}
               </div>
             </div>
           </div>

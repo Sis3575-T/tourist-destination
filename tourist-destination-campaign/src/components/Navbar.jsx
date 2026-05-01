@@ -6,7 +6,7 @@ const Navbar = ({ currentPage, setCurrentPage, language, setLanguage, currency, 
   const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20)
+    const handleScroll = () => setIsScrolled(window.scrollY > 60)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -14,7 +14,7 @@ const Navbar = ({ currentPage, setCurrentPage, language, setLanguage, currency, 
   const navItems = [
     { name: 'Home', page: 'home' },
     { name: 'Destinations', page: 'explorer' },
-    { name: 'Recommendations', page: 'recommendations' },
+    { name: 'Smart Match', page: 'recommendations' },
     { name: 'Dashboard', page: 'dashboard' },
   ]
 
@@ -22,41 +22,39 @@ const Navbar = ({ currentPage, setCurrentPage, language, setLanguage, currency, 
   const currencies = ['USD', 'EUR', 'GBP', 'ETB']
 
   return (
-    <nav 
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-        isScrolled ? 'py-2' : 'py-6'
-      }`}
-    >
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${isScrolled ? 'py-0' : 'py-4'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className={`glass rounded-2xl md:rounded-[2rem] px-6 py-3 flex justify-between items-center transition-all duration-500 ${
-          isScrolled ? 'shadow-xl border-white/40' : 'shadow-none border-transparent'
+        <div className={`flex justify-between items-center px-6 py-3 transition-all duration-500 ${
+          isScrolled
+            ? 'bg-white/95 backdrop-blur-xl shadow-xl rounded-none border-b border-gray-100'
+            : 'bg-white/10 backdrop-blur-md rounded-2xl border border-white/20'
         }`}>
-          <div className="flex items-center">
-            <div 
-              className="flex-shrink-0 cursor-pointer flex items-center gap-3" 
-              onClick={() => setCurrentPage('home')}
-            >
-              <div className="w-10 h-10 bg-[#2d3e23] rounded-xl flex items-center justify-center shadow-lg transform rotate-3">
-                <svg className="w-6 h-6 text-[#d4af37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                </svg>
-              </div>
-              <h1 className="text-lg md:text-xl font-black text-[#2d3e23] tracking-tight uppercase">
-                Ethio<span className="text-[#d4af37]">Tour</span>
-              </h1>
-            </div>
-          </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-2">
-            {navItems.map((item) => (
+          {/* Logo */}
+          <button
+            onClick={() => setCurrentPage('home')}
+            className="flex items-center gap-3 shrink-0"
+          >
+            <div className={`w-9 h-9 rounded-xl flex items-center justify-center shadow-lg ${isScrolled ? 'bg-[#2d3e23]' : 'bg-[#d4af37]'}`}>
+              <svg className={`w-5 h-5 ${isScrolled ? 'text-[#d4af37]' : 'text-[#2d3e23]'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <span className={`text-lg font-black uppercase tracking-tight ${isScrolled ? 'text-[#2d3e23]' : 'text-white'}`}>
+              Ethio<span className="text-[#d4af37]">Tour</span>
+            </span>
+          </button>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-1">
+            {navItems.map(item => (
               <button
                 key={item.page}
                 onClick={() => setCurrentPage(item.page)}
-                className={`px-5 py-2 rounded-xl text-sm font-bold transition-all duration-300 ${
+                className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${
                   currentPage === item.page
-                    ? 'bg-[#2d3e23] text-white shadow-lg'
-                    : 'text-gray-600 hover:bg-gray-100 hover:text-[#2d3e23]'
+                    ? isScrolled ? 'bg-[#2d3e23] text-white' : 'bg-white/20 text-white'
+                    : isScrolled ? 'text-gray-600 hover:bg-gray-100 hover:text-[#2d3e23]' : 'text-white/80 hover:bg-white/10 hover:text-white'
                 }`}
               >
                 {item.name}
@@ -64,77 +62,82 @@ const Navbar = ({ currentPage, setCurrentPage, language, setLanguage, currency, 
             ))}
           </div>
 
-          {/* Settings & User */}
-          <div className="flex items-center gap-4">
-            <div className="hidden lg:flex items-center gap-2">
-              <select
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-                className="bg-transparent text-xs font-bold text-gray-500 focus:outline-none cursor-pointer hover:text-[#2d3e23]"
-              >
-                {languages.map((lang) => (
-                  <option key={lang} value={lang}>{lang}</option>
-                ))}
-              </select>
-              <div className="w-px h-4 bg-gray-200"></div>
-              <select
-                value={currency}
-                onChange={(e) => setCurrency(e.target.value)}
-                className="bg-transparent text-xs font-bold text-gray-500 focus:outline-none cursor-pointer hover:text-[#2d3e23]"
-              >
-                {currencies.map((code) => (
-                  <option key={code} value={code}>{code}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="h-8 w-px bg-gray-200 hidden sm:block"></div>
-
-            {/* Mobile menu button */}
-            <div className="md:hidden">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="p-2 text-[#2d3e23] bg-gray-100 rounded-xl"
-              >
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  {isMenuOpen ? (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  )}
-                </svg>
-              </button>
-            </div>
+          {/* Right Controls */}
+          <div className="hidden md:flex items-center gap-3">
+            <select
+              value={language}
+              onChange={e => setLanguage(e.target.value)}
+              className={`text-xs font-bold focus:outline-none cursor-pointer bg-transparent ${isScrolled ? 'text-gray-500' : 'text-white/70'}`}
+            >
+              {languages.map(l => <option key={l} value={l} className="text-gray-900">{l}</option>)}
+            </select>
+            <div className={`w-px h-4 ${isScrolled ? 'bg-gray-200' : 'bg-white/20'}`} />
+            <select
+              value={currency}
+              onChange={e => setCurrency(e.target.value)}
+              className={`text-xs font-bold focus:outline-none cursor-pointer bg-transparent ${isScrolled ? 'text-gray-500' : 'text-white/70'}`}
+            >
+              {currencies.map(c => <option key={c} value={c} className="text-gray-900">{c}</option>)}
+            </select>
+            <div className={`w-px h-4 ${isScrolled ? 'bg-gray-200' : 'bg-white/20'}`} />
+            <button
+              onClick={() => setCurrentPage('booking')}
+              className="bg-[#d4af37] text-[#2d3e23] px-5 py-2 rounded-xl text-sm font-black hover:bg-[#f1d38a] transition-all shadow-md"
+            >
+              Book Now
+            </button>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className={`md:hidden p-2 rounded-xl ${isScrolled ? 'text-[#2d3e23] bg-gray-100' : 'text-white bg-white/10'}`}
+          >
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              {isMenuOpen
+                ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/>
+                : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/>
+              }
+            </svg>
+          </button>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="md:hidden px-4 mt-2"
+            exit={{ opacity: 0, y: -10 }}
+            className="md:hidden mx-4 mt-2"
           >
-            <div className="glass rounded-3xl p-4 shadow-2xl space-y-2">
-              {navItems.map((item) => (
+            <div className="bg-white rounded-2xl shadow-2xl p-4 space-y-1 border border-gray-100">
+              {navItems.map(item => (
                 <button
                   key={item.page}
-                  onClick={() => {
-                    setCurrentPage(item.page)
-                    setIsMenuOpen(false)
-                  }}
-                  className={`block px-6 py-4 text-base font-bold w-full text-left rounded-2xl ${
-                    currentPage === item.page
-                      ? 'bg-[#2d3e23] text-white'
-                      : 'text-gray-600 hover:bg-gray-100'
+                  onClick={() => { setCurrentPage(item.page); setIsMenuOpen(false) }}
+                  className={`block w-full text-left px-5 py-3 rounded-xl text-sm font-bold transition-all ${
+                    currentPage === item.page ? 'bg-[#2d3e23] text-white' : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
                   {item.name}
                 </button>
               ))}
+              <div className="pt-2 border-t border-gray-100 flex items-center justify-between px-2">
+                <select value={language} onChange={e => setLanguage(e.target.value)} className="text-xs font-bold text-gray-500 focus:outline-none bg-transparent">
+                  {languages.map(l => <option key={l}>{l}</option>)}
+                </select>
+                <select value={currency} onChange={e => setCurrency(e.target.value)} className="text-xs font-bold text-gray-500 focus:outline-none bg-transparent">
+                  {currencies.map(c => <option key={c}>{c}</option>)}
+                </select>
+                <button
+                  onClick={() => { setCurrentPage('booking'); setIsMenuOpen(false) }}
+                  className="bg-[#d4af37] text-[#2d3e23] px-4 py-2 rounded-xl text-xs font-black"
+                >
+                  Book Now
+                </button>
+              </div>
             </div>
           </motion.div>
         )}
