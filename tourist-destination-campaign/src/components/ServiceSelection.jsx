@@ -5,7 +5,7 @@ const ServiceSelection = ({ destination, onSelectService, setCurrentPage }) => {
   const [fleets, setFleets] = useState([])
 
   useEffect(() => {
-    fetch(`${API_BASE}/fleet`)
+    fetch(`${VITE_API_URL}/fleet`)
       .then(r => r.json())
       .then(data => setFleets(Array.isArray(data) ? data : []))
       .catch(() => setFleets([]))
