@@ -33,6 +33,9 @@ app.use('/api/bookings', require('./routes/bookings'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/workers', require('./routes/workers'));
 app.use('/api/demo', require('./routes/demo'));
+app.use('/api/blogs', require('./routes/blogs'));
+app.use('/api/reviews', require('./routes/reviews'));
+app.use('/api/fleet', require('./routes/fleet'));
 
 // Frontend handling
 const campaignDist = path.join(__dirname, '..', 'tourist-destination-campaign', 'dist');

@@ -1,39 +1,21 @@
-const BlogAndReviews = ({ setCurrentPage, onSelectBlog }) => {
-  const blogs = [
-    {
-      id: 1,
-      title: "Top 10 Things to See in Ethiopia",
-      image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&fit=crop",
-      excerpt: "From the rock-hewn churches of Lalibela to the dramatic peaks of the Simien Mountains, discover the must-visit locations."
-    },
-    {
-      id: 2,
-      title: "A Journey Through Omo Valley",
-      image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=600&fit=crop",
-      excerpt: "Experience the rich cultural tapestry of the Omo Valley tribes and their ancient traditions that survive today."
-    }
-  ];
+import { useEffect, useState } from 'react'
+import { API_BASE } from '../api'
 
-  const reviews = [
-    { 
-      id: 1, 
-      name: "Abebe Kebede", 
-      avatar: "https://images.unsplash.com/photo-1531123897727-8f129e16fd3c?w=150&h=150&fit=crop", 
-      text: "The best travel experience I've had in years. Sisay and the team ensured every detail was perfect." 
-    },
-    { 
-      id: 2, 
-      name: "Tigist Haile", 
-      avatar: "https://images.unsplash.com/photo-1523824921871-d6f1a15151f1?w=150&h=150&fit=crop", 
-      text: "Professional service and deep cultural knowledge. Contact them at sisay3575@gmail.com for custom tours!" 
-    },
-    { 
-      id: 3, 
-      name: "Samuel Bekele", 
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop", 
-      text: "Incredible 4x4 journey. Reach out to +251935756054 for the most reliable transport in the country." 
-    }
-  ];
+const BlogAndReviews = ({ setCurrentPage, onSelectBlog }) => {
+  const [blogs, setBlogs] = useState([])
+  const [reviews, setReviews] = useState([])
+
+  useEffect(() => {
+    fetch(`${API_BASE}/blogs`)
+      .then(r => r.json())
+      .then(data => setBlogs(Array.isArray(data) ? data : []))
+      .catch(() => setBlogs([]))
+
+    fetch(`${API_BASE}/reviews`)
+      .then(r => r.json())
+      .then(data => setReviews(Array.isArray(data) ? data.slice(0, 3) : []))
+      .catch(() => setReviews([]))
+  }, [])
 
   return (
     <section className="py-16 bg-[#f8f7f4]">
@@ -49,7 +31,7 @@ const BlogAndReviews = ({ setCurrentPage, onSelectBlog }) => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {blogs.map(blog => (
-                <div key={blog.id} className="bg-white shadow-sm border border-gray-100 flex flex-col group cursor-pointer">
+                <div key={blog._id} className="bg-white shadow-sm border border-gray-100 flex flex-col group cursor-pointer">
                   <div className="h-48 overflow-hidden">
                     <img src={blog.image} alt={blog.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   </div>
@@ -72,7 +54,7 @@ const BlogAndReviews = ({ setCurrentPage, onSelectBlog }) => {
             </div>
           </div>
           
-          {/* TripAdvisor Widget */}
+          {/* Contact & Reviews Widget */}
           <div className="lg:w-1/3">
             <div className="bg-white border border-gray-200 shadow-sm p-6">
               <div className="flex flex-col items-center border-b border-gray-100 pb-6 mb-4">
@@ -100,10 +82,10 @@ const BlogAndReviews = ({ setCurrentPage, onSelectBlog }) => {
               
               <div className="space-y-4">
                 {reviews.map(review => (
-                  <div key={review.id} className="border-b border-gray-50 pb-4 last:border-0 last:pb-0">
+                  <div key={review._id} className="border-b border-gray-50 pb-4 last:border-0 last:pb-0">
                     <div className="flex items-center mb-2">
                       <img 
-                        src={review.id === 1 ? "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop" : review.avatar} 
+                        src={review.avatar} 
                         alt={review.name} 
                         className="w-10 h-10 rounded-full mr-3 border border-gray-200 object-cover" 
                       />

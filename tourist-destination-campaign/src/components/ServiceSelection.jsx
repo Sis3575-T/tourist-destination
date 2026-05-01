@@ -1,38 +1,19 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
+import { API_BASE } from '../api'
 
 const ServiceSelection = ({ destination, onSelectService, setCurrentPage }) => {
-  const fleets = [
-    {
-      id: 1,
-      name: "4x4 SUV Adventure",
-      description: "Best for rugged terrains. Includes expert off-road driver.",
-      image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800&fit=crop",
-      pricePerDay: 150,
-      icon: "🏔️"
-    },
-    {
-      id: 2,
-      name: "Standard Minibus",
-      description: "Comfortable for groups. AC and spacious seating.",
-      image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800&fit=crop",
-      pricePerDay: 100,
-      icon: "🚐"
-    },
-    {
-      id: 3,
-      name: "Luxury Coach",
-      description: "Premium long-distance travel with full amenities.",
-      image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=800&fit=crop",
-      pricePerDay: 250,
-      icon: "🚌"
-    }
-  ];
+  const [fleets, setFleets] = useState([])
+
+  useEffect(() => {
+    fetch(`${API_BASE}/fleet`)
+      .then(r => r.json())
+      .then(data => setFleets(Array.isArray(data) ? data : []))
+      .catch(() => setFleets([]))
+  }, [])
 
   const getServicePrice = (fleet, dest) => {
-    if (!dest) return fleet.pricePerDay;
-    
-    // Logic: Harder terrains or longer distances increase the service price
-    // These keys now match the exact names in backend/data/destinations.js
+    if (!dest) return { price: fleet.pricePerDay, label: 'Standard Route', distance: 'Varies' }
+
     const destinationStats = {
       'Danakil Depression Expedition': { multiplier: 1.8, label: 'Extreme Off-road & Remote', distance: 'Low Accessibility' },
       'Simien Mountains Trek': { multiplier: 1.6, label: 'High Altitude & Rugged', distance: 'Difficult Terrain' },
@@ -40,23 +21,21 @@ const ServiceSelection = ({ destination, onSelectService, setCurrentPage }) => {
       'Lalibela Rock-Hewn Churches': { multiplier: 1.3, label: 'Mountainous Road Access', distance: 'Medium Distance' },
       'Gondar Castles & Fasil Ghebbi': { multiplier: 1.1, label: 'Highland Highway', distance: 'Standard Distance' },
       'Axum Historical Route': { multiplier: 1.2, label: 'Northern Historic Circuit', distance: 'Extended Distance' },
-      'Blue Nile Falls Escape': { multiplier: 1.1, label: 'Highland Highway', distance: 'Standard Distance' }
-    };
+      'Blue Nile Falls Escape': { multiplier: 1.1, label: 'Highland Highway', distance: 'Standard Distance' },
+    }
 
-    // Try exact match first, then partial match
-    let stats = destinationStats[dest.name];
-    
+    let stats = destinationStats[dest.name]
     if (!stats) {
-      const key = Object.keys(destinationStats).find(k => dest.name.includes(k.split(' ')[0]));
-      stats = key ? destinationStats[key] : { multiplier: 1.0, label: 'Standard Route', distance: 'Varies' };
+      const key = Object.keys(destinationStats).find(k => dest.name.includes(k.split(' ')[0]))
+      stats = key ? destinationStats[key] : { multiplier: 1.0, label: 'Standard Route', distance: 'Varies' }
     }
 
     return {
       price: Math.round(fleet.pricePerDay * stats.multiplier),
       label: stats.label,
-      distance: stats.distance
-    };
-  };
+      distance: stats.distance,
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-16">
@@ -70,9 +49,9 @@ const ServiceSelection = ({ destination, onSelectService, setCurrentPage }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {fleets.map((fleet) => {
-            const { price, label, distance } = getServicePrice(fleet, destination);
+            const { price, label, distance } = getServicePrice(fleet, destination)
             return (
-              <div key={fleet.id} className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col hover:transform hover:scale-[1.02] transition-all">
+              <div key={fleet._id} className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col hover:transform hover:scale-[1.02] transition-all">
                 <div className="h-48 relative">
                   <img src={fleet.image} alt={fleet.name} className="w-full h-full object-cover" />
                   <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-4 py-2 rounded-xl text-lg font-black text-gray-900 shadow-lg border border-green-100">
@@ -84,19 +63,15 @@ const ServiceSelection = ({ destination, onSelectService, setCurrentPage }) => {
                     <span className="text-2xl">{fleet.icon}</span>
                     <h3 className="text-xl font-bold text-gray-900">{fleet.name}</h3>
                   </div>
-                  
+
                   <div className="space-y-3 mb-6 flex-1">
                     <p className="text-gray-600 text-sm leading-relaxed">{fleet.description}</p>
                   </div>
-                  
+
                   <button
                     onClick={() => {
-                      onSelectService({ 
-                        ...fleet, 
-                        type: 'transport', 
-                        pricePerDay: price 
-                      });
-                      setCurrentPage('booking');
+                      onSelectService({ ...fleet, type: 'transport', pricePerDay: price })
+                      setCurrentPage('booking')
                     }}
                     className="w-full bg-[#4b5a41] text-white py-3 rounded-xl font-bold hover:bg-[#3d4a35] transition-all shadow-md active:scale-95"
                   >
@@ -104,7 +79,7 @@ const ServiceSelection = ({ destination, onSelectService, setCurrentPage }) => {
                   </button>
                 </div>
               </div>
-            );
+            )
           })}
         </div>
 

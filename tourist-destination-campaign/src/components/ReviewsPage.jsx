@@ -1,48 +1,15 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
+import { API_BASE } from '../api'
 
 const ReviewsPage = ({ setCurrentPage }) => {
-  const reviews = [
-    {
-      id: 1,
-      name: "Abebe Kebede",
-      location: "Addis Ababa, Ethiopia",
-      avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop",
-      rating: 5,
-      date: "October 2023",
-      text: "Our journey with Ethiopian Tourist Destination was beyond expectations. Sisay was incredibly helpful in planning our route through the Simien Mountains. The 4x4 was in top condition and our driver knew every turn of the road. If you want a worry-free trip, contact them at +251935756054.",
-      tag: "Nature & Trekking"
-    },
-    {
-      id: 2,
-      name: "Tigist Haile",
-      location: "Bahir Dar, Ethiopia",
-      avatar: "https://images.unsplash.com/photo-1523824921871-d6f1a15151f1?w=150&h=150&fit=crop",
-      rating: 5,
-      date: "December 2023",
-      text: "Professionalism at its best. We booked a cultural tour of Lalibela and Axum. The guides provided by the agency were deeply knowledgeable. I highly recommend reaching out to Temesgen at sisaytemesgenb@gmail.com for any group travel needs.",
-      tag: "Cultural Tour"
-    },
-    {
-      id: 3,
-      name: "Samuel Bekele",
-      location: "Hawassa, Ethiopia",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop",
-      rating: 4,
-      date: "January 2024",
-      text: "The Danakil Depression expedition was a lifetime experience. The logistics were handled perfectly despite the harsh environment. Safety was clearly a priority. Great communication throughout the booking process.",
-      tag: "Adventure"
-    },
-    {
-      id: 4,
-      name: "Helen Tekle",
-      location: "Gondar, Ethiopia",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop",
-      rating: 5,
-      date: "February 2024",
-      text: "We used their luxury coach for a corporate retreat to Langano. The bus was modern, clean, and very comfortable. Excellent service from start to finish.",
-      tag: "Corporate Travel"
-    }
-  ];
+  const [reviews, setReviews] = useState([])
+
+  useEffect(() => {
+    fetch(`${API_BASE}/reviews`)
+      .then(r => r.json())
+      .then(data => setReviews(Array.isArray(data) ? data : []))
+      .catch(() => setReviews([]))
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-50 py-16">
@@ -63,7 +30,7 @@ const ReviewsPage = ({ setCurrentPage }) => {
 
         <div className="space-y-8">
           {reviews.map((review) => (
-            <div key={review.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 hover:shadow-md transition-shadow">
+            <div key={review._id} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 hover:shadow-md transition-shadow">
               <div className="flex flex-col md:flex-row md:items-center gap-6 mb-6">
                 <img 
                   src={review.avatar} 
@@ -73,11 +40,13 @@ const ReviewsPage = ({ setCurrentPage }) => {
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
                     <h3 className="text-xl font-bold text-gray-900">{review.name}</h3>
-                    <span className="text-sm font-medium text-green-600 bg-green-50 px-3 py-1 rounded-full">
-                      {review.tag}
-                    </span>
+                    {review.tag && (
+                      <span className="text-sm font-medium text-green-600 bg-green-50 px-3 py-1 rounded-full">
+                        {review.tag}
+                      </span>
+                    )}
                   </div>
-                  <p className="text-sm text-gray-500">{review.location} • {review.date}</p>
+                  <p className="text-sm text-gray-500">{review.location}{review.date ? ` • ${review.date}` : ''}</p>
                 </div>
                 <div className="flex text-amber-500">
                   {[...Array(5)].map((_, i) => (

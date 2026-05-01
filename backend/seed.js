@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 const Destination = require('./models/Destination');
+const Blog = require('./models/Blog');
+const Review = require('./models/Review');
+const Fleet = require('./models/Fleet');
 const destinationSeedData = require('./data/destinations');
+const blogSeedData = require('./data/blogs');
+const reviewSeedData = require('./data/reviews');
+const fleetSeedData = require('./data/fleet');
 const dns = require('dns');
 require('dotenv').config();
 
@@ -17,13 +23,25 @@ async function seedDatabase() {
 
     // Clear existing data
     await Destination.deleteMany({});
-    console.log('Cleared existing destinations');
+    await Blog.deleteMany({});
+    await Review.deleteMany({});
+    await Fleet.deleteMany({});
+    console.log('Cleared existing data');
 
-    // Insert sample data
+    // Insert seed data
     await Destination.insertMany(destinationSeedData);
-    console.log('Sample destinations inserted successfully');
+    console.log(`✅ ${destinationSeedData.length} destinations inserted`);
 
-    console.log('Database seeded successfully!');
+    await Blog.insertMany(blogSeedData);
+    console.log(`✅ ${blogSeedData.length} blogs inserted`);
+
+    await Review.insertMany(reviewSeedData);
+    console.log(`✅ ${reviewSeedData.length} reviews inserted`);
+
+    await Fleet.insertMany(fleetSeedData);
+    console.log(`✅ ${fleetSeedData.length} fleet items inserted`);
+
+    console.log('\nDatabase seeded successfully!');
   } catch (error) {
     console.error('Error seeding database:', error);
   } finally {

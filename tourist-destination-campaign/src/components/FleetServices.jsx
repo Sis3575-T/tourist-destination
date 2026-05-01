@@ -1,30 +1,15 @@
+import { useEffect, useState } from 'react'
+import { API_BASE } from '../api'
+
 const FleetServices = ({ setCurrentPage, onSelectService }) => {
-  const fleets = [
-    {
-      id: 1,
-      name: "4x4 SUV for off-road Adventures",
-      description: "Agile 4x4 vehicles built for rugged terrains. Perfect for Danakil Depression and Omo Valley expeditions.",
-      image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800&fit=crop",
-      rating: 4.8,
-      reviews: "Getpoint Site"
-    },
-    {
-      id: 2,
-      name: "Minibuses for Group Travel",
-      description: "Comfortable air-conditioned minibuses with spacious seating, ideal for small groups and family tours.",
-      image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800&fit=crop",
-      rating: 4.7,
-      reviews: "Getpoint Site"
-    },
-    {
-      id: 3,
-      name: "Luxury Coaches for Long Journeys",
-      description: "Spacious luxury coaches equipped with modern amenities for long-distance city-to-city travel.",
-      image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=800&fit=crop",
-      rating: 4.9,
-      reviews: "On aparat Site"
-    }
-  ];
+  const [fleets, setFleets] = useState([])
+
+  useEffect(() => {
+    fetch(`${API_BASE}/fleet`)
+      .then(r => r.json())
+      .then(data => setFleets(Array.isArray(data) ? data : []))
+      .catch(() => setFleets([]))
+  }, [])
 
   const StarIcon = ({ filled }) => (
     <svg className={`w-3.5 h-3.5 fill-current ${filled ? 'text-amber-500' : 'text-gray-300'}`} viewBox="0 0 24 24">
@@ -43,7 +28,7 @@ const FleetServices = ({ setCurrentPage, onSelectService }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {fleets.map((fleet) => (
-            <div key={fleet.id} className="bg-white shadow hover:shadow-md transition-shadow border border-gray-100 flex flex-col">
+            <div key={fleet._id} className="bg-white shadow hover:shadow-md transition-shadow border border-gray-100 flex flex-col">
               <div className="h-48 overflow-hidden">
                 <img
                   src={fleet.image}
@@ -61,7 +46,6 @@ const FleetServices = ({ setCurrentPage, onSelectService }) => {
                 <div className="flex items-center justify-between mt-auto pt-3 border-t border-gray-100">
                   <div className="flex flex-col">
                     <div className="flex items-center gap-1">
-                      {/* Person icon */}
                       <svg className="w-4 h-4 text-slate-500" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"/>
                       </svg>
