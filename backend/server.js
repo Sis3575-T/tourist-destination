@@ -6,21 +6,20 @@ const cors = require('cors');
 const dns = require('dns');
 require('dotenv').config();
 
-// Fix for querySrv ECONNREFUSED in some network environments
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 const app = express();
 const PORT = process.env.PORT || 6005;
 
-// Allow requests from frontend origin
+// CORS — allow frontend origins
 const allowedOrigins = [
   'https://tourist-destination-2.onrender.com',
+  'https://tourist-destination-3.onrender.com',
   process.env.CLIENT_URL,
 ].filter(Boolean);
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (mobile apps, curl, server-to-server)
     if (!origin) return callback(null, true);
     if (allowedOrigins.includes(origin)) return callback(null, true);
     callback(new Error(`CORS blocked: ${origin}`));
@@ -30,25 +29,58 @@ app.use(cors({
 app.use(express.json());
 
 // MongoDB
-const mongoUri = process.env.MONGODB_URI;
-mongoose.connect(mongoUri, {
-  serverSelectionTimeoutMS: 10000,
-})
+mongoose.connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 10000 })
   .then(() => console.log('✅ MongoDB connected'))
-  .catch(err => {
-    console.error('❌ MongoDB connection failed:');
-    console.error(err);
-  });
+  .catch(err => console.error('❌ MongoDB connection failed:', err));
 
-// API Routes — must be registered BEFORE static files
+// API Routes
 app.use('/api/destinations', require('./routes/destinations'));
-app.use('/api/bookings', require('./routes/bookings'));
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/workers', require('./routes/workers'));
-app.use('/api/demo', require('./routes/demo'));
-app.use('/api/blogs', require('./routes/blogs'));
-app.use('/api/reviews', require('./routes/reviews'));
-app.use('/api/fleet', require('./routes/fleet'));
+app.use('/api/bookings',     require('./routes/bookings'));
+app.use('/api/auth',         require('./routes/auth'));
+app.use('/api/workers',      require('./routes/workers'));
+app.use('/api/demo',         require('./routes/demo'));
+app.use('/api/blogs',        require('./routes/blogs'));
+app.use('/api/reviews',      require('./routes/reviews'));
+app.use('/api/fleet',        require('./routes/fleet'));
+
+// Auto-seed empty collections on first startup
+async function autoSeed() {
+  try {
+    const Destination = require('./models/Destination');
+    const Fleet       = require('./models/Fleet');
+    const Blog        = require('./models/Blog');
+    const Review      = require('./models/Review');
+
+    const [dCount, fCount, bCount, rCount] = await Promise.all([
+      Destination.countDocuments(),
+      Fleet.countDocuments(),
+      Blog.countDocuments(),
+      Review.countDocuments(),
+    ]);
+
+    if (dCount === 0) {
+      await Destination.insertMany(require('./data/destinations'));
+      console.log('✅ Auto-seeded destinations');
+    }
+    if (fCount === 0) {
+      await Fleet.insertMany(require('./data/fleet'));
+      console.log('✅ Auto-seeded fleet (3 vehicles)');
+    }
+    if (bCount === 0) {
+      await Blog.insertMany(require('./data/blogs'));
+      console.log('✅ Auto-seeded blogs');
+    }
+    if (rCount === 0) {
+      await Review.insertMany(require('./data/reviews'));
+      console.log('✅ Auto-seeded reviews');
+    }
+  } catch (err) {
+    console.error('Auto-seed error:', err.message);
+  }
+}
+
+// Run auto-seed once DB is connected
+mongoose.connection.once('open', autoSeed);
 
 // Serve built React frontend (production)
 const campaignDist = path.join(__dirname, '..', 'tourist-destination-campaign', 'dist');
@@ -56,7 +88,6 @@ const spaIndex = path.join(campaignDist, 'index.html');
 
 if (fs.existsSync(spaIndex)) {
   app.use(express.static(campaignDist));
-  // All non-API GET requests → React app (client-side routing)
   app.get('*', (req, res) => {
     if (req.path.startsWith('/api')) return res.status(404).json({ message: 'Not found' });
     res.sendFile(spaIndex);
@@ -69,5 +100,4 @@ if (fs.existsSync(spaIndex)) {
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
-  console.log(`📦 Booking model: v2 (servicePreview, totalAmount, nationality, paymentMethod)`);
 });
