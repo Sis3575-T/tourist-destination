@@ -49,14 +49,27 @@ const Booking = ({ destination, service, setCurrentPage, currency, apiBase, user
         name: form.name,
         email: form.email,
         phone: form.phone,
+        nationality: form.nationality,
         specialRequests: form.specialRequests,
+        paymentMethod: form.paymentMethod,
         paymentProof: form.paymentProof,
+        totalAmount: total,
         destinationPreview: {
           name: destination.name,
           location: destination.location,
           image: destination.image,
           price: destination.price,
+          country: destination.country,
+          category: destination.category,
+          duration: destination.duration,
         },
+        servicePreview: service ? {
+          name: service.name,
+          icon: service.icon,
+          pricePerDay: service.pricePerDay,
+          terrainLabel: service.terrainLabel,
+          image: service.image,
+        } : null,
       })
       setBookingRef(data._id || data.id || 'ETH-' + Date.now())
       setSuccess(true)

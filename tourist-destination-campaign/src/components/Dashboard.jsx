@@ -1,280 +1,244 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import axios from 'axios'
 
-const Dashboard = ({ user, destinations = [], setCurrentPage, apiBase, userId }) => {
-  const [activeTab, setActiveTab] = useState('trips')
+const statusStyles = {
+  pending:   'bg-yellow-100 text-yellow-800 border-yellow-200',
+  confirmed: 'bg-green-100 text-green-800 border-green-200',
+  completed: 'bg-blue-100 text-blue-800 border-blue-200',
+  cancelled: 'bg-red-100 text-red-800 border-red-200',
+}
+
+const Dashboard = ({ destinations = [], setCurrentPage, apiBase, userId }) => {
   const [bookings, setBookings] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-
-  const destById = useMemo(() => {
-    const m = new Map()
-    destinations.forEach((d) => m.set(String(d._id), d))
-    return m
-  }, [destinations])
-
-  const mockFavorites = [
-    {
-      id: '1',
-      name: 'Danakil Depression',
-      location: 'Afar, Ethiopia',
-      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400',
-    },
-    {
-      id: '2',
-      name: 'Lalibela',
-      location: 'Lalibela, Ethiopia',
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400',
-    },
-  ]
-
-  const resolveMeta = (b) => {
-    if (b.destinationPreview && b.destinationPreview.name) {
-      return b.destinationPreview
-    }
-    if (typeof b.destinationId === 'object' && b.destinationId?.name) {
-      return {
-        name: b.destinationId.name,
-        location: b.destinationId.location,
-        image: b.destinationId.image,
-        price: b.destinationId.price,
-      }
-    }
-    const d = destById.get(String(b.destinationId))
-    if (d) {
-      return { name: d.name, location: d.location, image: d.image, price: d.price }
-    }
-    return {
-      name: 'Tour',
-      location: '',
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400',
-      price: null,
-    }
-  }
+  const [expanded, setExpanded] = useState(null)
 
   useEffect(() => {
-    const loadBookings = async () => {
-      if (!userId) return;
-      try {
-        setLoading(true)
-        setError('')
-        const { data } = await axios.get(`${apiBase}/bookings/user/${userId}`)
-        setBookings(Array.isArray(data) ? data : [])
-      } catch (e) {
-        setError(e.message || 'Could not load bookings')
-        setBookings([])
-      } finally {
-        setLoading(false)
-      }
-    }
-    loadBookings()
+    if (!userId) { setLoading(false); return }
+    axios.get(`${apiBase}/bookings/user/${userId}`)
+      .then(({ data }) => setBookings(Array.isArray(data) ? data : []))
+      .catch(e => setError(e.message || 'Could not load bookings'))
+      .finally(() => setLoading(false))
   }, [apiBase, userId])
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'confirmed':
-        return 'bg-green-100 text-green-800'
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800'
-      case 'completed':
-        return 'bg-blue-100 text-blue-800'
-      case 'cancelled':
-        return 'bg-red-100 text-red-800'
-      default:
-        return 'bg-gray-100 text-gray-800'
-    }
+  const resolveDest = (b) => {
+    if (b.destinationPreview?.name) return b.destinationPreview
+    if (typeof b.destinationId === 'object' && b.destinationId?.name) return b.destinationId
+    const d = destinations.find(x => String(x._id) === String(b.destinationId))
+    return d || { name: 'Tour', location: '', image: '', price: 0 }
   }
 
+  const fmt = (n) => n ? `$${Number(n).toLocaleString()}` : '—'
+  const fmtDate = (d) => d ? new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '—'
+
   return (
-    <div className="min-h-screen bg-gray-50 py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">My Dashboard</h1>
-          <p className="text-gray-600">
-            {user?.name ? `Welcome back, ${user.name}!` : 'Welcome!'} View and manage your upcoming adventures and travel history.
-          </p>
+    <div className="min-h-screen bg-[#fcfbf7] pt-24 pb-16">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* Header */}
+        <div className="mb-10">
+          <h1 className="text-4xl font-black text-[#2d3e23] mb-2">My Trips</h1>
+          <p className="text-gray-500">All your bookings, traveler details, and order history in one place.</p>
         </div>
 
-        <div className="mb-8">
-          <div className="border-b border-gray-200">
-            <nav className="-mb-px flex space-x-8">
-              <button
-                type="button"
-                onClick={() => setActiveTab('trips')}
-                className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'trips'
-                    ? 'border-green-500 text-green-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                My Trips
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveTab('favorites')}
-                className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'favorites'
-                    ? 'border-green-500 text-green-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                Favorites
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveTab('profile')}
-                className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'profile'
-                    ? 'border-green-500 text-green-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                Profile
-              </button>
-            </nav>
+        {/* Stats */}
+        {bookings.length > 0 && (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+            {[
+              { label: 'Total Bookings', value: bookings.length },
+              { label: 'Pending', value: bookings.filter(b => b.status === 'pending').length },
+              { label: 'Confirmed', value: bookings.filter(b => b.status === 'confirmed').length },
+              { label: 'Completed', value: bookings.filter(b => b.status === 'completed').length },
+            ].map(s => (
+              <div key={s.label} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm text-center">
+                <p className="text-3xl font-black text-[#2d3e23]">{s.value}</p>
+                <p className="text-xs text-gray-400 mt-1 font-medium">{s.label}</p>
+              </div>
+            ))}
           </div>
-        </div>
+        )}
 
-        {activeTab === 'trips' && (
-          <div>
-            <h2 className="text-2xl font-semibold mb-6">My Bookings</h2>
-            {loading ? <p className="text-gray-600">Loading…</p> : null}
-            {error ? <p className="text-red-600 text-sm mb-4">{error}</p> : null}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {bookings.map((booking) => {
-                const meta = resolveMeta(booking)
-                return (
-                  <div key={booking._id} className="bg-white rounded-lg shadow-md overflow-hidden">
-                    <div className="flex">
-                      <img
-                        src={meta.image}
-                        alt={meta.name}
-                        className="w-32 h-32 object-cover"
-                      />
-                      <div className="flex-1 p-6">
-                        <div className="flex justify-between items-start mb-2">
-                          <h3 className="text-lg font-semibold text-gray-900">{meta.name}</h3>
-                          <span
-                            className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(booking.status)}`}
-                          >
-                            {booking.status}
-                          </span>
+        {/* Loading / Error */}
+        {loading && (
+          <div className="space-y-4">
+            {[1,2,3].map(i => <div key={i} className="bg-white rounded-3xl h-28 animate-pulse border border-gray-100" />)}
+          </div>
+        )}
+        {error && <p className="text-red-500 text-sm mb-4">⚠️ {error}</p>}
+
+        {/* Bookings List */}
+        {!loading && bookings.length > 0 && (
+          <div className="space-y-4">
+            {bookings.map((booking, idx) => {
+              const dest = resolveDest(booking)
+              const svc = booking.servicePreview
+              const isOpen = expanded === booking._id
+
+              return (
+                <motion.div
+                  key={booking._id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.05 }}
+                  className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden"
+                >
+                  {/* Summary Row */}
+                  <div
+                    className="flex items-center gap-4 p-5 cursor-pointer hover:bg-gray-50 transition-colors"
+                    onClick={() => setExpanded(isOpen ? null : booking._id)}
+                  >
+                    {/* Destination Image */}
+                    <div className="w-16 h-16 rounded-2xl overflow-hidden shrink-0 bg-gray-100">
+                      {dest.image && (
+                        <img src={dest.image} alt={dest.name} className="w-full h-full object-cover" />
+                      )}
+                    </div>
+
+                    {/* Main Info */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className="font-black text-[#2d3e23] text-base truncate">{dest.name}</h3>
+                        <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${statusStyles[booking.status] || statusStyles.pending}`}>
+                          {booking.status}
+                        </span>
+                      </div>
+                      <p className="text-gray-400 text-sm mt-0.5">
+                        {dest.location} · {fmtDate(booking.date)} · {booking.travelers} traveler{booking.travelers > 1 ? 's' : ''}
+                      </p>
+                      {svc?.name && (
+                        <p className="text-gray-400 text-xs mt-0.5">{svc.icon} {svc.name}</p>
+                      )}
+                    </div>
+
+                    {/* Price + Toggle */}
+                    <div className="text-right shrink-0">
+                      <p className="font-black text-[#2d3e23]">{fmt(booking.totalAmount)}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">{booking.paymentMethod || 'N/A'}</p>
+                    </div>
+                    <svg
+                      className={`w-5 h-5 text-gray-300 transition-transform shrink-0 ${isOpen ? 'rotate-180' : ''}`}
+                      fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </div>
+
+                  {/* Expanded Details */}
+                  {isOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      className="border-t border-gray-100 p-6"
+                    >
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                        {/* Destination */}
+                        <div>
+                          <p className="text-xs font-black uppercase tracking-widest text-[#d4af37] mb-3">Destination</p>
+                          <div className="space-y-2 text-sm">
+                            <Row label="Name" value={dest.name} />
+                            <Row label="Location" value={dest.location} />
+                            <Row label="Country" value={dest.country} />
+                            <Row label="Category" value={dest.category} />
+                            <Row label="Duration" value={dest.duration} />
+                            <Row label="Tour Price" value={fmt(dest.price)} />
+                          </div>
                         </div>
-                        {meta.location ? (
-                          <p className="text-gray-500 text-sm mb-1">{meta.location}</p>
-                        ) : null}
-                        <p className="text-gray-600 mb-2">Booking ID: {booking._id}</p>
-                        <p className="text-gray-600 mb-2">
-                          Date: {booking.date ? new Date(booking.date).toISOString().slice(0, 10) : '—'}
-                        </p>
-                        {meta.price != null ? (
-                          <p className="text-lg font-bold text-green-600">${meta.price}</p>
-                        ) : null}
-                        
+
+                        {/* Traveler */}
+                        <div>
+                          <p className="text-xs font-black uppercase tracking-widest text-[#d4af37] mb-3">Traveler Info</p>
+                          <div className="space-y-2 text-sm">
+                            <Row label="Name" value={booking.name} />
+                            <Row label="Email" value={booking.email} />
+                            <Row label="Phone" value={booking.phone} />
+                            <Row label="Nationality" value={booking.nationality || '—'} />
+                            <Row label="Travelers" value={booking.travelers} />
+                            <Row label="Travel Date" value={fmtDate(booking.date)} />
+                            {booking.specialRequests && <Row label="Requests" value={booking.specialRequests} />}
+                          </div>
+                        </div>
+
+                        {/* Service & Payment */}
+                        <div>
+                          <p className="text-xs font-black uppercase tracking-widest text-[#d4af37] mb-3">Transport & Payment</p>
+                          <div className="space-y-2 text-sm">
+                            {svc?.name ? (
+                              <>
+                                <Row label="Vehicle" value={`${svc.icon || ''} ${svc.name}`} />
+                                <Row label="Transport/day" value={fmt(svc.pricePerDay)} />
+                                {svc.terrainLabel && <Row label="Terrain" value={svc.terrainLabel} />}
+                              </>
+                            ) : (
+                              <Row label="Transport" value="Not selected" />
+                            )}
+                            <Row label="Payment" value={booking.paymentMethod || '—'} />
+                            <Row label="Total Paid" value={fmt(booking.totalAmount)} />
+                            <Row label="Booking Ref" value={booking._id?.slice(-8).toUpperCase()} />
+                            <Row label="Booked On" value={fmtDate(booking.createdAt)} />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Actions */}
+                      <div className="flex gap-3 mt-6 pt-5 border-t border-gray-100">
+                        <span className={`text-xs font-bold px-3 py-1.5 rounded-full border ${statusStyles[booking.status] || statusStyles.pending}`}>
+                          Status: {booking.status}
+                        </span>
                         {booking.status === 'pending' && (
                           <button
                             onClick={async () => {
                               try {
-                                await axios.patch(`${apiBase}/bookings/${booking._id}`, { status: 'confirmed' })
-                                window.location.reload() // Quick refresh to see change
-                              } catch (e) {
-                                alert('Failed to update status')
-                              }
+                                await axios.patch(`${apiBase}/bookings/${booking._id}`, { status: 'cancelled' })
+                                setBookings(prev => prev.map(b => b._id === booking._id ? { ...b, status: 'cancelled' } : b))
+                              } catch { alert('Failed to cancel booking') }
                             }}
-                            className="mt-4 text-xs bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition-colors"
+                            className="text-xs text-red-500 border border-red-200 px-3 py-1.5 rounded-full hover:bg-red-50 transition-colors font-bold"
                           >
-                            Approve Booking
+                            Cancel Booking
                           </button>
                         )}
+                        <button
+                          onClick={() => setCurrentPage('explorer')}
+                          className="text-xs text-[#2d3e23] border border-gray-200 px-3 py-1.5 rounded-full hover:bg-gray-50 transition-colors font-bold ml-auto"
+                        >
+                          Book Another Trip →
+                        </button>
                       </div>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-
-            {!loading && bookings.length === 0 && (
-              <div className="text-center py-12">
-                <p className="text-gray-600 text-lg mb-4">
-                  No bookings yet. Open Destinations and use Book Now to create one.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setCurrentPage('explorer')}
-                  className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-colors"
-                >
-                  Explore Destinations
-                </button>
-              </div>
-            )}
+                    </motion.div>
+                  )}
+                </motion.div>
+              )
+            })}
           </div>
         )}
 
-        {activeTab === 'favorites' && (
-          <div>
-            <h2 className="text-2xl font-semibold mb-6">Favorite Destinations</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {mockFavorites.map((favorite) => (
-                <div key={favorite.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                  <img
-                    src={favorite.image}
-                    alt={favorite.name}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">{favorite.name}</h3>
-                    <p className="text-gray-600 mb-4">{favorite.location}</p>
-                    <button
-                      type="button"
-                      onClick={() => setCurrentPage('explorer')}
-                      className="w-full bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors font-semibold"
-                    >
-                      Book Now
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'profile' && (
-          <div>
-            <h2 className="text-2xl font-semibold mb-6">Profile Settings</h2>
-            <div className="bg-white rounded-lg shadow-md p-6 max-w-2xl">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                  <input
-                    type="text"
-                    defaultValue={user?.name || 'Demo Traveler'}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                  <input
-                    type="email"
-                    defaultValue={user?.email || 'demo@example.com'}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
-                </div>
-              </div>
-              <div className="mt-6">
-                <button
-                  type="button"
-                  className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-colors font-semibold"
-                >
-                  Save Changes
-                </button>
-              </div>
-            </div>
+        {/* Empty State */}
+        {!loading && bookings.length === 0 && (
+          <div className="text-center py-24 bg-white rounded-3xl border border-gray-100">
+            <div className="text-6xl mb-4">🗺️</div>
+            <h3 className="text-2xl font-black text-[#2d3e23] mb-3">No trips yet</h3>
+            <p className="text-gray-400 mb-8">Start exploring and book your first adventure.</p>
+            <button
+              onClick={() => setCurrentPage('explorer')}
+              className="bg-[#2d3e23] text-white px-8 py-4 rounded-2xl font-black hover:bg-[#3d4a35] transition-all shadow-lg"
+            >
+              Explore Destinations
+            </button>
           </div>
         )}
       </div>
     </div>
   )
 }
+
+const Row = ({ label, value }) => (
+  <div className="flex justify-between gap-2">
+    <span className="text-gray-400 shrink-0">{label}</span>
+    <span className="font-bold text-[#2d3e23] text-right truncate">{value || '—'}</span>
+  </div>
+)
 
 export default Dashboard

@@ -158,11 +158,11 @@ const DestinationDetail = ({ destination, setCurrentPage, currency }) => {
                 <button 
                   onClick={() => {
                     window.scrollTo(0, 0);
-                    setCurrentPage('booking');
+                    setCurrentPage('service-selection');
                   }}
                   className="w-full bg-[#d4af37] text-[#2d3e23] py-5 rounded-[1.5rem] font-black text-xl hover:bg-[#f1d38a] transition-all transform hover:scale-105 shadow-xl"
                 >
-                  Confirm Booking
+                  Book Now — Choose Transport
                 </button>
                 
                 <p className="text-center mt-6 text-white/40 text-xs font-medium">
