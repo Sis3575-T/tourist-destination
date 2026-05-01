@@ -1,0 +1,30 @@
+services:
+  # Backend API
+  - type: web
+    name: tourist-destination-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: CLIENT_URL
+        value: https://tourist-destination-3.onrender.com
+      - key: PORT
+        value: 6005
+
+  # Frontend Static Site
+  - type: web
+    name: tourist-destination-frontend
+    runtime: static
+    rootDir: tourist-destination-campaign
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://tourist-destination-5zp2.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
