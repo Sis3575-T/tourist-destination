@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const Navbar = ({ currentPage, setCurrentPage, user, onLogout, language, setLanguage, currency, setCurrency }) => {
+const Navbar = ({ currentPage, setCurrentPage, language, setLanguage, currency, setCurrency }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
@@ -89,24 +89,6 @@ const Navbar = ({ currentPage, setCurrentPage, user, onLogout, language, setLang
             </div>
 
             <div className="h-8 w-px bg-gray-200 hidden sm:block"></div>
-
-            {user ? (
-              <div className="flex items-center gap-4">
-                <button 
-                  onClick={onLogout}
-                  className="bg-red-50 text-red-600 px-4 py-2 rounded-xl text-xs font-bold hover:bg-red-100 transition-colors border border-red-100"
-                >
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <button 
-                onClick={() => setCurrentPage('login')}
-                className="bg-[#2d3e23] text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-[#3d4a35] transition-all shadow-md hover:shadow-lg"
-              >
-                Login
-              </button>
-            )}
 
             {/* Mobile menu button */}
             <div className="md:hidden">
