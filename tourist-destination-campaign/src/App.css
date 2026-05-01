@@ -1,278 +1,123 @@
-.travel-page {
-  background: #f1ecdf;
-  color: #1f1f1f;
-  min-height: 100vh;
+/* ============================================
+   GLOBAL BASE STYLES
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #ffffff;
+  color: #1a1a1a;
 }
 
-.travel-main {
-  max-width: 1200px;
-  margin: 0 auto;
-  background: #f6f2e6;
-  box-shadow: 0 0 0 1px #d3c9b6;
+/* ============================================
+   GLASSMORPHISM UTILITY
+   ============================================ */
+.glass {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-.hero-section {
-  min-height: 320px;
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 2rem 1.5rem;
+/* ============================================
+   DESTINATION CARD HOVER GLOW
+   ============================================ */
+.dest-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.dest-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 60px rgba(45, 62, 35, 0.15);
 }
 
-.hero-overlay h1 {
-  font-size: clamp(2rem, 5vw, 3.4rem);
-  color: #fff;
-  margin: 0;
+/* ============================================
+   PRICE BADGE PULSE
+   ============================================ */
+.price-badge {
+  animation: pricePulse 3s ease-in-out infinite;
+}
+@keyframes pricePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.3); }
+  50%       { box-shadow: 0 0 0 8px rgba(212, 175, 55, 0); }
 }
 
-.hero-overlay p {
-  color: #f0ede7;
-  margin: 0.5rem 0 1.4rem;
-  font-size: 1.1rem;
-}
-
-.search-bar {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.5rem;
-  max-width: 820px;
-}
-
-.search-bar label,
-.search-bar button,
-.filters-row input {
-  border: 1px solid #d8d3c6;
-  background: #f4efe3;
-  color: #2a2a2a;
-  padding: 0.72rem 0.85rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.4rem;
-  font-weight: 600;
-}
-
-.search-bar label {
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  font-size: 0.82rem;
-}
-
-.search-bar select,
-.search-bar input {
-  width: 100%;
-  border: 0;
-  background: transparent;
-  outline: none;
-  font-size: 0.95rem;
-  color: #2a2a2a;
-}
-
-.search-bar button {
-  justify-content: center;
+/* ============================================
+   DURATION SELECTOR TABS
+   ============================================ */
+.duration-tab {
   cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+}
+.duration-tab:hover {
+  border-color: #d4af37;
+  background: #fffbf0;
+}
+.duration-tab.active {
+  border-color: #2d3e23;
+  background: #2d3e23;
+  color: white;
+}
+.duration-tab.active .duration-price {
+  color: #d4af37;
 }
 
-.search-btn {
-  background: #415439 !important;
-  color: #fff !important;
+/* ============================================
+   BOOKING STEP CONNECTOR
+   ============================================ */
+.step-line {
+  height: 2px;
+  background: linear-gradient(90deg, #2d3e23, #d4af37);
+  transition: width 0.5s ease;
 }
 
-.content-block {
-  padding: 1.5rem 2rem 1.9rem;
-  border-top: 1px solid #cec3b3;
+/* ============================================
+   HERO PARALLAX OVERLAY
+   ============================================ */
+.hero-overlay-gradient {
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.5) 0%,
+    rgba(0,0,0,0.2) 40%,
+    rgba(0,0,0,0.7) 100%
+  );
 }
 
-.about-section {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 1.2rem;
-  align-items: stretch;
+/* ============================================
+   CATEGORY BADGE COLORS
+   ============================================ */
+.badge-cultural   { background: #7c3aed; color: white; }
+.badge-adventure  { background: #dc2626; color: white; }
+.badge-nature     { background: #16a34a; color: white; }
+.badge-camping    { background: #d97706; color: white; }
+.badge-coastal    { background: #0284c7; color: white; }
+.badge-heritage   { background: #9f1239; color: white; }
+
+/* ============================================
+   SMOOTH PAGE TRANSITIONS
+   ============================================ */
+.page-enter {
+  opacity: 0;
+  transform: translateY(16px);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-.section-copy h2 {
-  margin: 0 0 0.35rem;
-  font-size: 2rem;
-}
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #2d3e23; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #d4af37; }
 
-.section-copy h3 {
-  margin: 0 0 0.8rem;
-  font-size: 1.35rem;
-}
-
-.section-copy p {
-  line-height: 1.5;
-}
-
-.about-section img {
-  width: 100%;
-  height: 100%;
-  min-height: 210px;
-  object-fit: cover;
-  border: 4px solid #e9e2d3;
-}
-
-.primary-btn,
-.secondary-btn,
-.inline-btn {
-  background: #415439;
-  color: #fff;
-  border: 0;
-  cursor: pointer;
-}
-
-.primary-btn {
-  margin-top: 1rem;
-  padding: 0.65rem 1rem;
-}
-
-.section-heading {
-  display: flex;
-  align-items: baseline;
-  gap: 0.6rem;
-  margin-bottom: 1rem;
-}
-
-.section-heading h2 {
-  margin: 0;
-  font-size: 2rem;
-}
-
-.section-heading span {
-  color: #4f5a4d;
-  font-weight: 600;
-}
-
-.filters-row {
-  display: grid;
-  grid-template-columns: 2fr 1fr auto;
-  gap: 0.6rem;
-  margin-bottom: 1rem;
-}
-
-.filters-row input {
-  font-weight: 500;
-}
-
-.card-grid,
-.blog-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.blog-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.tour-card {
-  border: 1px solid #d8d0c2;
-  background: #fcfaf6;
-  cursor: pointer;
-}
-
-.tour-card img {
-  width: 100%;
-  aspect-ratio: 1.7;
-  object-fit: cover;
-}
-
-.card-body {
-  padding: 0.8rem;
-}
-
-.card-body h4 {
-  margin: 0;
-  font-size: 1.25rem;
-}
-
-.card-body p {
-  margin: 0.45rem 0 0.7rem;
-  color: #424242;
-  display: inline-flex;
-  gap: 0.35rem;
-  align-items: center;
-}
-
-.inline-btn {
-  padding: 0.45rem 0.8rem;
-}
-
-.secondary-btn {
-  margin: 1rem auto 0;
-  padding: 0.55rem 1rem;
-  display: block;
-}
-
-.error-text {
-  color: #9f2d20;
-  font-weight: 600;
-}
-
-.booking-box {
-  margin-top: 1rem;
-  padding: 0.95rem;
-  border: 1px solid #d8d0c2;
-  background: #fcfaf6;
-}
-
-.booking-box h4 {
-  margin: 0 0 0.35rem;
-}
-
-.booking-status {
-  color: #2c6f52;
-  font-weight: 600;
-}
-
-.blog-section {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 1rem;
-}
-
-.trip-card {
-  background: #fcfaf6;
-  border: 1px solid #d8d0c2;
-  padding: 1rem;
-}
-
-.trip-card h3 {
-  margin-top: 0;
-  font-size: 2rem;
-  color: #2c6f52;
-}
-
-.rating {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  color: #3b4f34;
-  font-weight: 700;
-}
-
-.author {
-  font-weight: 700;
-}
-
-@media (max-width: 900px) {
-  .search-bar,
-  .about-section,
-  .card-grid,
-  .blog-section,
-  .blog-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .filters-row {
-    grid-template-columns: 1fr;
-  }
-
-  .content-block {
-    padding: 1rem;
-  }
+/* ============================================
+   RESPONSIVE UTILITIES
+   ============================================ */
+@media (max-width: 640px) {
+  .hide-mobile { display: none !important; }
 }
