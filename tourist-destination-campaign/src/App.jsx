@@ -5,6 +5,7 @@ import Hero from './components/Hero'
 import AboutSection from './components/AboutSection'
 import FeaturedDestinations from './components/FeaturedDestinations'
 import FleetServices from './components/FleetServices'
+import FleetPage from './components/FleetPage'
 import BlogAndReviews from './components/BlogAndReviews'
 import TrustSection from './components/TrustSection'
 import SmartRecommendations from './components/SmartRecommendations'
@@ -32,21 +33,15 @@ function App() {
   const [loadError, setLoadError] = useState('')
 
   useEffect(() => {
-    const bootstrap = async () => {
-      setLoadError('')
-      try {
-        const destRes = await axios.get(`${API_BASE}/destinations`)
-        setDestinations(Array.isArray(destRes.data) ? destRes.data : [])
-      } catch (err) {
+    axios.get(`${API_BASE}/destinations`)
+      .then(res => setDestinations(Array.isArray(res.data) ? res.data : []))
+      .catch(err => {
         console.error(err)
         setDestinations([])
         setLoadError('Unable to load tour data. Please ensure the backend server is running.')
-      }
-    }
-    bootstrap()
+      })
   }, [])
 
-  // Scroll to top on page change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [currentPage])
@@ -84,6 +79,15 @@ function App() {
             destination={selectedDestination}
             setCurrentPage={setCurrentPage}
             currency={currency}
+          />
+        )
+      case 'fleet':
+        return (
+          <FleetPage
+            destinations={destinations}
+            onSelectService={setSelectedService}
+            onSelectDestination={setSelectedDestination}
+            setCurrentPage={setCurrentPage}
           />
         )
       case 'service-details':
