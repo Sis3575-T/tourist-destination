@@ -20,28 +20,50 @@ import Booking from './components/Booking'
 import Dashboard from './components/Dashboard'
 import AdminPanel from './components/AdminPanel'
 import ContactForm from './components/ContactForm'
+import Login from './components/Login'
 import Footer from './components/Footer'
 import { API_BASE } from './api'
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('home')
-  const [destinations, setDestinations] = useState([])
+  const [currentPage, setCurrentPage]           = useState('home')
+  const [destinations, setDestinations]         = useState([])
   const [selectedDestination, setSelectedDestination] = useState(null)
-  const [selectedService, setSelectedService] = useState(null)
-  const [selectedBlog, setSelectedBlog] = useState(null)
-  const [selectedDuration, setSelectedDuration] = useState(null) // { days, price, label }
-  const [demoUserId] = useState('507f1f77bcf86cd799439011')
-  const [language, setLanguage] = useState('EN')
-  const [currency, setCurrency] = useState('USD')
-  const [loadError, setLoadError] = useState('')
+  const [selectedService, setSelectedService]   = useState(null)
+  const [selectedBlog, setSelectedBlog]         = useState(null)
+  const [selectedDuration, setSelectedDuration] = useState(null)
+  const [language, setLanguage]                 = useState('EN')
+  const [currency, setCurrency]                 = useState('USD')
+  const [loadError, setLoadError]               = useState('')
+
+  // ── Auth state ──────────────────────────────────────────────
+  const [user, setUser]     = useState(() => {
+    try { return JSON.parse(localStorage.getItem('ethiotour_user')) || null } catch { return null }
+  })
+  const [userId, setUserId] = useState(() => localStorage.getItem('ethiotour_userId') || null)
+
+  const handleLogin = (userData, uid) => {
+    setUser(userData)
+    setUserId(uid)
+    localStorage.setItem('ethiotour_user', JSON.stringify(userData))
+    localStorage.setItem('ethiotour_userId', uid)
+    setCurrentPage('home')
+  }
+
+  const handleLogout = () => {
+    setUser(null)
+    setUserId(null)
+    localStorage.removeItem('ethiotour_user')
+    localStorage.removeItem('ethiotour_userId')
+    setCurrentPage('home')
+  }
+  // ────────────────────────────────────────────────────────────
 
   useEffect(() => {
     axios.get(`${API_BASE}/destinations`)
       .then(res => setDestinations(Array.isArray(res.data) ? res.data : []))
-      .catch(err => {
-        console.error(err)
+      .catch(() => {
         setDestinations([])
-        setLoadError('Unable to load tour data. Please ensure the backend server is running.')
+        setLoadError('Unable to load tour data.')
       })
   }, [])
 
@@ -56,80 +78,30 @@ function App() {
           <>
             <Hero setCurrentPage={setCurrentPage} destinations={destinations} />
             <AboutSection setCurrentPage={setCurrentPage} />
-            <FeaturedDestinations
-              destinations={destinations}
-              onSelectDestination={setSelectedDestination}
-              setCurrentPage={setCurrentPage}
-              currency={currency}
-            />
+            <FeaturedDestinations destinations={destinations} onSelectDestination={setSelectedDestination} setCurrentPage={setCurrentPage} currency={currency} />
             <TrustSection setCurrentPage={setCurrentPage} />
             <FleetServices setCurrentPage={setCurrentPage} onSelectService={setSelectedService} />
             <BlogAndReviews setCurrentPage={setCurrentPage} onSelectBlog={setSelectedBlog} />
           </>
         )
       case 'explorer':
-        return (
-          <DestinationExplorer
-            destinations={destinations}
-            onSelectDestination={setSelectedDestination}
-            setCurrentPage={setCurrentPage}
-            currency={currency}
-          />
-        )
+        return <DestinationExplorer destinations={destinations} onSelectDestination={setSelectedDestination} setCurrentPage={setCurrentPage} currency={currency} />
       case 'details':
-        return (
-          <DestinationDetail
-            destination={selectedDestination}
-            setCurrentPage={setCurrentPage}
-            currency={currency}
-            onDurationSelect={setSelectedDuration}
-          />
-        )
+        return <DestinationDetail destination={selectedDestination} setCurrentPage={setCurrentPage} currency={currency} onDurationSelect={setSelectedDuration} />
       case 'fleet':
-        return (
-          <FleetPage
-            destinations={destinations}
-            onSelectService={setSelectedService}
-            onSelectDestination={setSelectedDestination}
-            setCurrentPage={setCurrentPage}
-          />
-        )
+        return <FleetPage destinations={destinations} onSelectService={setSelectedService} onSelectDestination={setSelectedDestination} setCurrentPage={setCurrentPage} />
       case 'service-details':
-        return (
-          <ServiceDetail
-            service={selectedService}
-            setCurrentPage={setCurrentPage}
-          />
-        )
+        return <ServiceDetail service={selectedService} setCurrentPage={setCurrentPage} />
       case 'service-selection':
-        return (
-          <ServiceSelection
-            destination={selectedDestination}
-            selectedDuration={selectedDuration}
-            onSelectService={setSelectedService}
-            setCurrentPage={setCurrentPage}
-          />
-        )
+        return <ServiceSelection destination={selectedDestination} selectedDuration={selectedDuration} onSelectService={setSelectedService} setCurrentPage={setCurrentPage} />
       case 'about':
         return <AboutDetail setCurrentPage={setCurrentPage} />
       case 'reviews':
         return <ReviewsPage setCurrentPage={setCurrentPage} />
       case 'blog-detail':
-        return (
-          <BlogDetail
-            blog={selectedBlog}
-            setCurrentPage={setCurrentPage}
-          />
-        )
+        return <BlogDetail blog={selectedBlog} setCurrentPage={setCurrentPage} />
       case 'recommendations':
-        return (
-          <SmartRecommendations
-            destinations={destinations}
-            onSelectDestination={setSelectedDestination}
-            setCurrentPage={setCurrentPage}
-            currency={currency}
-          />
-        )
+        return <SmartRecommendations destinations={destinations} onSelectDestination={setSelectedDestination} setCurrentPage={setCurrentPage} currency={currency} />
       case 'booking':
         return (
           <Booking
@@ -139,7 +111,8 @@ function App() {
             setCurrentPage={setCurrentPage}
             currency={currency}
             apiBase={API_BASE}
-            userId={demoUserId}
+            userId={userId}
+            travelerEmail={user?.email || ''}
           />
         )
       case 'dashboard':
@@ -148,11 +121,15 @@ function App() {
             destinations={destinations}
             setCurrentPage={setCurrentPage}
             apiBase={API_BASE}
-            userId={demoUserId}
+            userId={userId}
+            user={user}
+            onLogout={handleLogout}
           />
         )
+      case 'login':
+        return <Login onLogin={handleLogin} setCurrentPage={setCurrentPage} apiBase={API_BASE} />
       case 'contact':
-        return <ContactForm setCurrentPage={setCurrentPage} />
+        return <ContactForm setCurrentPage={setCurrentPage} prefillEmail={user?.email || ''} />
       case 'admin':
         return <AdminPanel apiBase={API_BASE} setCurrentPage={setCurrentPage} />
       default:
@@ -160,7 +137,6 @@ function App() {
     }
   }
 
-  // Hide navbar/footer on admin page
   const isAdmin = currentPage === 'admin'
 
   return (
@@ -173,6 +149,8 @@ function App() {
           setLanguage={setLanguage}
           currency={currency}
           setCurrency={setCurrency}
+          user={user}
+          onLogout={handleLogout}
         />
       )}
       {loadError && (

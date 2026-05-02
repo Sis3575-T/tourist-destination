@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const Navbar = ({ currentPage, setCurrentPage, language, setLanguage, currency, setCurrency }) => {
+const Navbar = ({ currentPage, setCurrentPage, language, setLanguage, currency, setCurrency, user, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
@@ -81,6 +81,23 @@ const Navbar = ({ currentPage, setCurrentPage, language, setLanguage, currency, 
               {currencies.map(c => <option key={c} value={c} className="text-gray-900">{c}</option>)}
             </select>
             <div className={`w-px h-4 ${isScrolled ? 'bg-gray-200' : 'bg-white/20'}`} />
+            {user ? (
+              <div className="flex items-center gap-2">
+                <button onClick={() => setCurrentPage('dashboard')}
+                  className={`text-xs font-bold px-3 py-2 rounded-xl transition-all ${isScrolled ? 'text-[#2d3e23] hover:bg-gray-100' : 'text-white/80 hover:bg-white/10'}`}>
+                  👤 {user.name?.split(' ')[0]}
+                </button>
+                <button onClick={onLogout}
+                  className="text-xs font-bold text-red-400 border border-red-200 px-3 py-2 rounded-xl hover:bg-red-50 transition-all">
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <button onClick={() => setCurrentPage('login')}
+                className={`text-xs font-bold px-4 py-2 rounded-xl border transition-all ${isScrolled ? 'border-[#2d3e23] text-[#2d3e23] hover:bg-[#2d3e23] hover:text-white' : 'border-white/30 text-white hover:bg-white/10'}`}>
+                Sign In
+              </button>
+            )}
             <button
               onClick={() => setCurrentPage('booking')}
               className="bg-[#d4af37] text-[#2d3e23] px-5 py-2 rounded-xl text-sm font-black hover:bg-[#f1d38a] transition-all shadow-md"

@@ -9,7 +9,7 @@ const statusStyles = {
   cancelled: { pill: 'bg-red-100 text-red-800 border-red-200',         icon: '❌', label: 'Rejected' },
 }
 
-const Dashboard = ({ destinations = [], setCurrentPage, apiBase, userId }) => {
+const Dashboard = ({ destinations = [], setCurrentPage, apiBase, userId, user, onLogout }) => {
   const [tab, setTab]           = useState('bookings')
   const [bookings, setBookings] = useState([])
   const [messages, setMessages] = useState([])
@@ -19,8 +19,8 @@ const Dashboard = ({ destinations = [], setCurrentPage, apiBase, userId }) => {
   const [expandedM, setExpandedM] = useState(null)
   const [error, setError]       = useState('')
 
-  // Email for message lookup — auto-filled from first booking
-  const [travelerEmail, setTravelerEmail] = useState('')
+  // Email for message lookup — use logged-in user's email, or auto-fill from first booking
+  const [travelerEmail, setTravelerEmail] = useState(user?.email || '')
 
   const loadBookings = () => {
     if (!userId) { setBLoading(false); return }
@@ -28,8 +28,10 @@ const Dashboard = ({ destinations = [], setCurrentPage, apiBase, userId }) => {
       .then(({ data }) => {
         const list = Array.isArray(data) ? data : []
         setBookings(list)
-        // Auto-fill email from first booking
-        if (list.length > 0 && list[0].email) setTravelerEmail(list[0].email)
+        // Auto-fill email from first booking only if not already set
+        if (!travelerEmail && list.length > 0 && list[0].email) {
+          setTravelerEmail(list[0].email)
+        }
       })
       .catch(e => setError(e.message))
       .finally(() => setBLoading(false))
@@ -78,16 +80,28 @@ const Dashboard = ({ destinations = [], setCurrentPage, apiBase, userId }) => {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-black text-[#2d3e23]">My Dashboard</h1>
-            <p className="text-gray-400 text-sm mt-1">Your bookings, admin responses, and messages — all in one place.</p>
+            <h1 className="text-4xl font-black text-[#2d3e23]">
+              {user?.name ? `Welcome, ${user.name.split(' ')[0]}` : 'My Dashboard'}
+            </h1>
+            <p className="text-gray-400 text-sm mt-1">
+              {user?.email || 'Your bookings, admin responses, and messages — all in one place.'}
+            </p>
           </div>
-          <button onClick={refresh}
-            className="flex items-center gap-2 text-sm text-[#2d3e23] border border-gray-200 bg-white px-4 py-2 rounded-xl hover:bg-gray-50 transition-all">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-            </svg>
-            Refresh
-          </button>
+          <div className="flex items-center gap-3">
+            <button onClick={refresh}
+              className="flex items-center gap-2 text-sm text-[#2d3e23] border border-gray-200 bg-white px-4 py-2 rounded-xl hover:bg-gray-50 transition-all">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+              </svg>
+              Refresh
+            </button>
+            {onLogout && (
+              <button onClick={onLogout}
+                className="text-sm text-red-400 border border-red-200 px-4 py-2 rounded-xl hover:bg-red-50 transition-all font-bold">
+                Logout
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Stats */}
@@ -180,8 +194,20 @@ const Dashboard = ({ destinations = [], setCurrentPage, apiBase, userId }) => {
         {/* ── BOOKINGS TAB ── */}
         {tab === 'bookings' && (
           <div>
-            {bLoading && <div className="space-y-3">{[1,2,3].map(i => <div key={i} className="bg-white rounded-2xl h-24 animate-pulse border border-gray-100"/>)}</div>}
+    {bLoading && <div className="space-y-3">{[1,2,3].map(i => <div key={i} className="bg-white rounded-2xl h-24 animate-pulse border border-gray-100"/>)}</div>}
             {error && <p className="text-red-500 text-sm mb-4">⚠️ {error}</p>}
+
+            {!bLoading && !userId && (
+              <div className="text-center py-20 bg-white rounded-3xl border border-gray-100">
+                <div className="text-5xl mb-4">🔐</div>
+                <h3 className="text-xl font-black text-[#2d3e23] mb-2">Sign in to see your bookings</h3>
+                <p className="text-gray-400 mb-6">Create an account or log in to track your trips and messages.</p>
+                <button onClick={() => setCurrentPage('login')}
+                  className="bg-[#2d3e23] text-white px-8 py-3 rounded-2xl font-black hover:bg-[#3d4a35] transition-all">
+                  Sign In / Register
+                </button>
+              </div>
+            )}
 
             {!bLoading && bookings.length > 0 && (
               <div className="space-y-3">

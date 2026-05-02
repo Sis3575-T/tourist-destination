@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Booking = require('../models/Booking');
+const { sendBookingConfirmation } = require('../utils/emailService');
 
 // @desc    Get all bookings (admin)
 // @route   GET /api/bookings
@@ -98,6 +99,18 @@ exports.reviewBooking = async (req, res) => {
     );
 
     if (!booking) return res.status(404).json({ message: 'Booking not found' });
+
+    // Send real email to traveler
+    sendBookingConfirmation({
+      to:              booking.email,
+      name:            booking.name,
+      destination:     booking.destinationPreview?.name || 'your destination',
+      ref:             booking._id.toString().slice(-8).toUpperCase(),
+      status:          newStatus,
+      adminNote:       adminNote || '',
+      rejectionReason: action === 'reject' ? (rejectionReason || 'Payment not verified') : '',
+    });
+
     res.json(booking);
   } catch (err) {
     res.status(500).json({ message: 'Server Error', error: err.message });

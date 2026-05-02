@@ -1,4 +1,5 @@
 const Message = require('../models/Message');
+const { sendMessageReply } = require('../utils/emailService');
 
 // @desc  Get all messages (admin)
 // @route GET /api/messages
@@ -38,6 +39,16 @@ exports.replyMessage = async (req, res) => {
       { new: true }
     );
     if (!msg) return res.status(404).json({ message: 'Message not found' });
+
+    // Send real email reply to traveler
+    sendMessageReply({
+      to:              msg.email,
+      name:            msg.name,
+      subject:         msg.subject,
+      originalMessage: msg.message,
+      adminReply,
+    });
+
     res.json(msg);
   } catch (err) {
     res.status(500).json({ message: 'Server Error', error: err.message });
