@@ -29,6 +29,7 @@ function App() {
   const [selectedDestination, setSelectedDestination] = useState(null)
   const [selectedService, setSelectedService] = useState(null)
   const [selectedBlog, setSelectedBlog] = useState(null)
+  const [selectedDuration, setSelectedDuration] = useState(null) // { days, price, label }
   const [demoUserId] = useState('507f1f77bcf86cd799439011')
   const [language, setLanguage] = useState('EN')
   const [currency, setCurrency] = useState('USD')
@@ -81,6 +82,7 @@ function App() {
             destination={selectedDestination}
             setCurrentPage={setCurrentPage}
             currency={currency}
+            onDurationSelect={setSelectedDuration}
           />
         )
       case 'fleet':
@@ -103,6 +105,7 @@ function App() {
         return (
           <ServiceSelection
             destination={selectedDestination}
+            selectedDuration={selectedDuration}
             onSelectService={setSelectedService}
             setCurrentPage={setCurrentPage}
           />
@@ -132,6 +135,7 @@ function App() {
           <Booking
             destination={selectedDestination}
             service={selectedService}
+            selectedDuration={selectedDuration}
             setCurrentPage={setCurrentPage}
             currency={currency}
             apiBase={API_BASE}

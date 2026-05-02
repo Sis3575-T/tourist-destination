@@ -19,7 +19,7 @@ const difficultyColors = {
   Easy:    'bg-green-100 text-green-700',
 }
 
-const ServiceSelection = ({ destination, onSelectService, setCurrentPage }) => {
+const ServiceSelection = ({ destination, selectedDuration, onSelectService, setCurrentPage }) => {
   const [fleets, setFleets] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -77,6 +77,17 @@ const ServiceSelection = ({ destination, onSelectService, setCurrentPage }) => {
           <p className="text-gray-500 text-lg">
             for <span className="font-bold text-[#2d3e23]">{destination?.name}</span>
           </p>
+
+          {/* Show chosen duration */}
+          {selectedDuration && (
+            <div className="mt-4 inline-flex items-center gap-3 bg-[#2d3e23] text-white px-5 py-2.5 rounded-2xl text-sm">
+              <svg className="w-4 h-4 text-[#d4af37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span className="font-bold">{selectedDuration.label} — {selectedDuration.days} days</span>
+              <span className="text-[#d4af37] font-black">${selectedDuration.price.toLocaleString()}</span>
+            </div>
+          )}
         </div>
 
         {/* Terrain Info Banner */}

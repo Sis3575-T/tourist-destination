@@ -12,7 +12,7 @@ const paymentMethods = [
   { id: 'bank', name: 'Bank Transfer', icon: '🌍', desc: 'International wire transfer', account: 'CBE: 1000345678912', holder: 'Ethiopian Tourist Dest.' },
 ]
 
-const Booking = ({ destination, service, setCurrentPage, currency, apiBase, userId }) => {
+const Booking = ({ destination, service, selectedDuration, setCurrentPage, currency, apiBase, userId }) => {
   const [step, setStep] = useState(1)
   const [form, setForm] = useState({
     name: '', email: '', phone: '', nationality: '',
@@ -31,7 +31,9 @@ const Booking = ({ destination, service, setCurrentPage, currency, apiBase, user
 
   const set = (field, val) => setForm(p => ({ ...p, [field]: val }))
 
-  const tourPrice = destination?.price || 0
+  // Use duration-adjusted price if traveler chose a duration, else fall back to destination base price
+  const tourPrice = selectedDuration?.price ?? destination?.price ?? 0
+  const chosenDays = selectedDuration?.days ?? null
   const transportPrice = service?.pricePerDay || 0
   const subtotal = (tourPrice + transportPrice) * Number(form.travelers)
   const tax = Math.round(subtotal * 0.05)
@@ -58,10 +60,10 @@ const Booking = ({ destination, service, setCurrentPage, currency, apiBase, user
           name: destination.name,
           location: destination.location,
           image: destination.image,
-          price: destination.price,
+          price: tourPrice,
           country: destination.country,
           category: destination.category,
-          duration: destination.duration,
+          duration: chosenDays ? `${chosenDays} days (${selectedDuration?.label})` : destination.duration,
         },
         servicePreview: service ? {
           name: service.name,
@@ -351,7 +353,9 @@ const Booking = ({ destination, service, setCurrentPage, currency, apiBase, user
 
                   <div className="bg-[#f8f7f4] rounded-2xl p-5 mb-8">
                     <div className="flex justify-between text-sm mb-2">
-                      <span className="text-gray-500">Tour Package × {form.travelers}</span>
+                      <span className="text-gray-500">
+                        Tour{chosenDays ? ` (${chosenDays} days)` : ''} × {form.travelers}
+                      </span>
                       <span className="font-bold">{fmt(tourPrice * Number(form.travelers))}</span>
                     </div>
                     {service && (
@@ -396,11 +400,21 @@ const Booking = ({ destination, service, setCurrentPage, currency, apiBase, user
                 <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/></svg>
                 {destination.location}
               </p>
-              <p className="text-gray-400 text-sm mb-5">{destination.duration}</p>
+              {selectedDuration ? (
+                <div className="flex items-center gap-2 mb-5">
+                  <span className="text-xs bg-[#2d3e23] text-[#d4af37] font-black px-3 py-1 rounded-full">
+                    {selectedDuration.label} · {selectedDuration.days} days
+                  </span>
+                </div>
+              ) : (
+                <p className="text-gray-400 text-sm mb-5">{destination.duration}</p>
+              )}
 
               <div className="space-y-2 text-sm border-t border-gray-100 pt-4">
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Tour × {form.travelers}</span>
+                  <span className="text-gray-400">
+                    Tour{chosenDays ? ` (${chosenDays} days)` : ''} × {form.travelers}
+                  </span>
                   <span className="font-bold">{fmt(tourPrice * Number(form.travelers))}</span>
                 </div>
                 {service && (

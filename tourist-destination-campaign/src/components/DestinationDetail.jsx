@@ -13,7 +13,7 @@ const categoryColors = {
   'City & Heritage':  'bg-rose-500',
 }
 
-const DestinationDetail = ({ destination, setCurrentPage, currency }) => {
+const DestinationDetail = ({ destination, setCurrentPage, currency, onDurationSelect }) => {
   const [selectedDays, setSelectedDays] = useState(null)
 
   if (!destination) {
@@ -56,6 +56,13 @@ const DestinationDetail = ({ destination, setCurrentPage, currency }) => {
   const catColor    = categoryColors[destination.category] || 'bg-gray-500'
 
   const handleBook = () => {
+    // Pass chosen duration + price up to App before navigating
+    onDurationSelect?.({
+      days: chosenDays,
+      price: totalPrice,
+      label: durationOptions.find(o => o.days === chosenDays)?.label || 'Standard',
+      pricePerDay,
+    })
     setCurrentPage('service-selection')
   }
 
