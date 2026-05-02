@@ -15,6 +15,7 @@ const PORT = process.env.PORT || 6005;
 const allowedOrigins = [
   'https://tourist-destination-2.onrender.com',
   'https://tourist-destination-3.onrender.com',
+  'https://tourist-destination-4.onrender.com',
   process.env.CLIENT_URL,
 ].filter(Boolean);
 
@@ -26,7 +27,8 @@ app.use(cors({
   },
   credentials: true,
 }));
-app.use(express.json());
+app.use(express.json({ limit: '20mb' }));
+app.use(express.urlencoded({ extended: true, limit: '20mb' }));
 
 // MongoDB
 mongoose.connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 10000 })
