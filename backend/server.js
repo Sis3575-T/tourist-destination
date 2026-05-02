@@ -117,7 +117,7 @@ const spaIndex = path.join(campaignDist, 'index.html');
 
 if (fs.existsSync(spaIndex)) {
   app.use(express.static(campaignDist));
-  app.get('*', (req, res) => {
+  app.get('/{*path}', (req, res) => {
     if (req.path.startsWith('/api')) return res.status(404).json({ message: 'Not found' });
     res.sendFile(spaIndex);
   });
