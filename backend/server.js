@@ -111,4 +111,5 @@ if (fs.existsSync(spaIndex)) {
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`✅ Routes: bookings (review), messages (reply), fleet, reviews`);
 });
