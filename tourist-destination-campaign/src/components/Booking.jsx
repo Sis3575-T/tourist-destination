@@ -17,7 +17,7 @@ const Booking = ({ destination, service, selectedDuration, setCurrentPage, curre
   const [form, setForm] = useState({
     name: '', email: '', phone: '', nationality: '',
     travelers: 1, date: '', specialRequests: '',
-    paymentMethod: '', paymentProof: '',
+    paymentMethod: '', paymentProof: '', paymentProofData: '', paymentProofType: '',
   })
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -55,6 +55,8 @@ const Booking = ({ destination, service, selectedDuration, setCurrentPage, curre
         specialRequests: form.specialRequests,
         paymentMethod: form.paymentMethod,
         paymentProof: form.paymentProof,
+        paymentProofData: form.paymentProofData,
+        paymentProofType: form.paymentProofType,
         totalAmount: total,
         destinationPreview: {
           name: destination.name,
@@ -293,7 +295,16 @@ const Booking = ({ destination, service, selectedDuration, setCurrentPage, curre
                         accept="image/*"
                         className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
                         onChange={e => {
-                          if (e.target.files?.[0]) set('paymentProof', e.target.files[0].name)
+                          const file = e.target.files?.[0]
+                          if (!file) return
+                          set('paymentProof', file.name)
+                          // Read as base64 so admin can view the image
+                          const reader = new FileReader()
+                          reader.onload = (ev) => {
+                            set('paymentProofData', ev.target.result)
+                            set('paymentProofType', file.type)
+                          }
+                          reader.readAsDataURL(file)
                         }}
                       />
                       <div className="w-12 h-12 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
@@ -302,7 +313,14 @@ const Booking = ({ destination, service, selectedDuration, setCurrentPage, curre
                         </svg>
                       </div>
                       {form.paymentProof
-                        ? <p className="text-green-600 font-bold text-sm">✅ {form.paymentProof}</p>
+                        ? (
+                          <div>
+                            <p className="text-green-600 font-bold text-sm mb-2">✅ {form.paymentProof}</p>
+                            {form.paymentProofData && (
+                              <img src={form.paymentProofData} alt="Payment proof" className="max-h-40 mx-auto rounded-xl border border-gray-200 object-contain" />
+                            )}
+                          </div>
+                        )
                         : <>
                             <p className="font-bold text-gray-700 text-sm mb-1">Upload Payment Screenshot</p>
                             <p className="text-xs text-gray-400">Click to upload proof of transfer (JPG, PNG)</p>

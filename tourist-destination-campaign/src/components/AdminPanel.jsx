@@ -357,10 +357,33 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
                               {/* Admin Review Section */}
                               {booking.status === 'pending' ? (
                                 <div className="bg-[#f8f7f4] rounded-2xl p-5">
-                                  <p className="text-sm font-black text-[#2d3e23] mb-4">
-                                    💳 Expected Payment: <span className="text-[#d4af37]">{fmt(booking.totalAmount)}</span>
-                                    {' '}via <span className="text-[#d4af37]">{booking.paymentMethod}</span>
-                                  </p>
+                                  {/* Payment Proof Image */}
+                                  <div className="mb-5">
+                                    <p className="text-xs font-black uppercase tracking-wider text-[#d4af37] mb-3">
+                                      💳 Payment Proof — {booking.paymentMethod} — Expected: ${booking.totalAmount?.toLocaleString()}
+                                    </p>
+                                    {booking.paymentProofData ? (
+                                      <div className="bg-white rounded-2xl p-3 border border-gray-200">
+                                        <img
+                                          src={booking.paymentProofData}
+                                          alt="Payment screenshot"
+                                          className="max-h-64 mx-auto rounded-xl object-contain cursor-pointer hover:opacity-90 transition-opacity"
+                                          onClick={() => window.open(booking.paymentProofData, '_blank')}
+                                        />
+                                        <p className="text-xs text-center text-gray-400 mt-2">Click to open full size</p>
+                                      </div>
+                                    ) : booking.paymentProof ? (
+                                      <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 text-center">
+                                        <p className="text-yellow-700 text-sm font-bold">📎 {booking.paymentProof}</p>
+                                        <p className="text-yellow-600 text-xs mt-1">Image uploaded before preview was enabled — filename only</p>
+                                      </div>
+                                    ) : (
+                                      <div className="bg-red-50 border border-red-200 rounded-2xl p-4 text-center">
+                                        <p className="text-red-600 text-sm font-bold">⚠️ No payment proof uploaded</p>
+                                      </div>
+                                    )}
+                                  </div>
+
                                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                                     <div>
                                       <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Admin Note (optional)</label>
