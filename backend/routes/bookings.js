@@ -4,19 +4,14 @@ const {
   getBookings,
   getUserBookings,
   createBooking,
-  updateBookingStatus
+  reviewBooking,
+  updateBookingStatus,
 } = require('../controllers/bookingController');
 
-// GET all bookings
-router.get('/', getBookings);
-
-// GET bookings for a user
-router.get('/user/:userId', getUserBookings);
-
-// POST new booking
-router.post('/', createBooking);
-
-// UPDATE booking status
-router.patch('/:id', updateBookingStatus);
+router.get('/',                getBookings);
+router.get('/user/:userId',    getUserBookings);
+router.post('/',               createBooking);
+router.patch('/:id/review',    reviewBooking);   // Admin approve/reject
+router.patch('/:id',           updateBookingStatus);
 
 module.exports = router;

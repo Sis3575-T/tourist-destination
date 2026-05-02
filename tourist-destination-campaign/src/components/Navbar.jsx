@@ -16,6 +16,7 @@ const Navbar = ({ currentPage, setCurrentPage, language, setLanguage, currency, 
     { name: 'Destinations', page: 'explorer' },
     { name: 'Smart Match', page: 'recommendations' },
     { name: 'Dashboard', page: 'dashboard' },
+    { name: 'Contact', page: 'contact' },
   ]
 
   const languages = ['EN', 'FR', 'ES', 'AR']

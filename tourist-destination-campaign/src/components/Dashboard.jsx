@@ -182,6 +182,17 @@ const Dashboard = ({ destinations = [], setCurrentPage, apiBase, userId }) => {
                         </div>
                       </div>
 
+                      {/* Admin Response */}
+                      {(booking.adminNote || booking.rejectionReason) && (
+                        <div className={`mt-4 rounded-2xl p-4 border text-sm ${booking.status === 'confirmed' ? 'bg-green-50 border-green-100' : 'bg-red-50 border-red-100'}`}>
+                          <p className={`text-xs font-black uppercase tracking-wider mb-1 ${booking.status === 'confirmed' ? 'text-green-600' : 'text-red-600'}`}>
+                            Admin Response
+                          </p>
+                          {booking.adminNote && <p className="text-gray-700">{booking.adminNote}</p>}
+                          {booking.rejectionReason && <p className="text-red-600 font-medium">Reason: {booking.rejectionReason}</p>}
+                        </div>
+                      )}
+
                       {/* Actions */}
                       <div className="flex gap-3 mt-6 pt-5 border-t border-gray-100">
                         <span className={`text-xs font-bold px-3 py-1.5 rounded-full border ${statusStyles[booking.status] || statusStyles.pending}`}>
@@ -200,6 +211,12 @@ const Dashboard = ({ destinations = [], setCurrentPage, apiBase, userId }) => {
                             Cancel Booking
                           </button>
                         )}
+                        <button
+                          onClick={() => setCurrentPage('contact')}
+                          className="text-xs text-[#2d3e23] border border-gray-200 px-3 py-1.5 rounded-full hover:bg-gray-50 transition-colors font-bold"
+                        >
+                          Contact Support
+                        </button>
                         <button
                           onClick={() => setCurrentPage('explorer')}
                           className="text-xs text-[#2d3e23] border border-gray-200 px-3 py-1.5 rounded-full hover:bg-gray-50 transition-colors font-bold ml-auto"

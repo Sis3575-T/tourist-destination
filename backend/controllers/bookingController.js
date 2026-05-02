@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const Booking = require('../models/Booking');
 
-// @desc    Get all bookings
+// @desc    Get all bookings (admin)
 // @route   GET /api/bookings
 exports.getBookings = async (req, res) => {
   try {
     const bookings = await Booking.find()
-      .populate('destinationId', 'name location image')
+      .populate('destinationId', 'name location image price')
       .sort({ createdAt: -1 });
     res.json(bookings);
   } catch (err) {
@@ -31,65 +31,78 @@ exports.getUserBookings = async (req, res) => {
 exports.createBooking = async (req, res) => {
   try {
     const {
-      userId,
-      destinationId,
-      date,
-      travelers,
-      name,
-      email,
-      phone,
-      nationality,
-      specialRequests,
-      paymentMethod,
-      paymentProof,
-      totalAmount,
-      destinationPreview,
-      servicePreview,
+      userId, destinationId, date, travelers,
+      name, email, phone, nationality, specialRequests,
+      paymentMethod, paymentProof, totalAmount,
+      destinationPreview, servicePreview,
     } = req.body;
 
-    // Validate ObjectIds
-    if (userId && !mongoose.Types.ObjectId.isValid(userId)) {
+    if (userId && !mongoose.Types.ObjectId.isValid(userId))
       return res.status(400).json({ message: 'Invalid User ID format' });
-    }
-    if (!destinationId || !mongoose.Types.ObjectId.isValid(destinationId)) {
+    if (!destinationId || !mongoose.Types.ObjectId.isValid(destinationId))
       return res.status(400).json({ message: 'Invalid or missing Destination ID' });
-    }
-    if (!date) return res.status(400).json({ message: 'Travel date is required' });
+    if (!date)  return res.status(400).json({ message: 'Travel date is required' });
     if (!name)  return res.status(400).json({ message: 'Traveler name is required' });
     if (!email) return res.status(400).json({ message: 'Email is required' });
     if (!phone) return res.status(400).json({ message: 'Phone is required' });
 
     const booking = await Booking.create({
       userId: (userId && mongoose.Types.ObjectId.isValid(userId))
-        ? userId
-        : new mongoose.Types.ObjectId(),
+        ? userId : new mongoose.Types.ObjectId(),
       destinationId,
       date,
-      travelers: Number(travelers) || 1,
+      travelers:       Number(travelers) || 1,
       name,
       email,
       phone,
-      nationality: nationality || '',
+      nationality:     nationality || '',
       specialRequests: specialRequests || '',
-      paymentMethod: paymentMethod || '',
-      paymentProof: paymentProof || '',
-      totalAmount: Number(totalAmount) || 0,
+      paymentMethod:   paymentMethod || '',
+      paymentProof:    paymentProof || '',
+      totalAmount:     Number(totalAmount) || 0,
       destinationPreview: destinationPreview || {},
-      servicePreview: servicePreview || {},
+      servicePreview:     servicePreview || {},
       status: 'pending',
     });
 
     res.status(201).json(booking);
   } catch (err) {
     console.error('Booking Creation Error:', err);
-    res.status(500).json({
-      message: 'Booking failed',
-      error: err.message,
-    });
+    res.status(500).json({ message: 'Booking failed', error: err.message });
   }
 };
 
-// @desc    Update booking status
+// @desc    Admin: approve or reject a booking
+// @route   PATCH /api/bookings/:id/review
+exports.reviewBooking = async (req, res) => {
+  try {
+    const { action, adminNote, rejectionReason, reviewedBy } = req.body;
+    // action: 'approve' | 'reject'
+    if (!['approve', 'reject'].includes(action))
+      return res.status(400).json({ message: 'action must be approve or reject' });
+
+    const newStatus = action === 'approve' ? 'confirmed' : 'cancelled';
+
+    const booking = await Booking.findByIdAndUpdate(
+      req.params.id,
+      {
+        status: newStatus,
+        adminNote:       adminNote || '',
+        rejectionReason: action === 'reject' ? (rejectionReason || 'Payment not verified') : '',
+        reviewedAt:      new Date(),
+        reviewedBy:      reviewedBy || 'Admin',
+      },
+      { new: true }
+    );
+
+    if (!booking) return res.status(404).json({ message: 'Booking not found' });
+    res.json(booking);
+  } catch (err) {
+    res.status(500).json({ message: 'Server Error', error: err.message });
+  }
+};
+
+// @desc    Update booking status (general)
 // @route   PATCH /api/bookings/:id
 exports.updateBookingStatus = async (req, res) => {
   try {

@@ -33,8 +33,14 @@ const bookingSchema = new mongoose.Schema({
 
   // Payment
   paymentMethod: { type: String, default: '' },
-  paymentProof: { type: String, default: '' },
-  totalAmount: { type: Number, default: 0 },
+  paymentProof:  { type: String, default: '' },
+  totalAmount:   { type: Number, default: 0 },
+
+  // Admin review
+  adminNote:        { type: String, default: '' },
+  rejectionReason:  { type: String, default: '' },
+  reviewedAt:       { type: Date },
+  reviewedBy:       { type: String, default: '' },
 
   // Destination snapshot (so data is preserved even if destination changes)
   destinationPreview: {

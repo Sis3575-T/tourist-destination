@@ -18,6 +18,8 @@ import BlogDetail from './components/BlogDetail'
 import ReviewsPage from './components/ReviewsPage'
 import Booking from './components/Booking'
 import Dashboard from './components/Dashboard'
+import AdminPanel from './components/AdminPanel'
+import ContactForm from './components/ContactForm'
 import Footer from './components/Footer'
 import { API_BASE } from './api'
 
@@ -145,28 +147,37 @@ function App() {
             userId={demoUserId}
           />
         )
+      case 'contact':
+        return <ContactForm setCurrentPage={setCurrentPage} />
+      case 'admin':
+        return <AdminPanel apiBase={API_BASE} setCurrentPage={setCurrentPage} />
       default:
         return null
     }
   }
 
+  // Hide navbar/footer on admin page
+  const isAdmin = currentPage === 'admin'
+
   return (
     <div className="min-h-screen bg-white text-slate-900">
-      <Navbar
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        language={language}
-        setLanguage={setLanguage}
-        currency={currency}
-        setCurrency={setCurrency}
-      />
+      {!isAdmin && (
+        <Navbar
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          language={language}
+          setLanguage={setLanguage}
+          currency={currency}
+          setCurrency={setCurrency}
+        />
+      )}
       {loadError && (
         <div className="bg-amber-50 border-b border-amber-200 text-amber-900 text-center py-3 px-4 text-sm font-medium">
           ⚠️ {loadError}
         </div>
       )}
       <main>{renderPage()}</main>
-      <Footer setCurrentPage={setCurrentPage} />
+      {!isAdmin && <Footer setCurrentPage={setCurrentPage} />}
     </div>
   )
 }

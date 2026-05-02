@@ -42,6 +42,7 @@ app.use('/api/demo',         require('./routes/demo'));
 app.use('/api/blogs',        require('./routes/blogs'));
 app.use('/api/reviews',      require('./routes/reviews'));
 app.use('/api/fleet',        require('./routes/fleet'));
+app.use('/api/messages',     require('./routes/messages'));
 
 // Auto-seed empty collections on first startup
 async function autoSeed() {

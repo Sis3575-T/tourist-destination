@@ -142,6 +142,8 @@ const Footer = ({ setCurrentPage, user }) => {
             © 2026 ETHIO TOUR EXPERIENCE. ALL RIGHTS RESERVED.
           </p>
           <div className="flex gap-8">
+            <button className="text-gray-500 hover:text-white text-xs transition-colors" onClick={() => setCurrentPage('contact')}>Contact Us</button>
+            <button className="text-gray-500 hover:text-white text-xs transition-colors" onClick={() => setCurrentPage('admin')}>Admin</button>
             <button className="text-gray-500 hover:text-white text-xs transition-colors">Privacy Policy</button>
             <button className="text-gray-500 hover:text-white text-xs transition-colors">Terms of Service</button>
           </div>
