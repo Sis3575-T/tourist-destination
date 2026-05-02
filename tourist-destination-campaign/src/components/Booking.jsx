@@ -7,7 +7,7 @@ const currencySymbols = { USD: '$', EUR: '€', GBP: '£', ETB: 'Br' }
 
 const paymentMethods = [
   { id: 'telebirr', name: 'Telebirr', icon: '📱', desc: 'Mobile money transfer', account: '+251 935 756 054', holder: 'Sisay Temesgen' },
-  { id: 'chapa', name: 'Chapa', icon: '💳', desc: 'Secure online payment', account: 'Redirected after submit', holder: 'EthioTour' },
+  { id: 'chapa', name: 'Chapa', icon: '💳', desc: 'Secure online payment', account: 'Redirected after submit', holder: 'Ethiopian Tourist Destination' },
   { id: 'cbebirr', name: 'CBE Birr', icon: '🏦', desc: 'Commercial Bank of Ethiopia', account: 'Merchant: 847560', holder: 'Ethiopian Tourist Dest.' },
   { id: 'bank', name: 'Bank Transfer', icon: '🌍', desc: 'International wire transfer', account: 'CBE: 1000345678912', holder: 'Ethiopian Tourist Dest.' },
 ]

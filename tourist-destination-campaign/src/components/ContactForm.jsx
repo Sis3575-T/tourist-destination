@@ -128,8 +128,8 @@ const ContactForm = ({ setCurrentPage, bookingId = null, prefillEmail = '' }) =>
             {/* Check Replies */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
               className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
-              <h3 className="text-lg font-black text-[#2d3e23] mb-2">Check Admin Replies</h3>
-              <p className="text-gray-400 text-sm mb-5 font-light">Enter your email to see if we've responded to your messages.</p>
+              <h3 className="text-lg font-black text-[#2d3e23] mb-2">Check Replies</h3>
+              <p className="text-gray-400 text-sm mb-5 font-light">Enter your email to see if Ethiopian Tourist Destination has responded to your messages.</p>
               <form onSubmit={checkReplies} className="flex gap-3 mb-5">
                 <input type="email" required value={myEmail} onChange={e => setMyEmail(e.target.value)}
                   placeholder="your@email.com"

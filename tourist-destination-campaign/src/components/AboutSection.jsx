@@ -90,7 +90,7 @@ const AboutSection = ({ setCurrentPage }) => {
             transition={{ duration: 0.7 }}
           >
             <span className="text-[#d4af37] text-xs font-black uppercase tracking-[0.3em] mb-4 block">
-              About EthioTour
+              About Ethiopian Tourist Destination
             </span>
             <h2 className="text-4xl sm:text-5xl font-black text-[#2d3e23] leading-tight mb-6">
               Your Gateway to the<br />

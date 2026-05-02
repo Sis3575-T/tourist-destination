@@ -42,7 +42,7 @@ const Navbar = ({ currentPage, setCurrentPage, language, setLanguage, currency, 
               </svg>
             </div>
             <span className={`text-lg font-black uppercase tracking-tight ${isScrolled ? 'text-[#2d3e23]' : 'text-white'}`}>
-              Ethio<span className="text-[#d4af37]">Tour</span>
+              Ethiopian<span className="text-[#d4af37]"> Tourist</span>
             </span>
           </button>
 

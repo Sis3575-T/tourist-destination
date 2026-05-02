@@ -33,7 +33,7 @@ const Footer = ({ setCurrentPage, user }) => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-black uppercase tracking-tighter">Ethio<span className="text-[#d4af37]">Tour</span></h3>
+              <h3 className="text-xl font-black uppercase tracking-tighter">Ethiopian<span className="text-[#d4af37]"> Tourist Destination</span></h3>
             </div>
             <p className="text-gray-400 font-light leading-relaxed mb-8">
               Crafting unforgettable premium journeys through the ancient landscapes and vibrant cultures of the Horn of Africa.
@@ -139,7 +139,7 @@ const Footer = ({ setCurrentPage, user }) => {
 
         <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-gray-500 text-xs font-medium tracking-wide">
-            © 2026 ETHIO TOUR EXPERIENCE. ALL RIGHTS RESERVED.
+            © 2026 ETHIOPIAN TOURIST DESTINATION. ALL RIGHTS RESERVED.
           </p>
           <div className="flex gap-8">
             <button className="text-gray-500 hover:text-white text-xs transition-colors" onClick={() => setCurrentPage('contact')}>Contact Us</button>

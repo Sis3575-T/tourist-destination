@@ -72,7 +72,7 @@ const Login = ({ onLogin, setCurrentPage, apiBase }) => {
               {isLogin ? 'Sign In' : 'Create Account'}
             </h2>
             <p className="text-gray-500 font-medium">
-              {isLogin ? 'Welcome back to EthioTour' : 'Start your journey with us today'}
+              {isLogin ? 'Welcome back to Ethiopian Tourist Destination' : 'Start your journey with us today'}
             </p>
           </div>
 

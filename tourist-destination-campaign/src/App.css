@@ -121,3 +121,403 @@ body {
 @media (max-width: 640px) {
   .hide-mobile { display: none !important; }
 }
+
+/* ============================================
+   SHIMMER LOADING ANIMATION
+   ============================================ */
+@keyframes shimmer {
+  0%   { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 1.8s infinite linear;
+}
+
+/* ============================================
+   PREMIUM TABLE STYLES
+   ============================================ */
+.premium-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.premium-table thead th {
+  background: #f8f7f4;
+  color: #2d3e23;
+  font-weight: 800;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 14px 16px;
+  border-bottom: 2px solid #e5e7eb;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.premium-table thead th:first-child { border-radius: 12px 0 0 0; }
+.premium-table thead th:last-child  { border-radius: 0 12px 0 0; }
+
+.premium-table tbody tr {
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
+}
+
+.premium-table tbody tr:hover {
+  background: #fffbf0;
+  box-shadow: inset 3px 0 0 #d4af37;
+}
+
+.premium-table tbody tr.row-expanded {
+  background: #fffbf0;
+  box-shadow: inset 3px 0 0 #2d3e23;
+}
+
+.premium-table tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 0.85rem;
+  color: #374151;
+  vertical-align: middle;
+}
+
+.premium-table tbody tr:last-child td { border-bottom: none; }
+
+/* Sortable column header */
+.sort-header {
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s;
+}
+.sort-header:hover { color: #d4af37; }
+.sort-header.active { color: #d4af37; }
+
+/* ============================================
+   RESPONSIVE TABLE WRAPPER
+   ============================================ */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  background: white;
+}
+
+.table-wrapper::-webkit-scrollbar { height: 4px; }
+.table-wrapper::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 2px; }
+
+/* ============================================
+   FLOATING LABEL INPUTS
+   ============================================ */
+.float-label-group {
+  position: relative;
+}
+
+.float-label-group input,
+.float-label-group textarea,
+.float-label-group select {
+  width: 100%;
+  padding: 22px 16px 8px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  background: white;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.float-label-group input:focus,
+.float-label-group textarea:focus,
+.float-label-group select:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.12);
+}
+
+.float-label-group label {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  color: #9ca3af;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  background: white;
+  padding: 0 4px;
+}
+
+.float-label-group input:focus + label,
+.float-label-group input:not(:placeholder-shown) + label,
+.float-label-group textarea:focus + label,
+.float-label-group textarea:not(:placeholder-shown) + label,
+.float-label-group select:focus + label {
+  top: 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #d4af37;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.float-label-group textarea + label {
+  top: 22px;
+  transform: none;
+}
+
+.float-label-group textarea:focus + label,
+.float-label-group textarea:not(:placeholder-shown) + label {
+  top: 0;
+  transform: none;
+}
+
+/* ============================================
+   CONVERSATION THREAD STYLES
+   ============================================ */
+.thread-bubble-user {
+  background: #f8f7f4;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px 18px 18px 4px;
+  padding: 14px 18px;
+  max-width: 85%;
+}
+
+.thread-bubble-admin {
+  background: linear-gradient(135deg, #2d3e23, #3d5230);
+  color: white;
+  border-radius: 18px 18px 4px 18px;
+  padding: 14px 18px;
+  max-width: 85%;
+  margin-left: auto;
+}
+
+/* ============================================
+   MASONRY GRID (Reviews)
+   ============================================ */
+.masonry-grid {
+  columns: 1;
+  column-gap: 24px;
+}
+
+@media (min-width: 640px) {
+  .masonry-grid { columns: 2; }
+}
+
+@media (min-width: 1024px) {
+  .masonry-grid { columns: 3; }
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 24px;
+}
+
+/* ============================================
+   GOLD GRADIENT TEXT
+   ============================================ */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #d4af37, #f1d38a, #d4af37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   PREMIUM STAT CARD
+   ============================================ */
+.stat-card-glow {
+  box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.15), 0 8px 32px rgba(45, 62, 35, 0.08);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.stat-card-glow:hover {
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3), 0 16px 48px rgba(45, 62, 35, 0.12);
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   TRIP TIMELINE
+   ============================================ */
+.timeline-line {
+  position: absolute;
+  left: 19px;
+  top: 40px;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #d4af37, #e5e7eb);
+}
+
+.timeline-dot {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+   PRINT STYLES — Booking Receipt
+   ============================================ */
+@media print {
+  body * { visibility: hidden; }
+  .print-receipt, .print-receipt * { visibility: visible; }
+  .print-receipt {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 40px;
+    font-family: 'Inter', sans-serif;
+  }
+  .no-print { display: none !important; }
+  .print-receipt .print-header {
+    border-bottom: 3px solid #2d3e23;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+  }
+  .print-receipt table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .print-receipt table th,
+  .print-receipt table td {
+    border: 1px solid #e5e7eb;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 12px;
+  }
+  .print-receipt table th {
+    background: #f8f7f4;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+/* ============================================
+   ANIMATED GRADIENT BORDER
+   ============================================ */
+@keyframes borderRotate {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.gradient-border {
+  background: linear-gradient(270deg, #2d3e23, #d4af37, #2d3e23);
+  background-size: 400% 400%;
+  animation: borderRotate 4s ease infinite;
+  padding: 2px;
+  border-radius: 16px;
+}
+
+.gradient-border-inner {
+  background: white;
+  border-radius: 14px;
+  height: 100%;
+}
+
+/* ============================================
+   INBOX STYLE MESSAGES
+   ============================================ */
+.inbox-row {
+  transition: background 0.15s ease;
+  border-left: 3px solid transparent;
+}
+.inbox-row:hover {
+  background: #fffbf0;
+  border-left-color: #d4af37;
+}
+.inbox-row.unread {
+  background: #fefce8;
+  border-left-color: #d4af37;
+  font-weight: 700;
+}
+.inbox-row.replied {
+  border-left-color: #16a34a;
+}
+
+/* ============================================
+   REVENUE CARD GRADIENT
+   ============================================ */
+.revenue-card-green {
+  background: linear-gradient(135deg, #2d3e23 0%, #3d5230 100%);
+}
+.revenue-card-gold {
+  background: linear-gradient(135deg, #d4af37 0%, #f1d38a 100%);
+}
+.revenue-card-blue {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+}
+.revenue-card-orange {
+  background: linear-gradient(135deg, #c2410c 0%, #f97316 100%);
+}
+
+/* ============================================
+   SEARCH INPUT PREMIUM
+   ============================================ */
+.search-input-premium {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 10px 16px 10px 44px;
+  font-size: 0.875rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  width: 100%;
+}
+.search-input-premium:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.12);
+}
+
+/* ============================================
+   VERIFIED BADGE SHIMMER
+   ============================================ */
+@keyframes verifiedShimmer {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+.verified-badge {
+  animation: verifiedShimmer 2.5s ease-in-out infinite;
+}
+
+/* ============================================
+   HELPFUL VOTE BUTTON
+   ============================================ */
+.helpful-btn {
+  transition: all 0.2s ease;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+  background: white;
+  cursor: pointer;
+}
+.helpful-btn:hover {
+  border-color: #d4af37;
+  color: #d4af37;
+  background: #fffbf0;
+}
+.helpful-btn.voted {
+  border-color: #2d3e23;
+  color: #2d3e23;
+  background: #f0f4ed;
+}
