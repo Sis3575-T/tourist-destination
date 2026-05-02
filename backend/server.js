@@ -11,18 +11,18 @@ dns.setServers(['8.8.8.8', '8.8.4.4']);
 const app = express();
 const PORT = process.env.PORT || 6005;
 
-// CORS — allow frontend origins
-const allowedOrigins = [
-  'https://tourist-destination-2.onrender.com',
-  'https://tourist-destination-3.onrender.com',
-  'https://tourist-destination-4.onrender.com',
-  process.env.CLIENT_URL,
-].filter(Boolean);
-
+// CORS — accept all onrender.com origins + any configured CLIENT_URL
 app.use(cors({
   origin: (origin, callback) => {
+    // Allow requests with no origin (mobile, curl, server-to-server)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) return callback(null, true);
+    // Allow any onrender.com subdomain
+    if (origin.endsWith('.onrender.com')) return callback(null, true);
+    // Allow localhost for development
+    if (origin.startsWith('http://localhost')) return callback(null, true);
+    // Allow configured CLIENT_URL
+    if (process.env.CLIENT_URL && origin === process.env.CLIENT_URL) return callback(null, true);
+    // Block everything else
     callback(new Error(`CORS blocked: ${origin}`));
   },
   credentials: true,

@@ -10,7 +10,7 @@ services:
       - key: MONGODB_URI
         sync: false
       - key: CLIENT_URL
-        value: https://tourist-destination-2.onrender.com
+        value: https://tourist-destination-3.onrender.com
       - key: PORT
         value: 6005
 
