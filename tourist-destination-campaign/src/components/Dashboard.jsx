@@ -6,7 +6,15 @@ const statusStyles = {
   pending:   { pill: 'bg-yellow-100 text-yellow-800 border-yellow-200', icon: '⏳', label: 'Awaiting Review' },
   confirmed: { pill: 'bg-green-100 text-green-800 border-green-200',   icon: '✅', label: 'Confirmed' },
   completed: { pill: 'bg-blue-100 text-blue-800 border-blue-200',      icon: '🏁', label: 'Completed' },
-  cancelled: { pill: 'bg-red-100 text-red-800 border-red-200',         icon: '❌', label: 'Rejected' },
+  cancelled: { pill: 'bg-red-100 text-red-800 border-red-200',         icon: '❌', label: 'Cancelled' },
+}
+
+// Distinguish admin-rejected vs traveler-cancelled
+const getStatusStyle = (booking) => {
+  if (booking.status === 'cancelled' && booking.reviewedBy === 'Admin') {
+    return { pill: 'bg-red-100 text-red-800 border-red-200', icon: '❌', label: 'Rejected by Admin' }
+  }
+  return statusStyles[booking.status] || statusStyles.pending
 }
 
 const Dashboard = ({ destinations = [], setCurrentPage, apiBase, userId, user, onLogout }) => {
@@ -119,9 +127,9 @@ const Dashboard = ({ destinations = [], setCurrentPage, apiBase, userId, user, o
           ))}
         </div>
 
-        {/* ── ADMIN RESPONSE BANNERS ── */}
+        {/* ── ADMIN RESPONSE BANNERS — only show when admin has reviewed ── */}
         <AnimatePresence>
-          {notifications.map(b => {
+          {bookings.filter(b => b.reviewedBy === 'Admin' && (b.adminNote || b.rejectionReason || b.status === 'confirmed')).map(b => {
             const dest = resolveDest(b)
             const isConfirmed = b.status === 'confirmed'
             return (
@@ -214,7 +222,7 @@ const Dashboard = ({ destinations = [], setCurrentPage, apiBase, userId, user, o
                 {bookings.map((booking, idx) => {
                   const dest = resolveDest(booking)
                   const svc  = booking.servicePreview
-                  const st   = statusStyles[booking.status] || statusStyles.pending
+                  const st   = getStatusStyle(booking)
                   const isOpen = expanded === booking._id
 
                   return (
@@ -299,11 +307,14 @@ const Dashboard = ({ destinations = [], setCurrentPage, apiBase, userId, user, o
                                 }`}>
                                   <p className={`text-xs font-black uppercase tracking-wider mb-2 ${
                                     booking.status === 'confirmed' ? 'text-green-700' :
-                                    booking.status === 'cancelled' ? 'text-red-700' : 'text-yellow-700'
+                                    booking.status === 'cancelled' && booking.reviewedBy === 'Admin' ? 'text-red-700' :
+                                    booking.status === 'cancelled' ? 'text-gray-500' : 'text-yellow-700'
                                   }`}>
                                     {booking.status === 'pending' ? '⏳ Awaiting Admin Review' :
                                      booking.status === 'confirmed' ? '✅ Admin Confirmed Your Booking' :
-                                     '❌ Admin Rejected Your Booking'}
+                                     booking.status === 'cancelled' && booking.reviewedBy === 'Admin' ? '❌ Admin Rejected Your Booking' :
+                                     booking.status === 'cancelled' ? '🚫 You Cancelled This Booking' :
+                                     '🏁 Completed'}
                                   </p>
                                   {booking.status === 'pending' && (
                                     <p className="text-sm text-yellow-700 font-light">
