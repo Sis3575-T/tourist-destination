@@ -129,5 +129,6 @@ if (fs.existsSync(spaIndex)) {
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
-  console.log(`✅ Routes: bookings (review), messages (reply), fleet, reviews — v${new Date().toISOString()}`);
+  console.log(`📧 Email: ${process.env.RESEND_API_KEY ? 'Resend ✅' : process.env.EMAIL_PASS ? 'Gmail ✅' : '⚠️ NOT CONFIGURED'}`);
+  console.log(`✅ v2.0 — CORS open, 20mb limit, test-email endpoint active`);
 });
