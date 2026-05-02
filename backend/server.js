@@ -60,18 +60,22 @@ app.use('/api/messages',     require('./routes/messages'));
 
 // Test email endpoint — GET /api/test-email?to=someone@gmail.com
 app.get('/api/test-email', async (req, res) => {
-  const { sendBookingConfirmation } = require('./utils/emailService');
-  const to = req.query.to || 'sisay3575@gmail.com';
-  await sendBookingConfirmation({
-    to,
-    name: 'Test Traveler',
-    destination: 'Lalibela Rock-Hewn Churches',
-    ref: 'TEST001',
-    status: 'confirmed',
-    adminNote: 'This is a test email from EthioTour.',
-    rejectionReason: '',
-  });
-  res.json({ message: `Test email attempted to ${to}. Check server logs.` });
+  try {
+    const { sendBookingConfirmation } = require('./utils/emailService');
+    const to = req.query.to || 'sisay3575@gmail.com';
+    await sendBookingConfirmation({
+      to,
+      name: 'Test Traveler',
+      destination: 'Lalibela Rock-Hewn Churches',
+      ref: 'TEST001',
+      status: 'confirmed',
+      adminNote: 'This is a test email from EthioTour.',
+      rejectionReason: '',
+    });
+    res.json({ success: true, message: `Email sent to ${to}` });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 // Auto-seed empty collections on first startup
