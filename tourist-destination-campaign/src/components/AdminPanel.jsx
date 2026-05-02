@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import axios from 'axios'
 
-const ADMIN_PASSWORD = 'ethiotour2024'
+const ADMIN_USERNAME = 'sisay'
+const ADMIN_PASSWORD = 'Sis3575@'
 
 const statusStyles = {
   pending:   'bg-yellow-100 text-yellow-800 border-yellow-200',
@@ -19,6 +20,7 @@ const msgStatusStyles = {
 
 const AdminPanel = ({ apiBase, setCurrentPage }) => {
   const [authed, setAuthed]       = useState(false)
+  const [username, setUsername]   = useState('')
   const [password, setPassword]   = useState('')
   const [pwError, setPwError]     = useState('')
   const [tab, setTab]             = useState('bookings')
@@ -59,8 +61,11 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
 
   const handleLogin = (e) => {
     e.preventDefault()
-    if (password === ADMIN_PASSWORD) { setAuthed(true); setPwError('') }
-    else setPwError('Incorrect password')
+    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+      setAuthed(true); setPwError('')
+    } else {
+      setPwError('Incorrect username or password')
+    }
   }
 
   // Booking review
@@ -132,12 +137,22 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
           </div>
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Admin Password</label>
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Username</label>
+              <input
+                type="text"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+                placeholder="Enter username"
+                className="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#d4af37] text-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Password</label>
               <input
                 type="password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                placeholder="Enter admin password"
+                placeholder="Enter password"
                 className="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#d4af37] text-sm"
               />
               {pwError && <p className="text-red-500 text-xs mt-1">{pwError}</p>}
