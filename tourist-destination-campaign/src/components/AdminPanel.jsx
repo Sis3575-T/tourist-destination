@@ -22,6 +22,7 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
   const [password, setPassword]   = useState('')
   const [pwError, setPwError]     = useState('')
   const [tab, setTab]             = useState('bookings')
+  const [toast, setToast]         = useState('')
 
   // Bookings state
   const [bookings, setBookings]   = useState([])
@@ -45,6 +46,17 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
     axios.get(`${apiBase}/messages`).then(r => { setMessages(r.data); setMLoading(false) }).catch(() => setMLoading(false))
   }, [authed, apiBase])
 
+  const refreshData = () => {
+    setBLoading(true); setMLoading(true)
+    axios.get(`${apiBase}/bookings`).then(r => { setBookings(r.data); setBLoading(false) }).catch(() => setBLoading(false))
+    axios.get(`${apiBase}/messages`).then(r => { setMessages(r.data); setMLoading(false) }).catch(() => setMLoading(false))
+  }
+
+  const showToast = (msg) => {
+    setToast(msg)
+    setTimeout(() => setToast(''), 3000)
+  }
+
   const handleLogin = (e) => {
     e.preventDefault()
     if (password === ADMIN_PASSWORD) { setAuthed(true); setPwError('') }
@@ -64,6 +76,7 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
       })
       setBookings(prev => prev.map(b => b._id === bookingId ? data : b))
       setExpandedB(null)
+      showToast(action === 'approve' ? '✅ Booking confirmed successfully!' : '❌ Booking rejected.')
     } catch (err) {
       alert(err.response?.data?.message || 'Failed to update booking')
     } finally {
@@ -80,6 +93,7 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
       const { data } = await axios.patch(`${apiBase}/messages/${msgId}/reply`, { adminReply: reply })
       setMessages(prev => prev.map(m => m._id === msgId ? data : m))
       setExpandedM(null)
+      showToast('✅ Reply sent to traveler!')
     } catch {
       alert('Failed to send reply')
     } finally {
@@ -146,6 +160,20 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
     <div className="min-h-screen bg-[#f8f7f4] pt-6 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
+        {/* Toast */}
+        <AnimatePresence>
+          {toast && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-[#2d3e23] text-white px-8 py-4 rounded-2xl shadow-2xl font-bold text-sm"
+            >
+              {toast}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -153,6 +181,13 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
             <p className="text-gray-400 text-sm">EthioTour Management Dashboard</p>
           </div>
           <div className="flex items-center gap-3">
+            <button onClick={refreshData}
+              className="text-sm text-[#2d3e23] border border-gray-200 bg-white px-4 py-2 rounded-xl transition-all hover:bg-gray-50 flex items-center gap-2">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+              </svg>
+              Refresh
+            </button>
             <button onClick={() => setCurrentPage('home')}
               className="text-sm text-gray-400 hover:text-[#2d3e23] border border-gray-200 px-4 py-2 rounded-xl transition-all">
               ← Back to Site

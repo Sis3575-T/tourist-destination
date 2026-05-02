@@ -60,6 +60,45 @@ const Dashboard = ({ destinations = [], setCurrentPage, apiBase, userId }) => {
           </div>
         )}
 
+        {/* Admin Response Notifications */}
+        {bookings.some(b => b.adminNote || b.rejectionReason) && (
+          <div className="mb-8 space-y-3">
+            {bookings.filter(b => b.adminNote || b.rejectionReason).map(b => {
+              const dest = resolveDest(b)
+              return (
+                <motion.div
+                  key={b._id}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className={`flex items-start gap-4 p-4 rounded-2xl border ${
+                    b.status === 'confirmed'
+                      ? 'bg-green-50 border-green-200'
+                      : 'bg-red-50 border-red-200'
+                  }`}
+                >
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
+                    b.status === 'confirmed' ? 'bg-green-500' : 'bg-red-500'
+                  }`}>
+                    {b.status === 'confirmed'
+                      ? <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7"/></svg>
+                      : <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+                    }
+                  </div>
+                  <div className="flex-1">
+                    <p className={`font-black text-sm ${b.status === 'confirmed' ? 'text-green-800' : 'text-red-800'}`}>
+                      {b.status === 'confirmed' ? '✅ Booking Confirmed!' : '❌ Booking Rejected'}
+                      {' — '}{dest.name}
+                    </p>
+                    {b.adminNote && <p className="text-sm text-gray-600 mt-0.5">{b.adminNote}</p>}
+                    {b.rejectionReason && <p className="text-sm text-red-600 mt-0.5">Reason: {b.rejectionReason}</p>}
+                    <p className="text-xs text-gray-400 mt-1">Ref: {b._id?.slice(-8).toUpperCase()}</p>
+                  </div>
+                </motion.div>
+              )
+            })}
+          </div>
+        )}
+
         {/* Loading / Error */}
         {loading && (
           <div className="space-y-4">
