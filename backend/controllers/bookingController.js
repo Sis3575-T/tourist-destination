@@ -59,6 +59,8 @@ exports.createBooking = async (req, res) => {
       specialRequests: specialRequests || '',
       paymentMethod:   paymentMethod || '',
       paymentProof:    paymentProof || '',
+      paymentProofData: paymentProofData || '',
+      paymentProofType: paymentProofType || '',
       totalAmount:     Number(totalAmount) || 0,
       destinationPreview: destinationPreview || {},
       servicePreview:     servicePreview || {},

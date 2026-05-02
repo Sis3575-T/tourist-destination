@@ -32,9 +32,11 @@ const bookingSchema = new mongoose.Schema({
   specialRequests: { type: String, default: '' },
 
   // Payment
-  paymentMethod: { type: String, default: '' },
-  paymentProof:  { type: String, default: '' },
-  totalAmount:   { type: Number, default: 0 },
+  paymentMethod:    { type: String, default: '' },
+  paymentProof:     { type: String, default: '' },   // filename (legacy)
+  paymentProofData: { type: String, default: '' },   // base64 image data
+  paymentProofType: { type: String, default: '' },   // mime type e.g. image/jpeg
+  totalAmount:      { type: Number, default: 0 },
 
   // Admin review
   adminNote:        { type: String, default: '' },
