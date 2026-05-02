@@ -35,6 +35,18 @@ mongoose.connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 10000 })
   .then(() => console.log('✅ MongoDB connected'))
   .catch(err => console.error('❌ MongoDB connection failed:', err));
 
+// Health check — shows connection status
+app.get('/api/health', async (req, res) => {
+  const mongoState = ['disconnected','connected','connecting','disconnecting']
+  res.json({
+    status: 'ok',
+    mongo: mongoState[mongoose.connection.readyState] || 'unknown',
+    mongoUri: process.env.MONGODB_URI ? process.env.MONGODB_URI.replace(/:([^@]+)@/, ':***@') : 'NOT SET',
+    email: process.env.EMAIL_PASS ? 'configured' : 'not configured',
+    time: new Date().toISOString(),
+  })
+})
+
 // API Routes
 app.use('/api/destinations', require('./routes/destinations'));
 app.use('/api/bookings',     require('./routes/bookings'));
