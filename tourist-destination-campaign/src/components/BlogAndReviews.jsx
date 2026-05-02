@@ -105,9 +105,12 @@ const BlogAndReviews = ({ setCurrentPage, onSelectBlog }) => {
               
               <button 
                 onClick={() => setCurrentPage && setCurrentPage('reviews')}
-                className="w-full mt-6 bg-[#4b5a41] hover:bg-[#3d4a35] text-white font-bold py-2 rounded transition-colors"
+                className="w-full mt-6 bg-[#2d3e23] hover:bg-[#3d4a35] text-white font-black py-3 rounded-2xl transition-colors flex items-center justify-center gap-2"
               >
                 Read All Reviews
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
               </button>
             </div>
           </div>

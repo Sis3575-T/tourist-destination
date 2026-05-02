@@ -51,6 +51,9 @@ async function autoSeed() {
     const Blog        = require('./models/Blog');
     const Review      = require('./models/Review');
 
+    const fleetData   = require('./data/fleet');
+    const reviewData  = require('./data/reviews');
+
     const [dCount, fCount, bCount, rCount] = await Promise.all([
       Destination.countDocuments(),
       Fleet.countDocuments(),
@@ -62,17 +65,24 @@ async function autoSeed() {
       await Destination.insertMany(require('./data/destinations'));
       console.log('✅ Auto-seeded destinations');
     }
-    if (fCount === 0) {
-      await Fleet.insertMany(require('./data/fleet'));
-      console.log('✅ Auto-seeded fleet (3 vehicles)');
+
+    // Always re-seed fleet if count doesn't match (new vehicles added)
+    if (fCount !== fleetData.length) {
+      await Fleet.deleteMany({});
+      await Fleet.insertMany(fleetData);
+      console.log(`✅ Auto-seeded fleet (${fleetData.length} vehicles)`);
     }
+
     if (bCount === 0) {
       await Blog.insertMany(require('./data/blogs'));
       console.log('✅ Auto-seeded blogs');
     }
-    if (rCount === 0) {
-      await Review.insertMany(require('./data/reviews'));
-      console.log('✅ Auto-seeded reviews');
+
+    // Always re-seed reviews if count doesn't match (new reviews added)
+    if (rCount !== reviewData.length) {
+      await Review.deleteMany({});
+      await Review.insertMany(reviewData);
+      console.log(`✅ Auto-seeded reviews (${reviewData.length} reviews)`);
     }
   } catch (err) {
     console.error('Auto-seed error:', err.message);
