@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import fallbackDestinations from '../data/destinations-fallback'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const SmartRecommendations = ({ destinations, onSelectDestination, setCurrentPage, currency }) => {
@@ -31,7 +32,9 @@ const SmartRecommendations = ({ destinations, onSelectDestination, setCurrentPag
 
     // Small delay for UX feedback
     setTimeout(() => {
-      const scoredDestinations = destinations.map(dest => {
+      const sourceList = (Array.isArray(destinations) && destinations.length > 0) ? destinations : fallbackDestinations
+
+      const scoredDestinations = sourceList.map(dest => {
         let score = 0
 
         // 1. Interest / category match (highest priority)
@@ -225,7 +228,7 @@ const SmartRecommendations = ({ destinations, onSelectDestination, setCurrentPag
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                   {recommendations.map((destination, idx) => (
                     <motion.div
-                      key={destination._id}
+                      key={destination._id || destination.name}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.08 }}

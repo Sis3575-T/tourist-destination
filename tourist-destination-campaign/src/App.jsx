@@ -62,8 +62,17 @@ function App() {
     axios.get(`${API_BASE}/destinations`)
       .then(res => setDestinations(Array.isArray(res.data) ? res.data : []))
       .catch(() => {
-        setDestinations([])
-        setLoadError('Unable to load tour data.')
+        // If API is unavailable (local dev or CORS), fall back to bundled sample data
+        try {
+          // dynamic import so bundler doesn't include this unless needed
+          import('./data/destinations-fallback').then(mod => {
+            setDestinations(Array.isArray(mod.default) ? mod.default : [])
+            setLoadError('Using local fallback data (API unavailable)')
+          })
+        } catch (err) {
+          setDestinations([])
+          setLoadError('Unable to load tour data.')
+        }
       })
   }, [])
 

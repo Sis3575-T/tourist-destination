@@ -1,4 +1,4 @@
-const destinationSeedData = [
+const destinations = [
   {
     name: 'Lalibela Rock-Hewn Churches',
     location: 'Lalibela, Ethiopia',
@@ -63,7 +63,7 @@ const destinationSeedData = [
       'Scenic day trips around the iconic Tis Issat falls and nearby cultural landmarks. The Blue Nile Falls, known locally as Tis Abay (Great Smoke), is a stunning waterfall on the Blue Nile river. During the wet season, the falls can reach up to 400 meters wide. The area is lush and green, offering beautiful walks and boat trips on nearby Lake Tana, the source of the Blue Nile.',
     price: 450,
     bestSeason: 'July to October',
-    category: 'Nature Tours',
+    category: 'Camping Tours',
     image: '/destinations/blue_nile_falls.png',
     activities: ['Boat ride', 'Village walk', 'Waterfall viewpoint'],
     duration: '2 days',
@@ -147,7 +147,7 @@ const destinationSeedData = [
       'Visit the lowest point in Africa and Djibouti’s dramatic white salt landscapes. Lake Assal is a crater lake located 155 meters below sea level, surrounded by an alien-looking landscape of volcanic rock and white salt. The water is incredibly saline, creating unique salt formations and a surreal atmosphere. It is one of the most spectacular natural wonders in the Horn of Africa.',
     price: 950,
     bestSeason: 'November to February',
-    category: 'Nature Tours',
+    category: 'Camping Tours',
     image: '/destinations/lake_assal.png',
     activities: ['Geo-tour', 'Salt flats visit', 'Photography'],
     duration: '3 days',
@@ -237,49 +237,6 @@ const destinationSeedData = [
     duration: '6 days',
     distanceFromAddis: 520
   }
-  ,
-  {
-    name: 'Bale Mountains Camping Adventure',
-    location: 'Bale Mountains National Park, Ethiopia',
-    country: 'Ethiopia',
-    description:
-      'A multi-day camping and trekking experience through afro-alpine landscapes, perfect for stargazing and encountering endemic wildlife such as the Ethiopian wolf.',
-    price: 650,
-    bestSeason: 'September to February',
-    category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200',
-    activities: ['Camping', 'Trekking', 'Wildlife watching'],
-    duration: '3 days',
-    distanceFromAddis: 400
-  },
-  {
-    name: 'Lake Tana Camp & Boat Safari',
-    location: 'Lake Tana, Ethiopia',
-    country: 'Ethiopia',
-    description:
-      'Overnight camping on the shores of Lake Tana with guided boat safaris to island monasteries and birdwatching.',
-    price: 480,
-    bestSeason: 'October to May',
-    category: 'Camping Tours',
-    image: '/destinations/lake_tana_camp.jpg',
-    activities: ['Camping', 'Boat trip', 'Birdwatching'],
-    duration: '2 days',
-    distanceFromAddis: 560
-  },
-  {
-    name: 'Omo River Camping & Cultural Stay',
-    location: 'Omo Valley, Ethiopia',
-    country: 'Ethiopia',
-    description:
-      'Riverside camping combined with cultural visits to nearby tribes; simple campsites, local meals and guided village walks.',
-    price: 520,
-    bestSeason: 'June to September',
-    category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200',
-    activities: ['Camping', 'Cultural visits', 'Photography'],
-    duration: '3 days',
-    distanceFromAddis: 600
-  }
 ];
 
-module.exports = destinationSeedData;
+export default destinations;
