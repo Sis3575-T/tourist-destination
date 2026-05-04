@@ -1,10 +1,10 @@
 const destinations = [
   {
-    _id: '507f1f77bcf86cd799439011',
+
     name: 'Lalibela Rock-Hewn Churches',
     location: 'Lalibela, Ethiopia',
     country: 'Ethiopia',
-    description: 'UNESCO World Heritage churches carved from solid rock in the 12th and 13th centuries. Often called the "Eighth Wonder of the World", Lalibela is a holy city in northern Ethiopia known for its distinctive rock-cut churches. These monolithic structures are carved out of a single block of stone, with their roofs at ground level. It remains a major center of pilgrimage for Ethiopian Orthodox Christians.',
+    description: 'UNESCO World Heritage churches carved from solid rock in the 12th and 13th centuries.',
     price: 980,
     bestSeason: 'October to May',
     category: 'Cultural Tours',
@@ -14,25 +14,25 @@ const destinations = [
     distanceFromAddis: 700
   },
   {
-    _id: '507f1f77bcf86cd799439012',
+
     name: 'Simien Mountains Trek',
     location: 'Simien Mountains, Ethiopia',
     country: 'Ethiopia',
-    description: 'Highland trekking route with dramatic escarpments, endemic wildlife and stunning viewpoints. The Simien Mountains National Park is a massive plateau, split by deep gorges and valleys. It is home to the Gelada baboon, the Walia ibex, and the Ethiopian wolf. The trek offers some of the most spectacular mountain scenery in Africa, with peaks reaching over 4,500 meters.',
+    description: 'Highland trekking route with dramatic escarpments and endemic wildlife.',
     price: 1150,
     bestSeason: 'October to March',
     category: 'Adventure Trips',
-    image: 'https://images.unsplash.com/photo-1504387102698-e6e240ffff54?w=1200',
+    image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200',
     activities: ['Multi-day trekking', 'Wildlife watching', 'Camping'],
     duration: '6 days',
     distanceFromAddis: 800
   },
   {
-    _id: '507f1f77bcf86cd799439013',
+
     name: 'Danakil Depression Expedition',
     location: 'Afar, Ethiopia',
     country: 'Ethiopia',
-    description: 'Explore colorful hydrothermal fields, salt flats, and one of the hottest landscapes on Earth. The Danakil Depression is a tectonic triple junction where three plates are pulling apart. It features the Dallol hydrothermal field with its neon-colored acid ponds, the Erta Ale active volcano with its permanent lava lake, and vast salt pans where caravans still mine salt as they have for centuries.',
+    description: 'Explore colorful hydrothermal fields, salt flats, and volcanic landscapes.',
     price: 1350,
     bestSeason: 'November to February',
     category: 'Adventure Trips',
@@ -42,11 +42,11 @@ const destinations = [
     distanceFromAddis: 600
   },
   {
-    _id: '507f1f77bcf86cd799439014',
+
     name: 'Gondar Castles & Fasil Ghebbi',
     location: 'Gondar, Ethiopia',
     country: 'Ethiopia',
-    description: 'Visit Ethiopia\'s royal enclosure and historic castles from the 17th-century imperial era. Known as the "Camelot of Africa", Gondar was the capital of the Ethiopian Empire for two centuries. The Fasil Ghebbi fortress-city contains several well-preserved palaces, a library, a banquet hall, and churches, reflecting a unique blend of African, European, and Indian architectural styles.',
+    description: 'Visit Ethiopia\'s royal enclosure and historic castles from the 17th-century.',
     price: 720,
     bestSeason: 'October to May',
     category: 'Cultural Tours',
@@ -56,11 +56,11 @@ const destinations = [
     distanceFromAddis: 730
   },
   {
-    _id: '507f1f77bcf86cd799439015',
+
     name: 'Blue Nile Falls Escape',
     location: 'Bahir Dar, Ethiopia',
     country: 'Ethiopia',
-    description: 'Scenic day trips around the iconic Tis Issat falls and nearby cultural landmarks. The Blue Nile Falls, known locally as Tis Abay (Great Smoke), is a stunning waterfall on the Blue Nile river. During the wet season, the falls can reach up to 400 meters wide. The area is lush and green, offering beautiful walks and boat trips on nearby Lake Tana, the source of the Blue Nile.',
+    description: 'Scenic day trips around the iconic Tis Issat falls and Lake Tana.',
     price: 450,
     bestSeason: 'July to October',
     category: 'Camping Tours',
@@ -70,25 +70,25 @@ const destinations = [
     distanceFromAddis: 560
   },
   {
-    _id: '507f1f77bcf86cd799439016',
+
     name: 'Axum Historical Route',
     location: 'Axum, Ethiopia',
     country: 'Ethiopia',
-    description: 'Discover ancient obelisks, archaeological treasures, and Ethiopia\'s deep historical legacy. Axum was the center of the powerful Aksumite Empire, which thrived from the 1st to the 7th century AD. It is home to massive monolithic stelae, royal tombs, and the Church of St. Mary of Zion, which is said to house the original Ark of the Covenant.',
+    description: 'Discover ancient obelisks and archaeological treasures of the Aksumite Empire.',
     price: 670,
     bestSeason: 'October to March',
     category: 'Cultural Tours',
-    image: 'https://images.unsplash.com/photo-1470093851219-69951fcbb533?w=1200',
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200',
     activities: ['Archaeological sites', 'Historical museums', 'City tour'],
     duration: '3 days',
     distanceFromAddis: 1000
   },
   {
-    _id: '507f1f77bcf86cd799439017',
+
     name: 'Lido Beach & Mogadishu City Tour',
     location: 'Mogadishu, Somalia',
     country: 'Somalia',
-    description: 'A curated city and coastline experience with local guides and cultural highlights. Mogadishu, the White Pearl of the Indian Ocean, offers a mix of historic architecture and vibrant beach life. Lido Beach is a popular spot for locals and visitors alike, while the old quarter (Hamar Weyne) contains ancient mosques and markets that tell the story of the city\'s rich trading history.',
+    description: 'A curated city and coastline experience with local guides and cultural highlights.',
     price: 890,
     bestSeason: 'November to February',
     category: 'City & Heritage',
@@ -98,11 +98,11 @@ const destinations = [
     distanceFromAddis: 1060
   },
   {
-    _id: '507f1f77bcf86cd799439018',
+
     name: 'Laas Geel Cave Paintings',
     location: 'Hargeisa, Somalia',
     country: 'Somalia',
-    description: 'Prehistoric cave art complex considered one of the most important rock art sites in Africa. Located near Hargeisa, the capital of Somaliland, Laas Geel features incredibly well-preserved rock paintings dating back between 5,000 and 10,000 years. The paintings depict wild animals, cattle, and humans, providing a fascinating glimpse into the lives of the prehistoric pastoralists who lived here.',
+    description: 'Prehistoric cave art complex with paintings dating back 5,000-10,000 years.',
     price: 760,
     bestSeason: 'November to February',
     category: 'Cultural Tours',
@@ -112,39 +112,39 @@ const destinations = [
     distanceFromAddis: 700
   },
   {
-    _id: '507f1f77bcf86cd799439019',
+
     name: 'Berbera Coast Experience',
     location: 'Berbera, Somalia',
     country: 'Somalia',
-    description: 'Relax on the Gulf of Aden coastline and explore Berbera\'s old-town architecture. Berbera is a historic port city with a mix of Ottoman, British, and local architectural styles. The city features pristine sandy beaches and clear waters, while the "Old Quarter" offers a step back in time with its narrow streets and historic buildings.',
+    description: 'Relax on the Gulf of Aden coastline and explore historic architecture.',
     price: 710,
     bestSeason: 'November to March',
     category: 'Coastal & Marine',
-    image: 'https://images.unsplash.com/photo-1552733407-5d5c46c3bb3?w=1200',
+    image: 'https://images.unsplash.com/photo-1493558103817-58b2924bce98?w=1200',
     activities: ['Coastline tour', 'Swimming', 'Photography'],
     duration: '3 days',
     distanceFromAddis: 860
   },
   {
-    _id: '507f1f77bcf86cd799439020',
+
     name: 'Kismayo Marine Weekend',
     location: 'Kismayo, Somalia',
     country: 'Somalia',
-    description: 'A short marine retreat featuring beach activities and local seafood culture. Kismayo is a major port city in southern Somalia, known for its beautiful beaches and rich marine life. This retreat focuses on the city\'s coastal charm, offering boat trips, snorkeling, and a chance to experience the local hospitality and fresh seafood.',
+    description: 'A short marine retreat featuring beach activities and local seafood culture.',
     price: 680,
     bestSeason: 'December to March',
     category: 'Coastal & Marine',
-    image: 'https://images.unsplash.com/photo-1493558103817-58b2924bce98?w=1200',
+    image: 'https://images.unsplash.com/photo-1552733407-5d5c46c3bb3?w=1200',
     activities: ['Boat outing', 'Beach leisure', 'Food experience'],
     duration: '2 days',
     distanceFromAddis: 1200
   },
   {
-    _id: '507f1f77bcf86cd799439021',
+
     name: 'Lake Assal & Salt Fields',
     location: 'Tadjoura Region, Djibouti',
     country: 'Djibouti',
-    description: 'Visit the lowest point in Africa and Djibouti\'s dramatic white salt landscapes. Lake Assal is a crater lake located 155 meters below sea level, surrounded by an alien-looking landscape of volcanic rock and white salt. The water is incredibly saline, creating unique salt formations and a surreal atmosphere. It is one of the most spectacular natural wonders in the Horn of Africa.',
+    description: 'Visit the lowest point in Africa with dramatic white salt landscapes.',
     price: 950,
     bestSeason: 'November to February',
     category: 'Camping Tours',
@@ -154,11 +154,11 @@ const destinations = [
     distanceFromAddis: 800
   },
   {
-    _id: '507f1f77bcf86cd799439022',
+
     name: 'Moucha Island Snorkeling',
     location: 'Gulf of Tadjoura, Djibouti',
     country: 'Djibouti',
-    description: 'Crystal-clear waters and coral-rich marine life, perfect for snorkeling adventures. Moucha Island is a small coral island located in the Gulf of Tadjoura. It is a haven for divers and snorkelers, with its vibrant coral reefs and abundant marine life, including colorful fish and the occasional whale shark (during the season). The island offers white sandy beaches and a peaceful escape.',
+    description: 'Crystal-clear waters and coral-rich marine life for snorkeling adventures.',
     price: 1120,
     bestSeason: 'October to March',
     category: 'Coastal & Marine',
@@ -168,11 +168,11 @@ const destinations = [
     distanceFromAddis: 850
   },
   {
-    _id: '507f1f77bcf86cd799439023',
+
     name: 'Day Forest National Park',
     location: 'Goda Mountains, Djibouti',
     country: 'Djibouti',
-    description: 'A cooler highland ecosystem with native juniper forests and hiking trails. Located in the Goda Mountains, Day Forest is a rare remnant of ancient primary forest in Djibouti. The park offers a cool respite from the heat of the lowlands, with its lush vegetation and unique wildlife. It is a great place for hiking and birdwatching, offering panoramic views of the surrounding mountains and the Gulf of Tadjoura.',
+    description: 'A cooler highland ecosystem with native juniper forests and hiking trails.',
     price: 840,
     bestSeason: 'November to March',
     category: 'Nature Tours',
@@ -182,11 +182,11 @@ const destinations = [
     distanceFromAddis: 820
   },
   {
-    _id: '507f1f77bcf86cd799439024',
+
     name: 'Asmara Art Deco Heritage',
     location: 'Asmara, Eritrea',
     country: 'Eritrea',
-    description: 'UNESCO-listed modernist architecture and rich urban heritage in Eritrea\'s capital. Asmara is renowned for its incredible collection of modernist architecture from the Italian colonial era. The city feels like a museum of 1930s Art Deco, Futurism, and Rationalism. Its clean streets, historic cafés, and unique buildings make it one of the most distinctive and charming capitals in Africa.',
+    description: 'UNESCO-listed modernist architecture and rich urban heritage in Asmara.',
     price: 790,
     bestSeason: 'October to April',
     category: 'City & Heritage',
@@ -196,11 +196,11 @@ const destinations = [
     distanceFromAddis: 1080
   },
   {
-    _id: '507f1f77bcf86cd799439025',
+
     name: 'Massawa Old Port Discovery',
     location: 'Massawa, Eritrea',
     country: 'Eritrea',
-    description: 'Explore the Red Sea port city known for Ottoman-era buildings and coastal history. Massawa is a city of islands and peninsulas, with a rich history as a major Red Sea port. Its "Old Town" features beautiful buildings with Ottoman, Egyptian, and Italian influences, many with intricate coral-stone details. The city is known for its seafood, its bustling harbor, and its proximity to the Dahlak Islands.',
+    description: 'Explore the Red Sea port city known for Ottoman-era buildings.',
     price: 730,
     bestSeason: 'November to February',
     category: 'City & Heritage',
@@ -210,11 +210,11 @@ const destinations = [
     distanceFromAddis: 1150
   },
   {
-    _id: '507f1f77bcf86cd799439026',
+
     name: 'Dahlak Archipelago Escape',
     location: 'Dahlak Islands, Eritrea',
     country: 'Eritrea',
-    description: 'Island-hopping experience with Red Sea beaches, snorkeling and serene coastal scenery. The Dahlak Archipelago consists of over 100 islands in the Red Sea. Most of the islands are uninhabited and offer pristine beaches, clear turquoise waters, and incredible marine life. It is a true off-the-beaten-path destination for those looking for isolation, natural beauty, and world-class snorkeling and diving.',
+    description: 'Island-hopping experience with Red Sea beaches and snorkeling.',
     price: 1240,
     bestSeason: 'October to March',
     category: 'Coastal & Marine',
@@ -224,11 +224,11 @@ const destinations = [
     distanceFromAddis: 1200
   },
   {
-    _id: '507f1f77bcf86cd799439027',
+
     name: 'Omo Valley Cultural Encounter',
     location: 'Southern Nations, Ethiopia',
     country: 'Ethiopia',
-    description: 'Immerse yourself in the unique lifestyles of the Mursi, Hamer, and Karo tribes. The Lower Omo Valley is a spectacular landscape of savanna and riverine forest. It is a UNESCO World Heritage site, world-renowned for its archaeological and paleontological discoveries, but most famous today for its diverse ethnic groups who have maintained their ancient traditions and rituals for centuries.',
+    description: 'Immerse yourself in the unique lifestyles of the Mursi, Hamer, and Karo tribes.',
     price: 1100,
     bestSeason: 'June to September',
     category: 'Cultural Tours',
@@ -238,53 +238,53 @@ const destinations = [
     distanceFromAddis: 430
   },
   {
-    _id: '507f1f77bcf86cd799439028',
+
     name: 'Ras Dashen Summit',
     location: 'Simien Mountains, Ethiopia',
     country: 'Ethiopia',
-    description: 'Summit Ethiopia\'s highest peak at 4,550 meters with breathtaking views of the Simien Mountains. Ras Dashen offers a challenging but rewarding trek through dramatic landscapes, endemic wildlife habitats, and traditional village encounters. The summit provides panoramic views of the entire Simien range and the surrounding valleys.',
+    description: 'Summit Ethiopia\'s highest peak at 4,550 meters with breathtaking views.',
     price: 1200,
     bestSeason: 'October to March',
     category: 'Adventure Trips',
-    image: '/destinations/ras_dashen.jpg',
+    image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200',
     activities: ['Mountain trekking', 'Summit hike', 'Wildlife viewing'],
     duration: '5 days',
     distanceFromAddis: 830
   },
   {
-    _id: '507f1f77bcf86cd799439028b',
+
     name: 'Bale Mountains Wilderness Camp',
     location: 'Bale Mountains National Park, Ethiopia',
     country: 'Ethiopia',
-    description: 'Camp in the heart of the Bale Mountains, one of Africa\'s most pristine high-altitude ecosystems. Home to the endangered Ethiopian wolf, the Bale Mountains offer an unforgettable camping experience above the clouds. Set up camp in afro-alpine meadows surrounded by giant lobelias, crystal-clear streams, and dramatic valleys. Spot endemic wildlife including Mountain Nyala and Menelik\'s Bushbuck. Evenings feature campfire stories under starlit skies with temperatures dropping to near freezing — a true wilderness adventure.',
+    description: 'Camp in the heart of the Bale Mountains with endemic wildlife.',
     price: 950,
     bestSeason: 'October to December',
     category: 'Camping Tours',
-    image: '/destinations/semien_mountain.jpg',
-    activities: ['Ethiopian wolf tracking', 'Alpine camping', 'Stargazing', 'Wildlife photography', 'Hiking to Tullu Dimtu peak'],
+    image: 'https://images.unsplash.com/photo-1504387102698-e6e240ffff54?w=1200',
+    activities: ['Ethiopian wolf tracking', 'Alpine camping', 'Stargazing'],
     duration: '4 days',
     distanceFromAddis: 400
   },
   {
-    _id: '507f1f77bcf86cd799439029',
+
     name: 'Harar Jugol - City of Saints',
     location: 'Harar, Ethiopia',
     country: 'Ethiopia',
-    description: 'Explore the ancient walled city and Islamic cultural heritage of Harar. Known as the "City of Saints", Harar Jugol is a UNESCO World Heritage site with 82 mosques and 102 shrines. Famous for its unique hyena feeding tradition and vibrant markets, the city has been an important center of Islamic learning and trade for over a thousand years.',
+    description: 'Explore the ancient walled city and Islamic cultural heritage of Harar.',
     price: 680,
     bestSeason: 'October to May',
     category: 'Cultural Tours',
-    image: 'https://images.unsplash.com/photo-1589292851210-938bf90c1c49?w=1200',
+    image: 'https://images.unsplash.com/photo-1548013146-72479768bada?w=1200',
     activities: ['Walled city tour', 'Hyena feeding', 'Market visit'],
     duration: '3 days',
     distanceFromAddis: 520
   },
   {
-    _id: '507f1f77bcf86cd799439030',
+
     name: 'Sof Omar Cave System',
     location: 'Bale Zone, Ethiopia',
     country: 'Ethiopia',
-    description: 'Marvel at one of the largest cave systems in Africa with spectacular limestone formations. The Sof Omar Caves stretch for over 15 kilometers along the Weyib River. This sacred site for Muslims houses numerous natural chambers and pillars, with the river flowing through dramatic underground passages. It\'s a geological wonder and a place of spiritual significance.',
+    description: 'Marvel at one of the largest cave systems in Africa with spectacular formations.',
     price: 590,
     bestSeason: 'November to March',
     category: 'Adventure Trips',
@@ -294,11 +294,11 @@ const destinations = [
     distanceFromAddis: 480
   },
   {
-    _id: '507f1f77bcf86cd799439032',
+
     name: 'Nakfa Resistance Memorial',
     location: 'Nakfa, Eritrea',
     country: 'Eritrea',
-    description: 'Visit the symbolic heart of Eritrean independence struggle and its underground tunnels. Nakfa was the base of the Eritrean People\'s Liberation Front during the 30-year war for independence. The site includes an extensive network of underground facilities, bunkers, and the famous Nakfa Museum, offering deep insights into Eritrea\'s modern history.',
+    description: 'Visit the symbolic heart of Eritrean independence struggle and underground tunnels.',
     price: 690,
     bestSeason: 'October to April',
     category: 'Cultural Tours',
@@ -308,11 +308,11 @@ const destinations = [
     distanceFromAddis: 1200
   },
   {
-    _id: '507f1f77bcf86cd799439033',
+
     name: 'Tadjoura Gulf Retreat',
     location: 'Tadjoura, Djibouti',
     country: 'Djibouti',
-    description: 'Experience the charm of Djibouti\'s oldest town on the shores of the Gulf of Tadjoura. Tadjoura is known for its whitewashed buildings, historic mosques, and as a gateway to whale shark spotting (seasonal). The town offers a relaxed atmosphere with beautiful coastal views and easy access to both marine and mountain adventures.',
+    description: 'Experience the charm of Djibouti\'s oldest town on the shores of the Gulf of Tadjoura.',
     price: 880,
     bestSeason: 'October to March',
     category: 'Coastal & Marine',
@@ -322,53 +322,53 @@ const destinations = [
     distanceFromAddis: 780
   },
   {
-    _id: '507f1f77bcf86cd799439034',
+
     name: 'Abbe Lake & Flamingos',
     location: 'Lake Abbe, Djibouti',
     country: 'Djibouti',
-    description: 'Witness otherworldly limestone chimneys and thousands of flamingos at the salt lake on the Ethiopia-Djibouti border. Lake Abbe is the ultimate destination for landscape photographers and nature lovers. The lake features dramatic limestone chimneys (some over 50 meters tall) belching sulfurous steam, creating an alien-like landscape.',
+    description: 'Witness otherworldly limestone chimneys and thousands of flamingos at Lake Abbe.',
     price: 990,
     bestSeason: 'November to February',
     category: 'Nature Tours',
-    image: 'https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?w=1200',
+    image: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1200',
     activities: ['Birdwatching', 'Landscape photography', 'Camping'],
     duration: '3 days',
     distanceFromAddis: 850
   },
   {
-    _id: '507f1f77bcf86cd799439035',
+
     name: 'Sheikh Cave Dwellings',
     location: 'Sheikh, Somalia',
     country: 'Somalia',
-    description: 'Discover the cave dwellings and natural springs of this historic highland town. Sheikh is a town in Somaliland known for its pleasant climate, natural caves, and historical significance as an early Islamic center. The area features ancient cave paintings, natural rock formations, and a welcoming local community preserving centuries-old traditions.',
+    description: 'Discover the cave dwellings and natural springs of this historic highland town.',
     price: 650,
     bestSeason: 'November to February',
     category: 'Cultural Tours',
-    image: 'https://images.unsplash.com/photo-1470093851219-69951fcbb533?w=1200',
+    image: 'https://images.unsplash.com/photo-1504387102698-e6e240ffff54?w=1200',
     activities: ['Cave exploration', 'Highland walking', 'Cultural exchange'],
     duration: '2 days',
     distanceFromAddis: 750
   },
   {
-    _id: '507f1f77bcf86cd799439036',
+
     name: 'Eyl Coastal Haven',
     location: 'Eyl, Somalia',
     country: 'Somalia',
-    description: 'Relax at this pristine fishing town turned peaceful coastal getaway. Eyl is a historic port town on the Gulf of Aden with beautiful beaches, turquoise waters, and a relaxed atmosphere. Once a hub for fishermen and traders, it now offers visitors a chance to experience authentic Somali coastal life, enjoy fresh seafood, and explore nearby sea caves.',
+    description: 'Relax at this pristine fishing town turned peaceful coastal getaway.',
     price: 720,
     bestSeason: 'November to March',
     category: 'Coastal & Marine',
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200',
+    image: 'https://images.unsplash.com/photo-1552733407-5d5c46c3bb3?w=1200',
     activities: ['Beach leisure', 'Fishing experience', 'Sea cave tour'],
     duration: '3 days',
     distanceFromAddis: 1050
   },
   {
-    _id: '507f1f77bcf86cd799439037',
+
     name: 'Serengeti Wilderness Camp',
     location: 'Serengeti National Park, Tanzania',
     country: 'Tanzania',
-    description: 'Experience the Great Migration up close from luxury tented camps in the Serengeti. Wake up to the sounds of lions roaring and elephants trumpeting in the distance. This camping experience offers front-row seats to one of nature\'s greatest spectacles, with comfortable tents, campfire dinners under the stars, and guided game drives.',
+    description: 'Experience the Great Migration up close from luxury tented camps.',
     price: 1580,
     bestSeason: 'June to October',
     category: 'Camping Tours',
@@ -378,11 +378,11 @@ const destinations = [
     distanceFromAddis: 1200
   },
   {
-    _id: '507f1f77bcf86cd799439038',
+
     name: 'Ngorongoro Crater Camping',
     location: 'Ngorongoro Conservation Area, Tanzania',
     country: 'Tanzania',
-    description: 'Camp on the rim of the world\'s largest unbroken caldera with breathtaking views. The Ngorongoro Crater is home to an incredible concentration of wildlife including the Big Five. Your campsite offers panoramic views down into the crater floor, with guided descents each day to explore this natural wonder and its abundant wildlife.',
+    description: 'Camp on the rim of the world\'s largest unbroken caldera.',
     price: 1420,
     bestSeason: 'June to September',
     category: 'Camping Tours',
@@ -392,11 +392,11 @@ const destinations = [
     distanceFromAddis: 1250
   },
   {
-    _id: '507f1f77bcf86cd799439039',
+
     name: 'Maasai Mara Safari Camp',
     location: 'Maasai Mara National Reserve, Kenya',
     country: 'Kenya',
-    description: 'Traditional camping experience in the heart of Kenya\'s most famous game reserve. Stay in comfortable tents with modern amenities while surrounded by the African wilderness. Witness the Great Migration (seasonal), enjoy Maasai cultural visits, and experience unforgettable game drives across the vast savannah plains.',
+    description: 'Traditional camping experience in the heart of Kenya\'s most famous game reserve.',
     price: 1450,
     bestSeason: 'July to October',
     category: 'Camping Tours',
@@ -406,11 +406,11 @@ const destinations = [
     distanceFromAddis: 1100
   },
   {
-    _id: '507f1f77bcf86cd799439040',
+
     name: 'Mount Kenya Base Camp',
     location: 'Mount Kenya National Park, Kenya',
     country: 'Kenya',
-    description: 'Camp on the slopes of Africa\'s second-highest peak with spectacular alpine scenery. Experience high-altitude camping surrounded by giant lobelias, senecios, and glacial valleys. The trek to base camp takes you through diverse ecological zones, from bamboo forests to alpine meadows, with stunning views of the mountain\'s peaks.',
+    description: 'Camp on the slopes of Africa\'s second-highest peak with spectacular alpine scenery.',
     price: 1180,
     bestSeason: 'January to March',
     category: 'Camping Tours',
@@ -420,39 +420,39 @@ const destinations = [
     distanceFromAddis: 1050
   },
   {
-    _id: '507f1f77bcf86cd799439041',
+
     name: 'Lake Tanganyika Beach Camp',
     location: 'Kigoma, Tanzania',
     country: 'Tanzania',
-    description: 'Camp along the shores of Africa\'s deepest lake with pristine beaches and crystal-clear waters. Lake Tanganyika is the world\'s second-oldest freshwater lake, home to hundreds of cichlid fish species found nowhere else. Enjoy lakeside camping, snorkeling in calm waters, and visits to nearby Gombe Stream National Park for chimpanzee trekking.',
+    description: 'Camp along the shores of Africa\'s deepest lake with pristine beaches.',
     price: 980,
     bestSeason: 'June to October',
     category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1552733407-5d5c46c3bb3?w=1200',
+    image: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1200',
     activities: ['Lake swimming', 'Chimpanzee trekking', 'Fishing'],
     duration: '4 days',
     distanceFromAddis: 1300
   },
   {
-    _id: '507f1f77bcf86cd799439042',
+
     name: 'Ruwenzori Mountains Camp',
     location: 'Ruwenzori Mountains, Uganda',
     country: 'Uganda',
-    description: 'Base camp on the legendary "Mountains of the Moon" with glacial peaks and unique flora. The Ruwenzori range features Africa\'s third-highest peak, Margherita (5,109m), with year-round snow and glaciers. Camp in alpine meadows surrounded by giant lobelias and senecios, with guided climbs and endemic birdwatching opportunities.',
+    description: 'Base camp on the legendary "Mountains of the Moon" with glacial peaks.',
     price: 1380,
     bestSeason: 'December to February',
     category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200',
-    activities: ['Alpine camping', 'Glacier trekking', 'Endemic birding'],
+    image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200',
+    activities: ['Alpine camping', 'Glacial trekking', 'Endemic birding'],
     duration: '7 days',
     distanceFromAddis: 1000
   },
   {
-    _id: 'dest_033',
+
     name: 'Nyungwe Forest Camp',
     location: 'Nyungwe National Park, Rwanda',
     country: 'Rwanda',
-    description: 'Camp at the edge of East Africa\'s largest montane rainforest with canopy walks and primate tracking. Nyungwe is home to 13 primate species including chimpanzees, colobus monkeys, and L\'Hoest\'s monkeys. The campsite offers a unique opportunity to experience the ancient rainforest, with guided nature walks and the famous canopy walkway.',
+    description: 'Camp at the edge of East Africa\'s largest montane rainforest.',
     price: 1260,
     bestSeason: 'June to September',
     category: 'Camping Tours',
@@ -462,25 +462,25 @@ const destinations = [
     distanceFromAddis: 1150
   },
   {
-    _id: 'dest_034',
+
     name: 'Bujumbura Lake Retreat',
     location: 'Bujumbura, Burundi',
     country: 'Burundi',
-    description: 'Camp along the beautiful shores of Lake Tanganyika in Burundi\'s coastal capital region. Experience the tranquil beaches, vibrant local markets, and the famous Livingstone-Stanley Monument. The campsite offers stunning sunset views over the lake, fresh fish barbecues, and boat trips to nearby islands and fishing villages.',
+    description: 'Camp along the beautiful shores of Lake Tanganyika in Burundi.',
     price: 720,
     bestSeason: 'June to September',
     category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1200',
+    image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200',
     activities: ['Lake tours', 'Beach camping', 'Boat trips'],
     duration: '3 days',
     distanceFromAddis: 1250
   },
   {
-    _id: 'dest_035',
+
     name: 'Boma National Park Camp',
     location: 'Boma, South Sudan',
     country: 'South Sudan',
-    description: 'Experience the wilderness of Africa\'s newest nation in Boma National Park. Home to one of the largest mammal migrations in the world, the park hosts massive herds of white-eared kob, tiang antelope, and Mongalla gazelle. Camp under acacia trees with guided game drives and cultural visits to local communities.',
+    description: 'Experience the wilderness of Africa\'s newest nation in Boma National Park.',
     price: 1050,
     bestSeason: 'January to April',
     category: 'Camping Tours',
@@ -490,11 +490,11 @@ const destinations = [
     distanceFromAddis: 1300
   },
   {
-    _id: 'dest_036',
+
     name: 'Nimule River Camp',
     location: 'Nimule, South Sudan',
     country: 'South Sudan',
-    description: 'Camp along the White Nile near the Ugandan border in Nimule National Park. This riverside camping experience offers fishing, boat trips, and wildlife viewing in a lush tropical setting. The park is home to elephants, hippos, crocodiles, and numerous bird species, with the roaring rapids of the White Nile as your backdrop.',
+    description: 'Camp along the White Nile near the Ugandan border in Nimule National Park.',
     price: 890,
     bestSeason: 'December to March',
     category: 'Camping Tours',
@@ -504,11 +504,11 @@ const destinations = [
     distanceFromAddis: 1400
   },
   {
-    _id: '507f1f77bcf86cd799439047',
+
     name: 'Mount Karthala Crater Camp',
     location: 'Grande Comore, Comoros',
     country: 'Comoros',
-    description: 'Camp on the slopes of the active Karthala volcano, one of the largest active volcanoes in the world. The crater is home to unique flora and fauna found nowhere else on Earth. Experience cloud forests, crater lakes, and panoramic views of the Indian Ocean from your campsite on this incredible volcanic island.',
+    description: 'Camp on the slopes of the active Karthala volcano in the Comoros.',
     price: 920,
     bestSeason: 'May to November',
     category: 'Camping Tours',
@@ -518,11 +518,11 @@ const destinations = [
     distanceFromAddis: 2800
   },
   {
-    _id: '507f1f77bcf86cd799439048',
+
     name: 'Nosy Be Island Camp',
     location: 'Nosy Be, Madagascar',
     country: 'Madagascar',
-    description: 'Camp on Madagascar\'s premier tropical island with lemur encounters and pristine beaches. Nosy Be offers a unique camping experience with its volcanic lakes, ylang-ylang plantations, and incredible biodiversity. Spot wild lemurs, swim in turquoise waters, and enjoy fresh vanilla and seafood from local villages.',
+    description: 'Camp on Madagascar\'s premier tropical island with lemur encounters.',
     price: 780,
     bestSeason: 'April to November',
     category: 'Camping Tours',
@@ -532,11 +532,11 @@ const destinations = [
     distanceFromAddis: 3200
   },
   {
-    _id: '507f1f77bcf86cd799439049',
+
     name: 'Andasibe Rainforest Camp',
     location: 'Andasibe-Mantadia National Park, Madagascar',
     country: 'Madagascar',
-    description: 'Camp in the eastern rainforest home to the largest lemur species, the Indri. Andasibe offers an immersive camping experience in one of Madagascar\'s most accessible rainforests. Wake up to the haunting calls of Indri lemurs, explore orchid-filled forests, and discover chameleons, frogs, and countless endemic species.',
+    description: 'Camp in the eastern rainforest home to the largest lemur species, the Indri.',
     price: 850,
     bestSeason: 'April to November',
     category: 'Camping Tours',
@@ -546,11 +546,11 @@ const destinations = [
     distanceFromAddis: 3300
   },
   {
-    _id: '507f1f77bcf86cd799439050',
+
     name: 'Vallée de Mai Camp',
     location: 'Praslin Island, Seychelles',
     country: 'Seychelles',
-    description: 'Camp in the mystical palm forest of Vallée de Mai, a UNESCO World Heritage site. This ancient forest is home to the famous Coco de Mer palm with its enormous seeds. The campsite is surrounded by towering palms, rare black parrots, and giant tortoises, offering a truly unique island camping experience in paradise.',
+    description: 'Camp in the mystical palm forest of Vallée de Mai, a UNESCO World Heritage site.',
     price: 1150,
     bestSeason: 'April to May',
     category: 'Camping Tours',
@@ -560,15 +560,15 @@ const destinations = [
     distanceFromAddis: 3400
   },
   {
-    _id: '507f1f77bcf86cd799439051',
+
     name: 'Black River Gorges Camp',
     location: 'Black River Gorges National Park, Mauritius',
     country: 'Mauritius',
-    description: 'Camp in Mauritius\' largest national park with endemic birds and waterfalls. The park protects most of the island\'s remaining rainforest and is home to the pink pigeon, Mauritius kestrel, and echo parakeet. Your campsite offers hiking trails to spectacular waterfalls, mountain peaks, and panoramic views of the island.',
+    description: 'Camp in Mauritius\' largest national park with endemic birds and waterfalls.',
     price: 980,
     bestSeason: 'May to December',
     category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200',
+    image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200',
     activities: ['Rainforest hiking', 'Waterfall trek', 'Birdwatching'],
     duration: '3 days',
     distanceFromAddis: 3500

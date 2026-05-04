@@ -6,7 +6,8 @@ const fleetSeedData = [
     pricePerDay: 150,
     rating: 4.8,
     reviews: "Verified · 120+ trips",
-    icon: "🏔️"
+    icon: "🏔️",
+    category: "Adventure"
   },
   {
     name: "Standard Minibus",
@@ -15,7 +16,8 @@ const fleetSeedData = [
     pricePerDay: 100,
     rating: 4.7,
     reviews: "Verified · 200+ trips",
-    icon: "🚐"
+    icon: "🚐",
+    category: "Standard"
   },
   {
     name: "Luxury Coach",
@@ -24,7 +26,8 @@ const fleetSeedData = [
     pricePerDay: 250,
     rating: 4.9,
     reviews: "Verified · 80+ trips",
-    icon: "🚌"
+    icon: "🚌",
+    category: "Luxury"
   },
   {
     name: "Economy Sedan",
@@ -33,16 +36,18 @@ const fleetSeedData = [
     pricePerDay: 55,
     rating: 4.5,
     reviews: "Verified · 300+ trips",
-    icon: "🚗"
+    icon: "🚗",
+    category: "Economy"
   },
   {
     name: "Premium SUV",
     description: "High-end SUV with leather seats, panoramic roof, and advanced navigation. Perfect for business travelers and premium private tours.",
-    image: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1200",
+    image: "https://images.unsplash.com/photo-1504387102698-e6e240ffff54?w=1200",
     pricePerDay: 200,
     rating: 4.9,
     reviews: "Verified · 60+ trips",
-    icon: "🏎️"
+    icon: "🏎️",
+    category: "Premium"
   },
   {
     name: "Safari Land Cruiser",
@@ -51,7 +56,8 @@ const fleetSeedData = [
     pricePerDay: 220,
     rating: 5.0,
     reviews: "Verified · 45+ trips",
-    icon: "🦁"
+    icon: "🦁",
+    category: "Safari"
   },
   {
     name: "Airport Shuttle Van",
@@ -60,16 +66,18 @@ const fleetSeedData = [
     pricePerDay: 40,
     rating: 4.6,
     reviews: "Verified · 500+ trips",
-    icon: "✈️"
+    icon: "✈️",
+    category: "Shuttle"
   },
   {
     name: "Domestic Flight",
     description: "Fast and convenient air travel between major cities and tourist destinations. Includes airport transfers and priority boarding for tourists.",
-    image: "https://images.unsplash.com/photo-143649186533-1366c2a9876?w=1200",
+    image: "https://images.unsplash.com/photo-143649186533-1366c2a2d45?w=1200",
     pricePerDay: 450,
     rating: 4.7,
     reviews: "Verified · 90+ flights",
-    icon: "✈️"
+    icon: "✈️",
+    category: "Flight"
   },
   {
     name: "Charter Plane Expedition",
@@ -78,7 +86,8 @@ const fleetSeedData = [
     pricePerDay: 1200,
     rating: 4.9,
     reviews: "Verified · 30+ charters",
-    icon: "🛩️"
+    icon: "🛩️",
+    category: "Charter"
   },
   {
     name: "Scenic Helicopter Tour",
@@ -87,16 +96,18 @@ const fleetSeedData = [
     pricePerDay: 1800,
     rating: 4.8,
     reviews: "Verified · 15+ flights",
-    icon: "🚁️"
+    icon: "🚁",
+    category: "Helicopter"
   },
   {
     name: "Commercial Airliner",
     description: "Standard commercial flights between major cities and tourist hubs. Reliable and cost-effective for longer distances.",
-    image: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1200",
+    image: "https://images.unsplash.com/photo-143649186533-1366c2a9876?w=1200",
     pricePerDay: 600,
     rating: 4.6,
     reviews: "Verified · 200+ flights",
-    icon: "✈️"
+    icon: "✈️",
+    category: "Flight"
   }
 ];
 

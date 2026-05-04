@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 const slides = [
   {
-    img: '/destinations/lalibela.jpg',
-    title: 'Lalibela',
-    subtitle: 'Rock-Hewn Churches of Ethiopia',
+    img: '/destinations/axum.jpg',
+    title: 'Axum',
+    subtitle: 'Ancient Obelisks & Ethiopian Heritage',
     tag: 'UNESCO World Heritage',
   },
   {
@@ -21,10 +21,10 @@ const slides = [
     tag: 'Adventure & Wildlife',
   },
   {
-    img: '/destinations/danakil.png',
-    title: 'Danakil Depression',
-    subtitle: 'Earth\'s Most Alien Landscape',
-    tag: 'Extreme Expedition',
+    img: '/destinations/blue_nile_falls.png',
+    title: 'Blue Nile Falls',
+    subtitle: 'The Most Spectacular Waterfall in Ethiopia',
+    tag: 'Natural Wonder',
   },
   {
     img: '/destinations/gonder.jpg',
@@ -43,6 +43,12 @@ const Hero = ({ setCurrentPage, destinations }) => {
     return () => clearInterval(timer)
   }, [])
 
+  const [imgErrors, setImgErrors] = useState({})
+
+  const handleImgError = (idx) => {
+    setImgErrors(prev => ({ ...prev, [idx]: true }))
+  }
+
   const slide = slides[current]
 
   const handleSearch = () => {
@@ -51,20 +57,26 @@ const Hero = ({ setCurrentPage, destinations }) => {
 
   return (
     <div className="relative w-full overflow-hidden" style={{ minHeight: '100vh' }}>
-      {/* Background Slideshow */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={current}
-          initial={{ opacity: 0, scale: 1.08 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.4 }}
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url('${slide.img}')`,
-          }}
-        />
-      </AnimatePresence>
+       {/* Background Slideshow */}
+       <AnimatePresence mode="wait">
+         <motion.div
+           key={current}
+           initial={{ opacity: 0, scale: 1.08 }}
+           animate={{ opacity: 1, scale: 1 }}
+           exit={{ opacity: 0 }}
+           transition={{ duration: 1.4 }}
+           className="absolute inset-0"
+         >
+           {!imgErrors[current] && (
+             <img
+               src={slide.img}
+               alt={slide.title}
+               className="w-full h-full object-cover"
+               onError={() => handleImgError(current)}
+             />
+           )}
+         </motion.div>
+       </AnimatePresence>
 
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/70" />

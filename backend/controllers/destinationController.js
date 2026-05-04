@@ -25,6 +25,32 @@ exports.getDestinations = async (req, res) => {
   }
 };
 
+// @desc    Get destinations grouped by category
+// @route   GET /api/destinations/categories
+exports.getDestinationsByCategory = async (req, res) => {
+  try {
+    const categories = await Destination.aggregate([
+      {
+        $group: {
+          _id: '$category',
+          destinations: { $push: '$$ROOT' }
+        }
+      },
+      {
+        $project: {
+          category: '$_id',
+          destinations: 1,
+          count: { $size: '$destinations' }
+        }
+      },
+      { $sort: { category: 1 } }
+    ]);
+    res.json(categories);
+  } catch (err) {
+    res.status(500).json({ message: 'Server Error', error: err.message });
+  }
+};
+
 // @desc    Get all unique countries
 // @route   GET /api/destinations/countries
 exports.getCountries = async (req, res) => {

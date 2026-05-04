@@ -1,6 +1,5 @@
 const destinationSeedData = [
   {
-
     name: 'Lalibela Rock-Hewn Churches',
     location: 'Lalibela, Ethiopia',
     country: 'Ethiopia',
@@ -14,7 +13,6 @@ const destinationSeedData = [
     distanceFromAddis: 700
   },
   {
-
     name: 'Simien Mountains Trek',
     location: 'Simien Mountains, Ethiopia',
     country: 'Ethiopia',
@@ -28,7 +26,6 @@ const destinationSeedData = [
     distanceFromAddis: 800
   },
   {
-
     name: 'Danakil Depression Expedition',
     location: 'Afar, Ethiopia',
     country: 'Ethiopia',
@@ -42,7 +39,6 @@ const destinationSeedData = [
     distanceFromAddis: 600
   },
   {
-
     name: 'Gondar Castles & Fasil Ghebbi',
     location: 'Gondar, Ethiopia',
     country: 'Ethiopia',
@@ -56,7 +52,6 @@ const destinationSeedData = [
     distanceFromAddis: 730
   },
   {
-
     name: 'Blue Nile Falls Escape',
     location: 'Bahir Dar, Ethiopia',
     country: 'Ethiopia',
@@ -70,7 +65,6 @@ const destinationSeedData = [
     distanceFromAddis: 560
   },
   {
-
     name: 'Axum Historical Route',
     location: 'Axum, Ethiopia',
     country: 'Ethiopia',
@@ -84,7 +78,6 @@ const destinationSeedData = [
     distanceFromAddis: 1000
   },
   {
-
     name: 'Lido Beach & Mogadishu City Tour',
     location: 'Mogadishu, Somalia',
     country: 'Somalia',
@@ -98,7 +91,6 @@ const destinationSeedData = [
     distanceFromAddis: 1060
   },
   {
-
     name: 'Laas Geel Cave Paintings',
     location: 'Hargeisa, Somalia',
     country: 'Somalia',
@@ -112,7 +104,6 @@ const destinationSeedData = [
     distanceFromAddis: 700
   },
   {
-
     name: 'Berbera Coast Experience',
     location: 'Berbera, Somalia',
     country: 'Somalia',
@@ -126,7 +117,6 @@ const destinationSeedData = [
     distanceFromAddis: 860
   },
   {
-
     name: 'Kismayo Marine Weekend',
     location: 'Kismayo, Somalia',
     country: 'Somalia',
@@ -140,7 +130,6 @@ const destinationSeedData = [
     distanceFromAddis: 1200
   },
   {
-
     name: 'Lake Assal & Salt Fields',
     location: 'Tadjoura Region, Djibouti',
     country: 'Djibouti',
@@ -154,7 +143,6 @@ const destinationSeedData = [
     distanceFromAddis: 800
   },
   {
-
     name: 'Moucha Island Snorkeling',
     location: 'Gulf of Tadjoura, Djibouti',
     country: 'Djibouti',
@@ -168,7 +156,6 @@ const destinationSeedData = [
     distanceFromAddis: 850
   },
   {
-
     name: 'Day Forest National Park',
     location: 'Goda Mountains, Djibouti',
     country: 'Djibouti',
@@ -182,7 +169,6 @@ const destinationSeedData = [
     distanceFromAddis: 820
   },
   {
-
     name: 'Asmara Art Deco Heritage',
     location: 'Asmara, Eritrea',
     country: 'Eritrea',
@@ -196,7 +182,6 @@ const destinationSeedData = [
     distanceFromAddis: 1080
   },
   {
-
     name: 'Massawa Old Port Discovery',
     location: 'Massawa, Eritrea',
     country: 'Eritrea',
@@ -210,7 +195,6 @@ const destinationSeedData = [
     distanceFromAddis: 1150
   },
   {
-
     name: 'Dahlak Archipelago Escape',
     location: 'Dahlak Islands, Eritrea',
     country: 'Eritrea',
@@ -224,7 +208,6 @@ const destinationSeedData = [
     distanceFromAddis: 1200
   },
   {
-
     name: 'Omo Valley Cultural Encounter',
     location: 'Southern Nations, Ethiopia',
     country: 'Ethiopia',
@@ -238,7 +221,6 @@ const destinationSeedData = [
     distanceFromAddis: 430
   },
   {
-
     name: 'Ras Dashen Summit',
     location: 'Simien Mountains, Ethiopia',
     country: 'Ethiopia',
@@ -252,7 +234,6 @@ const destinationSeedData = [
     distanceFromAddis: 830
   },
   {
-
     name: 'Bale Mountains Wilderness Camp',
     location: 'Bale Mountains National Park, Ethiopia',
     country: 'Ethiopia',
@@ -266,7 +247,6 @@ const destinationSeedData = [
     distanceFromAddis: 400
   },
   {
-
     name: 'Harar Jugol - City of Saints',
     location: 'Harar, Ethiopia',
     country: 'Ethiopia',
@@ -280,7 +260,6 @@ const destinationSeedData = [
     distanceFromAddis: 520
   },
   {
-
     name: 'Sof Omar Cave System',
     location: 'Bale Zone, Ethiopia',
     country: 'Ethiopia',
@@ -294,7 +273,6 @@ const destinationSeedData = [
     distanceFromAddis: 480
   },
   {
-
     name: 'Nakfa Resistance Memorial',
     location: 'Nakfa, Eritrea',
     country: 'Eritrea',
@@ -308,7 +286,6 @@ const destinationSeedData = [
     distanceFromAddis: 1200
   },
   {
-
     name: 'Tadjoura Gulf Retreat',
     location: 'Tadjoura, Djibouti',
     country: 'Djibouti',
@@ -322,7 +299,6 @@ const destinationSeedData = [
     distanceFromAddis: 780
   },
   {
-
     name: 'Abbe Lake & Flamingos',
     location: 'Lake Abbe, Djibouti',
     country: 'Djibouti',
@@ -336,7 +312,6 @@ const destinationSeedData = [
     distanceFromAddis: 850
   },
   {
-
     name: 'Sheikh Cave Dwellings',
     location: 'Sheikh, Somalia',
     country: 'Somalia',
@@ -350,7 +325,6 @@ const destinationSeedData = [
     distanceFromAddis: 750
   },
   {
-
     name: 'Eyl Coastal Haven',
     location: 'Eyl, Somalia',
     country: 'Somalia',
@@ -364,7 +338,6 @@ const destinationSeedData = [
     distanceFromAddis: 1050
   },
   {
-
     name: 'Serengeti Wilderness Camp',
     location: 'Serengeti National Park, Tanzania',
     country: 'Tanzania',
@@ -378,7 +351,6 @@ const destinationSeedData = [
     distanceFromAddis: 1200
   },
   {
-
     name: 'Ngorongoro Crater Camping',
     location: 'Ngorongoro Conservation Area, Tanzania',
     country: 'Tanzania',
@@ -392,7 +364,6 @@ const destinationSeedData = [
     distanceFromAddis: 1250
   },
   {
-
     name: 'Maasai Mara Safari Camp',
     location: 'Maasai Mara National Reserve, Kenya',
     country: 'Kenya',
@@ -406,7 +377,6 @@ const destinationSeedData = [
     distanceFromAddis: 1100
   },
   {
-
     name: 'Mount Kenya Base Camp',
     location: 'Mount Kenya National Park, Kenya',
     country: 'Kenya',
@@ -420,7 +390,6 @@ const destinationSeedData = [
     distanceFromAddis: 1050
   },
   {
-
     name: 'Lake Tanganyika Beach Camp',
     location: 'Kigoma, Tanzania',
     country: 'Tanzania',
@@ -434,7 +403,6 @@ const destinationSeedData = [
     distanceFromAddis: 1300
   },
   {
-
     name: 'Ruwenzori Mountains Camp',
     location: 'Ruwenzori Mountains, Uganda',
     country: 'Uganda',
@@ -448,7 +416,6 @@ const destinationSeedData = [
     distanceFromAddis: 1000
   },
   {
-
     name: 'Nyungwe Forest Camp',
     location: 'Nyungwe National Park, Rwanda',
     country: 'Rwanda',
@@ -462,7 +429,6 @@ const destinationSeedData = [
     distanceFromAddis: 1150
   },
   {
-
     name: 'Bujumbura Lake Retreat',
     location: 'Bujumbura, Burundi',
     country: 'Burundi',
@@ -476,7 +442,6 @@ const destinationSeedData = [
     distanceFromAddis: 1250
   },
   {
-
     name: 'Boma National Park Camp',
     location: 'Boma, South Sudan',
     country: 'South Sudan',
@@ -490,7 +455,6 @@ const destinationSeedData = [
     distanceFromAddis: 1300
   },
   {
-
     name: 'Nimule River Camp',
     location: 'Nimule, South Sudan',
     country: 'South Sudan',
@@ -504,7 +468,6 @@ const destinationSeedData = [
     distanceFromAddis: 1400
   },
   {
-
     name: 'Mount Karthala Crater Camp',
     location: 'Grande Comore, Comoros',
     country: 'Comoros',
@@ -518,7 +481,6 @@ const destinationSeedData = [
     distanceFromAddis: 2800
   },
   {
-
     name: 'Nosy Be Island Camp',
     location: 'Nosy Be, Madagascar',
     country: 'Madagascar',
@@ -532,7 +494,6 @@ const destinationSeedData = [
     distanceFromAddis: 3200
   },
   {
-
     name: 'Andasibe Rainforest Camp',
     location: 'Andasibe-Mantadia National Park, Madagascar',
     country: 'Madagascar',
@@ -546,7 +507,6 @@ const destinationSeedData = [
     distanceFromAddis: 3300
   },
   {
-
     name: 'Vallée de Mai Camp',
     location: 'Praslin Island, Seychelles',
     country: 'Seychelles',
@@ -560,7 +520,6 @@ const destinationSeedData = [
     distanceFromAddis: 3400
   },
   {
-
     name: 'Black River Gorges Camp',
     location: 'Black River Gorges National Park, Mauritius',
     country: 'Mauritius',

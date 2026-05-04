@@ -127,6 +127,10 @@ async function autoSeed() {
 // Run auto-seed once DB is connected
 mongoose.connection.once('open', autoSeed);
 
+// Serve static images
+const publicDir = path.join(__dirname, 'public');
+app.use('/images', express.static(path.join(publicDir, 'images')));
+
 // Serve built React frontend (production)
 const campaignDist = path.join(__dirname, '..', 'tourist-destination-campaign', 'dist');
 const spaIndex = path.join(campaignDist, 'index.html');

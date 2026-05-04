@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {
   getDestinations,
+  getDestinationsByCategory,
   getCountries,
   getDestinationById,
   createDestination,
@@ -11,6 +12,9 @@ const {
 
 // GET all destinations
 router.get('/', getDestinations);
+
+// GET destinations grouped by category
+router.get('/categories', getDestinationsByCategory);
 
 // GET unique countries
 router.get('/countries', getCountries);
