@@ -7,6 +7,7 @@ const SmartRecommendations = ({ destinations, onSelectDestination, setCurrentPag
     budget: '',
     interest: '',
     season: '',
+    country: '',
   })
   const [recommendations, setRecommendations] = useState([])
   const [searched, setSearched] = useState(false)
@@ -26,6 +27,9 @@ const SmartRecommendations = ({ destinations, onSelectDestination, setCurrentPag
     setPreferences(prev => ({ ...prev, [field]: value }))
   }
 
+  // Get unique countries from destinations
+  const countries = [...new Set((destinations.length > 0 ? destinations : fallbackDestinations).map(d => d.country))].filter(Boolean).sort()
+
   const getRecommendations = () => {
     setLoading(true)
     setSearched(false)
@@ -37,10 +41,13 @@ const SmartRecommendations = ({ destinations, onSelectDestination, setCurrentPag
       const scoredDestinations = sourceList.map(dest => {
         let score = 0
 
-        // 1. Interest / category match (highest priority)
+        // 1. Country match
+        if (preferences.country && dest.country === preferences.country) score += 8
+
+        // 2. Interest / category match (highest priority)
         if (preferences.interest && dest.category === preferences.interest) score += 10
 
-        // 2. Budget match
+        // 3. Budget match
         if (preferences.budget) {
           const budgetLimit = parseInt(preferences.budget)
           if (budgetLimit === 2000) {
@@ -52,7 +59,7 @@ const SmartRecommendations = ({ destinations, onSelectDestination, setCurrentPag
           }
         }
 
-        // 3. Season match
+        // 4. Season match
         if (preferences.season) {
           const seasonMap = {
             dry: ['october', 'november', 'december', 'january', 'february', 'march', 'april', 'may'],
@@ -67,7 +74,7 @@ const SmartRecommendations = ({ destinations, onSelectDestination, setCurrentPag
         return { ...dest, recommendationScore: score }
       })
 
-      const hasPreferences = preferences.budget || preferences.interest || preferences.season
+      const hasPreferences = preferences.budget || preferences.interest || preferences.season || preferences.country
 
       const results = scoredDestinations
         .filter(dest => !hasPreferences || dest.recommendationScore > 0)
@@ -126,7 +133,23 @@ const SmartRecommendations = ({ destinations, onSelectDestination, setCurrentPag
             Plan Your Ideal Trip
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+            <div className="group">
+              <label className="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 ml-1 group-hover:text-[#2d3e23] transition-colors">
+                Country
+              </label>
+              <select
+                value={preferences.country}
+                onChange={(e) => handlePreferenceChange('country', e.target.value)}
+                className="w-full px-6 py-4 bg-white border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#d4af37] shadow-sm transition-all cursor-pointer"
+              >
+                <option value="">All Countries</option>
+                {countries.map(c => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
+            </div>
+
             <div className="group">
               <label className="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 ml-1 group-hover:text-[#2d3e23] transition-colors">
                 Max Budget ({currency})
@@ -213,7 +236,7 @@ const SmartRecommendations = ({ destinations, onSelectDestination, setCurrentPag
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="space-y-10"
+                className="space-y-16"
               >
                 <div className="flex items-center justify-between">
                   <h2 className="text-3xl font-bold text-[#2d3e23] flex items-center gap-3">
@@ -225,77 +248,123 @@ const SmartRecommendations = ({ destinations, onSelectDestination, setCurrentPag
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                  {recommendations.map((destination, idx) => (
-                    <motion.div
-                      key={destination._id || destination.name}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: idx * 0.08 }}
-                      className="bg-white rounded-[2.5rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-50 flex flex-col group"
-                    >
-                      <div className="relative h-64 overflow-hidden">
-                        <img
-                          src={destination.image}
-                          alt={destination.name}
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        />
-                        <div className="absolute top-6 right-6 bg-[#2d3e23] text-white px-4 py-2 rounded-2xl text-lg font-bold shadow-lg">
-                          {formatPrice(destination.price)}
-                        </div>
-                        {destination.recommendationScore >= 10 && (
-                          <div className="absolute top-6 left-6 bg-[#d4af37] text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                            Best Match
-                          </div>
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#2d3e23]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
-                          <p className="text-white text-sm font-light leading-relaxed line-clamp-3">
-                            {destination.description}
-                          </p>
-                        </div>
-                      </div>
+                {/* Group recommendations by category */}
+                {(() => {
+                  const grouped = recommendations.reduce((acc, dest) => {
+                    const cat = dest.category || 'Other'
+                    if (!acc[cat]) acc[cat] = []
+                    acc[cat].push(dest)
+                    return acc
+                  }, {})
 
-                      <div className="p-8 flex flex-col flex-1">
-                        <div className="flex justify-between items-start mb-4">
-                          <h3 className="text-xl font-bold text-[#2d3e23]">{destination.name}</h3>
-                          <span className="bg-[#fcfbf7] text-[#d4af37] px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border border-[#d4af37]/20 ml-2 shrink-0">
-                            {destination.category}
+                  const categoryColors = {
+                    'Camping Tours': { bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-800', badge: 'bg-amber-100 text-amber-800' },
+                    'Cultural Tours': { bg: 'bg-purple-50', border: 'border-purple-200', text: 'text-purple-800', badge: 'bg-purple-100 text-purple-800' },
+                    'Adventure Trips': { bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-800', badge: 'bg-red-100 text-red-800' },
+                    'Nature Tours': { bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-800', badge: 'bg-green-100 text-green-800' },
+                    'Coastal & Marine': { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-800', badge: 'bg-blue-100 text-blue-800' },
+                    'City & Heritage': { bg: 'bg-gray-50', border: 'border-gray-200', text: 'text-gray-800', badge: 'bg-gray-100 text-gray-800' },
+                  }
+
+                  const categoryOrder = ['Camping Tours', 'Cultural Tours', 'Adventure Trips', 'Nature Tours', 'Coastal & Marine', 'City & Heritage']
+                  const sortedCategories = Object.keys(grouped).sort((a, b) => {
+                    const aIdx = categoryOrder.indexOf(a)
+                    const bIdx = categoryOrder.indexOf(b)
+                    return (aIdx === -1 ? 999 : aIdx) - (bIdx === -1 ? 999 : bIdx)
+                  })
+
+                  return sortedCategories.map((category, catIdx) => {
+                    const catStyle = categoryColors[category] || categoryColors['City & Heritage']
+                    const dests = grouped[category]
+
+                    return (
+                      <motion.div
+                        key={category}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: catIdx * 0.1 }}
+                        className={`${catStyle.bg} border ${catStyle.border} rounded-[2.5rem] p-8 md:p-10`}
+                      >
+                        <div className="flex items-center justify-between mb-8">
+                          <h3 className={`text-2xl font-bold ${catStyle.text} flex items-center gap-3`}>
+                            <span className="w-8 h-px bg-current opacity-50"></span>
+                            {category}
+                          </h3>
+                          <span className={`${catStyle.badge} px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest`}>
+                            {dests.length} destination{dests.length !== 1 ? 's' : ''}
                           </span>
                         </div>
 
-                        <div className="flex items-center text-gray-400 text-sm mb-2">
-                          <svg className="w-4 h-4 mr-1 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                          </svg>
-                          {destination.location}
-                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                          {dests.map((destination, idx) => (
+                            <motion.div
+                              key={destination._id || destination.name}
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: (catIdx * 0.1) + (idx * 0.08) }}
+                              className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-50 flex flex-col group"
+                            >
+                              <div className="relative h-56 overflow-hidden">
+                                <img
+                                  src={destination.image}
+                                  alt={destination.name}
+                                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                />
+                                <div className="absolute top-4 right-4 bg-[#2d3e23] text-white px-3 py-1.5 rounded-2xl text-base font-bold shadow-lg">
+                                  {formatPrice(destination.price)}
+                                </div>
+                                {destination.recommendationScore >= 10 && (
+                                  <div className="absolute top-4 left-4 bg-[#d4af37] text-white px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                                    Best Match
+                                  </div>
+                                )}
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#2d3e23]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                                  <p className="text-white text-sm font-light leading-relaxed line-clamp-3">
+                                    {destination.description}
+                                  </p>
+                                </div>
+                              </div>
 
-                        <div className="flex items-center text-gray-400 text-sm mb-6">
-                          <svg className="w-4 h-4 mr-1 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                          </svg>
-                          {destination.duration} &nbsp;·&nbsp; Best: {destination.bestSeason}
-                        </div>
+                              <div className="p-6 flex flex-col flex-1">
+                                <h4 className="text-lg font-bold text-[#2d3e23] mb-3">{destination.name}</h4>
 
-                        <div className="mt-auto flex gap-3">
-                          <button
-                            onClick={() => handleViewDetails(destination)}
-                            className="flex-1 border border-[#2d3e23] text-[#2d3e23] py-3 rounded-2xl font-bold hover:bg-[#2d3e23] hover:text-white transition-all text-sm"
-                          >
-                            Details
-                          </button>
-                          <button
-                            onClick={() => handleBookNow(destination)}
-                            className="flex-1 bg-[#2d3e23] text-white py-3 rounded-2xl font-bold hover:bg-[#3d4a35] transition-all shadow-md text-sm"
-                          >
-                            Book Now
-                          </button>
+                                <div className="flex items-center text-gray-400 text-sm mb-2">
+                                  <svg className="w-4 h-4 mr-1 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                  </svg>
+                                  {destination.location}
+                                </div>
+
+                                <div className="flex items-center text-gray-400 text-sm mb-4">
+                                  <svg className="w-4 h-4 mr-1 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                  </svg>
+                                  {destination.duration}
+                                </div>
+
+                                <div className="mt-auto flex gap-2">
+                                  <button
+                                    onClick={() => handleViewDetails(destination)}
+                                    className="flex-1 border border-[#2d3e23] text-[#2d3e23] py-2.5 rounded-2xl font-bold hover:bg-[#2d3e23] hover:text-white transition-all text-xs"
+                                  >
+                                    Details
+                                  </button>
+                                  <button
+                                    onClick={() => handleBookNow(destination)}
+                                    className="flex-1 bg-[#2d3e23] text-white py-2.5 rounded-2xl font-bold hover:bg-[#3d4a35] transition-all shadow-md text-xs"
+                                  >
+                                    Book Now
+                                  </button>
+                                </div>
+                              </div>
+                            </motion.div>
+                          ))}
                         </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
+                      </motion.div>
+                    )
+                  })
+                })()}
               </motion.div>
             )}
 

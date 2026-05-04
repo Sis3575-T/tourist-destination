@@ -279,6 +279,20 @@ const destinationSeedData = [
     activities: ['Camping', 'Cultural visits', 'Photography'],
     duration: '3 days',
     distanceFromAddis: 600
+  },
+  {
+    name: 'Erta Ale Volcano Camping Expedition',
+    location: 'Danakil Depression, Ethiopia',
+    country: 'Ethiopia',
+    description:
+      'Camp on the rim of one of the world\'s few permanent lava lakes in the Danakil Depression, one of the hottest and most otherworldly places on Earth. Witness the glowing molten lava at night and explore the surreal sulfur springs of Dallol.',
+    price: 1250,
+    bestSeason: 'November to February',
+    category: 'Camping Tours',
+    image: 'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=1200',
+    activities: ['Volcano camping', 'Lava lake viewing', 'Desert trekking'],
+    duration: '4 days',
+    distanceFromAddis: 650
   }
 ];
 
