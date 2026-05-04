@@ -39,19 +39,48 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
   const [expandedM, setExpandedM] = useState(null)
   const [replyText, setReplyText] = useState({})   // { [id]: string }
 
+  // Destinations state
+  const [destinations, setDestinations] = useState([])
+  const [dLoading, setDLoading] = useState(false)
+  const [editingDest, setEditingDest] = useState(null)
+  const [destForm, setDestForm] = useState({
+    name: '', location: '', country: '', description: '', price: '', bestSeason: '',
+    category: '', image: '', activities: '', duration: '', distanceFromAddis: ''
+  })
+
+  // Fleet state
+  const [fleet, setFleet] = useState([])
+  const [fLoading, setFLoading] = useState(false)
+  const [editingFleet, setEditingFleet] = useState(null)
+  const [fleetForm, setFleetForm] = useState({
+    name: '', description: '', image: '', pricePerDay: '', rating: '4.5',
+    reviews: 'Verified', icon: '🚗', capacity: '4', features: '', category: 'Standard'
+  })
+
   const [saving, setSaving] = useState({})
 
   // Load data
   useEffect(() => {
     if (!authed) return
-    axios.get(`${apiBase}/bookings`).then(r => { setBookings(r.data); setBLoading(false) }).catch(() => setBLoading(false))
-    axios.get(`${apiBase}/messages`).then(r => { setMessages(r.data); setMLoading(false) }).catch(() => setMLoading(false))
+    loadBookingsAndMessages()
+    loadDestinations()
+    loadFleet()
   }, [authed, apiBase])
 
-  const refreshData = () => {
+  const loadBookingsAndMessages = () => {
     setBLoading(true); setMLoading(true)
     axios.get(`${apiBase}/bookings`).then(r => { setBookings(r.data); setBLoading(false) }).catch(() => setBLoading(false))
     axios.get(`${apiBase}/messages`).then(r => { setMessages(r.data); setMLoading(false) }).catch(() => setMLoading(false))
+  }
+
+  const loadDestinations = () => {
+    setDLoading(true)
+    axios.get(`${apiBase}/destinations`).then(r => { setDestinations(r.data); setDLoading(false) }).catch(() => setDLoading(false))
+  }
+
+  const loadFleet = () => {
+    setFLoading(true)
+    axios.get(`${apiBase}/fleet`).then(r => { setFleet(r.data); setFLoading(false) }).catch(() => setFLoading(false))
   }
 
   const showToast = (msg) => {
@@ -113,6 +142,136 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
     } catch {}
   }
 
+  // Destination handlers
+  const handleDestInputChange = (e) => {
+    const { name, value } = e.target
+    setDestForm(f => ({ ...f, [name]: value }))
+  }
+
+  const handleCreateOrUpdateDest = async (e) => {
+    e.preventDefault()
+    const payload = {
+      ...destForm,
+      price: Number(destForm.price),
+      distanceFromAddis: Number(destForm.distanceFromAddis),
+      activities: destForm.activities.split(',').map(a => a.trim()).filter(Boolean)
+    }
+
+    try {
+      if (editingDest) {
+        const { data } = await axios.put(`${apiBase}/destinations/${editingDest._id}`, payload)
+        setDestinations(prev => prev.map(d => d._id === editingDest._id ? data : d))
+        showToast('✅ Destination updated!')
+      } else {
+        const { data } = await axios.post(`${apiBase}/destinations`, payload)
+        setDestinations(prev => [...prev, data])
+        showToast('✅ Destination added!')
+      }
+      resetDestForm()
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to save destination')
+    }
+  }
+
+  const handleEditDest = (dest) => {
+    setEditingDest(dest)
+    setDestForm({
+      name: dest.name || '',
+      location: dest.location || '',
+      country: dest.country || '',
+      description: dest.description || '',
+      price: dest.price || '',
+      bestSeason: dest.bestSeason || '',
+      category: dest.category || '',
+      image: dest.image || '',
+      activities: (dest.activities || []).join(', '),
+      duration: dest.duration || '',
+      distanceFromAddis: dest.distanceFromAddis || ''
+    })
+  }
+
+  const handleDeleteDest = async (id) => {
+    if (!confirm('Are you sure you want to delete this destination?')) return
+    try {
+      await axios.delete(`${apiBase}/destinations/${id}`)
+      setDestinations(prev => prev.filter(d => d._id !== id))
+      showToast('✅ Destination deleted!')
+    } catch {
+      alert('Failed to delete destination')
+    }
+  }
+
+  const resetDestForm = () => {
+    setEditingDest(null)
+    setDestForm({ name: '', location: '', country: '', description: '', price: '', bestSeason: '',
+      category: '', image: '', activities: '', duration: '', distanceFromAddis: '' })
+  }
+
+  // Fleet handlers
+  const handleFleetInputChange = (e) => {
+    const { name, value } = e.target
+    setFleetForm(f => ({ ...f, [name]: value }))
+  }
+
+  const handleCreateOrUpdateFleet = async (e) => {
+    e.preventDefault()
+    const payload = {
+      ...fleetForm,
+      pricePerDay: Number(fleetForm.pricePerDay),
+      rating: Number(fleetForm.rating),
+      capacity: Number(fleetForm.capacity),
+      features: fleetForm.features.split(',').map(f => f.trim()).filter(Boolean)
+    }
+
+    try {
+      if (editingFleet) {
+        const { data } = await axios.put(`${apiBase}/fleet/${editingFleet._id}`, payload)
+        setFleet(prev => prev.map(item => item._id === editingFleet._id ? data : item))
+        showToast('✅ Service updated!')
+      } else {
+        const { data } = await axios.post(`${apiBase}/fleet`, payload)
+        setFleet(prev => [...prev, data])
+        showToast('✅ Service added!')
+      }
+      resetFleetForm()
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to save service')
+    }
+  }
+
+  const handleEditFleet = (item) => {
+    setEditingFleet(item)
+    setFleetForm({
+      name: item.name || '',
+      description: item.description || '',
+      image: item.image || '',
+      pricePerDay: item.pricePerDay || '',
+      rating: item.rating || '4.5',
+      reviews: item.reviews || 'Verified',
+      icon: item.icon || '🚗',
+      capacity: item.capacity || '4',
+      features: (item.features || []).join(', '),
+      category: item.category || 'Standard'
+    })
+  }
+
+  const handleDeleteFleet = async (id) => {
+    if (!confirm('Are you sure you want to delete this service?')) return
+    try {
+      await axios.delete(`${apiBase}/fleet/${id}`)
+      setFleet(prev => prev.filter(item => item._id !== id))
+      showToast('✅ Service deleted!')
+    } catch {
+      alert('Failed to delete service')
+    }
+  }
+
+  const resetFleetForm = () => {
+    setEditingFleet(null)
+    setFleetForm({ name: '', description: '', image: '', pricePerDay: '', rating: '4.5',
+      reviews: 'Verified', icon: '🚗', capacity: '4', features: '', category: 'Standard' })
+  }
+
   const fmt = (n) => n ? `$${Number(n).toLocaleString()}` : '—'
   const fmtDate = (d) => d ? new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : '—'
 
@@ -120,7 +279,7 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
   const unreadCount = messages.filter(m => m.status === 'unread').length
   const pendingCount = bookings.filter(b => b.status === 'pending').length
 
-  // ── Login Screen ──────────────────────────────────────────────
+  // ── Login Screen ──────────────────────────────────────
   if (!authed) {
     return (
       <div className="min-h-screen bg-[#2d3e23] flex items-center justify-center px-4">
@@ -196,7 +355,7 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
             <p className="text-gray-400 text-sm">EthioTour Management Dashboard</p>
           </div>
           <div className="flex items-center gap-3">
-            <button onClick={refreshData}
+            <button onClick={() => { loadBookingsAndMessages(); loadDestinations(); loadFleet() }}
               className="text-sm text-[#2d3e23] border border-gray-200 bg-white px-4 py-2 rounded-xl transition-all hover:bg-gray-50 flex items-center gap-2">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
@@ -230,21 +389,21 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-2 mb-6">
+        <div className="flex gap-2 mb-6 flex-wrap">
           {[
             { id: 'bookings', label: 'Bookings', badge: pendingCount },
             { id: 'messages', label: 'Messages', badge: unreadCount },
+            { id: 'destinations', label: 'Destinations', badge: destinations.length },
+            { id: 'fleet', label: 'Services', badge: fleet.length },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-black text-sm transition-all ${
                 tab === t.id ? 'bg-[#2d3e23] text-white shadow-lg' : 'bg-white text-gray-500 border border-gray-100 hover:border-[#2d3e23]'
               }`}>
               {t.label}
-              {t.badge > 0 && (
-                <span className={`text-xs px-2 py-0.5 rounded-full font-black ${tab === t.id ? 'bg-[#d4af37] text-[#2d3e23]' : 'bg-red-100 text-red-600'}`}>
-                  {t.badge}
-                </span>
-              )}
+              <span className={`text-xs px-2 py-0.5 rounded-full font-black ${tab === t.id ? 'bg-[#d4af37] text-[#2d3e23]' : 'bg-gray-100 text-gray-600'}`}>
+                {t.badge}
+              </span>
             </button>
           ))}
         </div>
@@ -259,7 +418,7 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
                   className={`text-xs font-bold px-4 py-2 rounded-full border transition-all capitalize ${
                     bFilter === f ? 'bg-[#2d3e23] text-white border-[#2d3e23]' : 'bg-white text-gray-500 border-gray-200 hover:border-[#2d3e23]'
                   }`}>
-                  {f} {f === 'all' ? `(${bookings.length})` : `(${bookings.filter(b => b.status === f).length})`}
+                  {f} ({f === 'all' ? bookings.length : bookings.filter(b => b.status === f).length})
                 </button>
               ))}
             </div>
@@ -541,6 +700,138 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
             )}
           </div>
         )}
+
+        {/* ── DESTINATIONS TAB ── */}
+        {tab === 'destinations' && (
+          <div>
+            {/* Add/Edit Form */}
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
+              <h3 className="font-black text-[#2d3e23] mb-4">{editingDest ? 'Edit Destination' : 'Add New Destination'}</h3>
+              <form onSubmit={handleCreateOrUpdateDest} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <input name="name" value={destForm.name} onChange={handleDestInputChange} placeholder="Name*" required className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37]" />
+                <input name="location" value={destForm.location} onChange={handleDestInputChange} placeholder="Location*" required className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37]" />
+                <select name="country" value={destForm.country} onChange={handleDestInputChange} required className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37]">
+                  <option value="">Select Country*</option>
+                  {['Ethiopia','Somalia','Djibouti','Eritrea','Tanzania','Kenya','Uganda','Rwanda','Burundi','South Sudan','Comoros','Madagascar','Seychelles','Mauritius'].map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+                <input name="price" value={destForm.price} onChange={handleDestInputChange} placeholder="Price*" type="number" required className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37]" />
+                <input name="bestSeason" value={destForm.bestSeason} onChange={handleDestInputChange} placeholder="Best Season*" required className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37]" />
+                <select name="category" value={destForm.category} onChange={handleDestInputChange} required className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37]">
+                  <option value="">Select Category*</option>
+                  {['Camping Tours','Cultural Tours','Adventure Trips','Nature Tours','Coastal & Marine','City & Heritage'].map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+                <input name="image" value={destForm.image} onChange={handleDestInputChange} placeholder="Image URL*" required className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37]" />
+                <input name="duration" value={destForm.duration} onChange={handleDestInputChange} placeholder="Duration*" required className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37]" />
+                <input name="distanceFromAddis" value={destForm.distanceFromAddis} onChange={handleDestInputChange} placeholder="Distance from Addis*" type="number" required className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37]" />
+                <textarea name="activities" value={destForm.activities} onChange={handleDestInputChange} placeholder="Activities (comma-separated)" className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37] md:col-span-3" rows={2} />
+                <textarea name="description" value={destForm.description} onChange={handleDestInputChange} placeholder="Description*" required className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37] md:col-span-3" rows={3} />
+                <div className="md:col-span-3 flex gap-3">
+                  <button type="submit" className="bg-[#2d3e23] text-white px-6 py-2 rounded-xl font-black text-sm hover:bg-[#3d4a35] transition-all">
+                    {editingDest ? 'Update Destination' : 'Add Destination'}
+                  </button>
+                  {editingDest && (
+                    <button type="button" onClick={resetDestForm} className="bg-gray-200 text-gray-700 px-6 py-2 rounded-xl font-black text-sm hover:bg-gray-300 transition-all">
+                      Cancel
+                    </button>
+                  )}
+                </div>
+              </form>
+            </div>
+
+            {/* Destinations List */}
+            {dLoading ? (
+              <div className="space-y-3">{[1,2,3].map(i => <div key={i} className="bg-white rounded-2xl h-20 animate-pulse border border-gray-100"/>)}</div>
+            ) : (
+              <div className="space-y-3">
+                {destinations.map(dest => (
+                  <div key={dest._id} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex items-center gap-4">
+                    <img src={dest.image} alt={dest.name} className="w-16 h-16 rounded-xl object-cover shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-black text-[#2d3e23] text-sm truncate">{dest.name}</p>
+                      <p className="text-xs text-gray-400">{dest.location} · {dest.country} · {fmt(dest.price)}</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <button onClick={() => handleEditDest(dest)} className="text-xs bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg font-bold hover:bg-blue-100 transition-all">
+                        Edit
+                      </button>
+                      <button onClick={() => handleDeleteDest(dest._id)} className="text-xs bg-red-50 text-red-600 px-3 py-1.5 rounded-lg font-bold hover:bg-red-100 transition-all">
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                {destinations.length === 0 && (
+                  <div className="text-center py-16 bg-white rounded-2xl border border-gray-100">
+                    <p className="text-gray-400">No destinations yet. Add one above!</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ── FLEET/SERVICES TAB ── */}
+        {tab === 'fleet' && (
+          <div>
+            {/* Add/Edit Form */}
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
+              <h3 className="font-black text-[#2d3e23] mb-4">{editingFleet ? 'Edit Service' : 'Add New Service'}</h3>
+              <form onSubmit={handleCreateOrUpdateFleet} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <input name="name" value={fleetForm.name} onChange={handleFleetInputChange} placeholder="Name*" required className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37]" />
+                <input name="icon" value={fleetForm.icon} onChange={handleFleetInputChange} placeholder="Icon (emoji)" className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37]" />
+                <input name="pricePerDay" value={fleetForm.pricePerDay} onChange={handleFleetInputChange} placeholder="Price Per Day*" type="number" required className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37]" />
+                <input name="rating" value={fleetForm.rating} onChange={handleFleetInputChange} placeholder="Rating" type="number" step="0.1" className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37]" />
+                <input name="reviews" value={fleetForm.reviews} onChange={handleFleetInputChange} placeholder="Reviews" className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37]" />
+                <input name="capacity" value={fleetForm.capacity} onChange={handleFleetInputChange} placeholder="Capacity" type="number" className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37]" />
+                <input name="image" value={fleetForm.image} onChange={handleFleetInputChange} placeholder="Image URL*" required className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37]" />
+                <input name="category" value={fleetForm.category} onChange={handleFleetInputChange} placeholder="Category" className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37]" />
+                <textarea name="features" value={fleetForm.features} onChange={handleFleetInputChange} placeholder="Features (comma-separated)" className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37] md:col-span-3" rows={2} />
+                <textarea name="description" value={fleetForm.description} onChange={handleFleetInputChange} placeholder="Description*" required className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37] md:col-span-3" rows={3} />
+                <div className="md:col-span-3 flex gap-3">
+                  <button type="submit" className="bg-[#2d3e23] text-white px-6 py-2 rounded-xl font-black text-sm hover:bg-[#3d4a35] transition-all">
+                    {editingFleet ? 'Update Service' : 'Add Service'}
+                  </button>
+                  {editingFleet && (
+                    <button type="button" onClick={resetFleetForm} className="bg-gray-200 text-gray-700 px-6 py-2 rounded-xl font-black text-sm hover:bg-gray-300 transition-all">
+                      Cancel
+                    </button>
+                  )}
+                </div>
+              </form>
+            </div>
+
+            {/* Fleet List */}
+            {fLoading ? (
+              <div className="space-y-3">{[1,2,3].map(i => <div key={i} className="bg-white rounded-2xl h-20 animate-pulse border border-gray-100"/>)}</div>
+            ) : (
+              <div className="space-y-3">
+                {fleet.map(item => (
+                  <div key={item._id} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex items-center gap-4">
+                    <img src={item.image} alt={item.name} className="w-16 h-16 rounded-xl object-cover shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-black text-[#2d3e23] text-sm truncate">{item.icon} {item.name}</p>
+                      <p className="text-xs text-gray-400">{fmt(item.pricePerDay)}/day · {item.category}</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <button onClick={() => handleEditFleet(item)} className="text-xs bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg font-bold hover:bg-blue-100 transition-all">
+                        Edit
+                      </button>
+                      <button onClick={() => handleDeleteFleet(item._id)} className="text-xs bg-red-50 text-red-600 px-3 py-1.5 rounded-lg font-bold hover:bg-red-100 transition-all">
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                {fleet.length === 0 && (
+                  <div className="text-center py-16 bg-white rounded-2xl border border-gray-100">
+                    <p className="text-gray-400">No services yet. Add one above!</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
       </div>
     </div>
   )

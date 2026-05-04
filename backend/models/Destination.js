@@ -12,7 +12,12 @@ const destinationSchema = new mongoose.Schema({
   country: {
     type: String,
     required: true,
-    enum: ['Ethiopia', 'Somalia', 'Djibouti', 'Eritrea'],
+    enum: [
+      'Ethiopia', 'Somalia', 'Djibouti', 'Eritrea', 
+      'Tanzania', 'Kenya', 'Uganda', 'Rwanda', 
+      'Burundi', 'South Sudan', 'Comoros', 'Madagascar', 
+      'Seychelles', 'Mauritius'
+    ],
   },
   description: {
     type: String,

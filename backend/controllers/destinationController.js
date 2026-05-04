@@ -49,3 +49,78 @@ exports.getDestinationById = async (req, res) => {
     res.status(500).json({ message: 'Server Error', error: err.message });
   }
 };
+
+// @desc    Create new destination (Admin)
+// @route   POST /api/destinations
+exports.createDestination = async (req, res) => {
+  try {
+    const {
+      name,
+      location,
+      country,
+      description,
+      price,
+      bestSeason,
+      category,
+      image,
+      activities,
+      duration,
+      distanceFromAddis
+    } = req.body;
+
+    const destination = new Destination({
+      name,
+      location,
+      country,
+      description,
+      price,
+      bestSeason,
+      category,
+      image,
+      activities: activities || [],
+      duration,
+      distanceFromAddis
+    });
+
+    const savedDestination = await destination.save();
+    res.status(201).json(savedDestination);
+  } catch (err) {
+    res.status(400).json({ message: 'Invalid data', error: err.message });
+  }
+};
+
+// @desc    Update destination (Admin)
+// @route   PUT /api/destinations/:id
+exports.updateDestination = async (req, res) => {
+  try {
+    const updatedDestination = await Destination.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedDestination) {
+      return res.status(404).json({ message: 'Destination not found' });
+    }
+
+    res.json(updatedDestination);
+  } catch (err) {
+    res.status(400).json({ message: 'Invalid data', error: err.message });
+  }
+};
+
+// @desc    Delete destination (Admin)
+// @route   DELETE /api/destinations/:id
+exports.deleteDestination = async (req, res) => {
+  try {
+    const destination = await Destination.findByIdAndDelete(req.params.id);
+
+    if (!destination) {
+      return res.status(404).json({ message: 'Destination not found' });
+    }
+
+    res.json({ message: 'Destination deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Server Error', error: err.message });
+  }
+};
