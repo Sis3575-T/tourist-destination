@@ -33,7 +33,7 @@ const BlogAndReviews = ({ setCurrentPage, onSelectBlog }) => {
               {blogs.map(blog => (
                 <div key={blog._id} className="bg-white shadow-sm border border-gray-100 flex flex-col group cursor-pointer">
                   <div className="h-48 overflow-hidden">
-                    <img src={blog.image} alt={blog.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => { e.target.src = '/destinations/lalibela.jpg' }} />
+                    <img src={blog.image} alt={blog.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => { e.target.style.display = 'none' }} />
                   </div>
                   <div className="p-5 flex-1 flex flex-col">
                     <h3 className="text-lg font-bold text-slate-800 mb-3">{blog.title}</h3>

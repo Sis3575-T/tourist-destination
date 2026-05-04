@@ -238,6 +238,34 @@ const destinations = [
     distanceFromAddis: 430
   },
   {
+    _id: '507f1f77bcf86cd799439028',
+    name: 'Ras Dashen Summit',
+    location: 'Simien Mountains, Ethiopia',
+    country: 'Ethiopia',
+    description: 'Summit Ethiopia\'s highest peak at 4,550 meters with breathtaking views of the Simien Mountains. Ras Dashen offers a challenging but rewarding trek through dramatic landscapes, endemic wildlife habitats, and traditional village encounters. The summit provides panoramic views of the entire Simien range and the surrounding valleys.',
+    price: 1200,
+    bestSeason: 'October to March',
+    category: 'Adventure Trips',
+    image: '/destinations/ras_dashen.jpg',
+    activities: ['Mountain trekking', 'Summit hike', 'Wildlife viewing'],
+    duration: '5 days',
+    distanceFromAddis: 830
+  },
+  {
+    _id: '507f1f77bcf86cd799439028b',
+    name: 'Bale Mountains Wilderness Camp',
+    location: 'Bale Mountains National Park, Ethiopia',
+    country: 'Ethiopia',
+    description: 'Camp in the heart of the Bale Mountains, one of Africa\'s most pristine high-altitude ecosystems. Home to the endangered Ethiopian wolf, the Bale Mountains offer an unforgettable camping experience above the clouds. Set up camp in afro-alpine meadows surrounded by giant lobelias, crystal-clear streams, and dramatic valleys. Spot endemic wildlife including Mountain Nyala and Menelik\'s Bushbuck. Evenings feature campfire stories under starlit skies with temperatures dropping to near freezing — a true wilderness adventure.',
+    price: 950,
+    bestSeason: 'October to December',
+    category: 'Camping Tours',
+    image: '/destinations/semien_mountain.jpg',
+    activities: ['Ethiopian wolf tracking', 'Alpine camping', 'Stargazing', 'Wildlife photography', 'Hiking to Tullu Dimtu peak'],
+    duration: '4 days',
+    distanceFromAddis: 400
+  },
+  {
     _id: '507f1f77bcf86cd799439029',
     name: 'Harar Jugol - City of Saints',
     location: 'Harar, Ethiopia',

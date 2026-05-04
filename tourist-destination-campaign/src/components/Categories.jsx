@@ -42,7 +42,7 @@ const Categories = ({ setCurrentPage }) => {
                   src={category.image}
                   alt={category.name}
                   className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                  onError={(e) => { e.target.src = '/destinations/lalibela.jpg' }}
+                  onError={(e) => { e.target.style.display = 'none' }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">

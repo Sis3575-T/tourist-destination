@@ -63,7 +63,7 @@ const ServiceDetail = ({ service, setCurrentPage }) => {
           src={service.image}
           alt={service.name}
           className="w-full h-full object-cover"
-          onError={(e) => { e.target.src = '/destinations/danakil.png' }}
+          onError={(e) => { e.target.style.display = 'none' }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 

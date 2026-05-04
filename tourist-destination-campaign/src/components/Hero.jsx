@@ -9,6 +9,12 @@ const slides = [
     tag: 'UNESCO World Heritage',
   },
   {
+    img: '/destinations/ras_dashen.jpg',
+    title: 'Ras Dashen',
+    subtitle: 'Ethiopia\'s Highest Peak — 4,550m',
+    tag: 'Mountain Adventure',
+  },
+  {
     img: '/destinations/semien_mountain.jpg',
     title: 'Simien Mountains',
     subtitle: 'Africa\'s Roof — Trekking Paradise',

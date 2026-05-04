@@ -447,7 +447,7 @@ const AdminPanel = ({ apiBase, setCurrentPage, refreshGlobalData }) => {
                           setExpandedB(isOpen ? null : booking._id)
                           if (!isOpen) handleMarkRead(booking._id).catch(() => {})
                         }}>
-                          <img src={dest.image || '/destinations/lalibela.jpg'} alt={dest.name} className="w-14 h-14 rounded-xl object-cover shrink-0" onError={(e) => { e.target.src = '/destinations/lalibela.jpg' }}/>
+                          <img src={dest.image} alt={dest.name} className="w-14 h-14 rounded-xl object-cover shrink-0" onError={(e) => { e.target.style.display = 'none' }}/>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
                             <p className="font-black text-[#2d3e23] truncate">{dest.name || 'Tour'}</p>
@@ -749,7 +749,7 @@ const AdminPanel = ({ apiBase, setCurrentPage, refreshGlobalData }) => {
               <div className="space-y-3">
                 {destinations.map(dest => (
                   <div key={dest._id} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex items-center gap-4">
-                    <img src={dest.image || '/destinations/lalibela.jpg'} alt={dest.name} className="w-16 h-16 rounded-xl object-cover shrink-0" onError={(e) => { e.target.src = '/destinations/lalibela.jpg' }} />
+                    <img src={dest.image} alt={dest.name} className="w-16 h-16 rounded-xl object-cover shrink-0" onError={(e) => { e.target.style.display = 'none' }} />
                     <div className="flex-1 min-w-0">
                       <p className="font-black text-[#2d3e23] text-sm truncate">{dest.name}</p>
                       <p className="text-xs text-gray-400">{dest.location} · {dest.country} · {fmt(dest.price)}</p>
@@ -811,7 +811,7 @@ const AdminPanel = ({ apiBase, setCurrentPage, refreshGlobalData }) => {
               <div className="space-y-3">
                 {fleet.map(item => (
                   <div key={item._id} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex items-center gap-4">
-                    <img src={item.image || '/destinations/danakil.png'} alt={item.name} className="w-16 h-16 rounded-xl object-cover shrink-0" onError={(e) => { e.target.src = '/destinations/danakil.png' }} />
+                    <img src={item.image} alt={item.name} className="w-16 h-16 rounded-xl object-cover shrink-0" onError={(e) => { e.target.style.display = 'none' }} />
                     <div className="flex-1 min-w-0">
                       <p className="font-black text-[#2d3e23] text-sm truncate">{item.icon} {item.name}</p>
                       <p className="text-xs text-gray-400">{fmt(item.pricePerDay)}/day · {item.category}</p>

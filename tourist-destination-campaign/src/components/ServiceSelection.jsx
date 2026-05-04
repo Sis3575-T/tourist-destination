@@ -147,7 +147,7 @@ const ServiceSelection = ({ destination, selectedDuration, onSelectService, setC
                       src={fleet.image}
                       alt={fleet.name}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                      onError={(e) => { e.target.src = '/destinations/danakil.png' }}
+                      onError={(e) => { e.target.style.display = 'none' }}
                     />
                     <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3 py-2 rounded-xl shadow-lg text-center">
                       <p className="text-lg font-black text-[#2d3e23]">${price}</p>

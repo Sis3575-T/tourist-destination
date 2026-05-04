@@ -69,7 +69,7 @@ const FleetServices = ({ setCurrentPage, onSelectService }) => {
                     src={fleet.image}
                     alt={fleet.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    onError={(e) => { e.target.src = '/destinations/danakil.png' }}
+                    onError={(e) => { e.target.style.display = 'none' }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                   <div className="absolute top-4 left-4 price-badge bg-white/95 backdrop-blur-sm rounded-2xl px-3 py-2 text-center shadow-lg">
