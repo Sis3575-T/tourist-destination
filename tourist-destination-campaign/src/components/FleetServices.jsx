@@ -10,7 +10,14 @@ const FleetServices = ({ setCurrentPage, onSelectService }) => {
   useEffect(() => {
     fetch(`${API_BASE}/fleet`)
       .then(r => r.json())
-      .then(data => { setFleets(Array.isArray(data) ? data : fleetFallback); setLoading(false) })
+      .then(data => {
+        let list = Array.isArray(data) ? data : fleetFallback
+        list = list.map(f => {
+          const fallback = fleetFallback.find(fb => fb.name === f.name)
+          return { ...f, image: fallback?.image || f.image }
+        })
+        setFleets(list); setLoading(false)
+      })
       .catch(() => { setFleets(fleetFallback); setLoading(false) })
   }, [])
 

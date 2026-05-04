@@ -61,7 +61,17 @@ function App() {
   const fetchDestinations = async () => {
     try {
       const { data } = await axios.get(`${API_BASE}/destinations`)
-      setDestinations(data)
+      // Patch destination images with local files where names match
+      const mod = await import('./data/destinations-fallback')
+      const fallbackList = Array.isArray(mod.default) ? mod.default : []
+      const patched = data.map(d => {
+        const fb = fallbackList.find(f => f.name === d.name)
+        return { ...d, image: fb?.image || d.image }
+      })
+      // Add fallback destinations not already in API results
+      const apiNames = new Set(data.map(d => d.name))
+      const extra = fallbackList.filter(f => !apiNames.has(f.name))
+      setDestinations([...patched, ...extra])
       setLoadError('')
     } catch (err) {
       console.warn('API fetch failed, using local fallback:', err.message)
