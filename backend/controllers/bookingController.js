@@ -40,7 +40,7 @@ exports.createBooking = async (req, res) => {
 
     if (userId && !mongoose.Types.ObjectId.isValid(userId))
       return res.status(400).json({ message: 'Invalid User ID format' });
-    if (!destinationId || !mongoose.Types.ObjectId.isValid(destinationId))
+    if (!destinationId)
       return res.status(400).json({ message: 'Invalid or missing Destination ID' });
     if (!date)  return res.status(400).json({ message: 'Travel date is required' });
     if (!name)  return res.status(400).json({ message: 'Traveler name is required' });
