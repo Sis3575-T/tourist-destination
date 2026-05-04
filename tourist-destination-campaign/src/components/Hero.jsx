@@ -165,8 +165,8 @@ const Hero = ({ setCurrentPage, destinations }) => {
           className="mt-12 flex flex-wrap justify-center gap-8 sm:gap-16"
         >
           {[
-            { value: '17+', label: 'Destinations' },
-            { value: '4', label: 'Countries' },
+            { value: `${destinations.length > 0 ? destinations.length : 17}+`, label: 'Destinations' },
+            { value: `${destinations.length > 0 ? [...new Set(destinations.map(d => d.country))].filter(Boolean).length : 4}`, label: 'Countries' },
             { value: '500+', label: 'Happy Travelers' },
             { value: '10+', label: 'Years Experience' },
           ].map(stat => (

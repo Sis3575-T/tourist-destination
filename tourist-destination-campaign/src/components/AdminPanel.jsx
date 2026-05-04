@@ -18,7 +18,7 @@ const msgStatusStyles = {
   replied: 'bg-green-100 text-green-700',
 }
 
-const AdminPanel = ({ apiBase, setCurrentPage }) => {
+const AdminPanel = ({ apiBase, setCurrentPage, refreshGlobalData }) => {
   const [authed, setAuthed]       = useState(false)
   const [username, setUsername]   = useState('')
   const [password, setPassword]   = useState('')
@@ -162,10 +162,12 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
         const { data } = await axios.put(`${apiBase}/destinations/${editingDest._id}`, payload)
         setDestinations(prev => prev.map(d => d._id === editingDest._id ? data : d))
         showToast('✅ Destination updated!')
+        if (refreshGlobalData) refreshGlobalData()
       } else {
         const { data } = await axios.post(`${apiBase}/destinations`, payload)
         setDestinations(prev => [...prev, data])
         showToast('✅ Destination added!')
+        if (refreshGlobalData) refreshGlobalData()
       }
       resetDestForm()
     } catch (err) {
@@ -195,8 +197,9 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
     try {
       await axios.delete(`${apiBase}/destinations/${id}`)
       setDestinations(prev => prev.filter(d => d._id !== id))
-      showToast('✅ Destination deleted!')
-    } catch {
+      showToast('🗑️ Destination deleted!')
+      if (refreshGlobalData) refreshGlobalData()
+    } catch (err) {
       alert('Failed to delete destination')
     }
   }
@@ -226,12 +229,14 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
     try {
       if (editingFleet) {
         const { data } = await axios.put(`${apiBase}/fleet/${editingFleet._id}`, payload)
-        setFleet(prev => prev.map(item => item._id === editingFleet._id ? data : item))
+        setFleet(prev => prev.map(f => f._id === editingFleet._id ? data : f))
         showToast('✅ Service updated!')
+        if (refreshGlobalData) refreshGlobalData()
       } else {
         const { data } = await axios.post(`${apiBase}/fleet`, payload)
         setFleet(prev => [...prev, data])
         showToast('✅ Service added!')
+        if (refreshGlobalData) refreshGlobalData()
       }
       resetFleetForm()
     } catch (err) {
@@ -259,9 +264,10 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
     if (!confirm('Are you sure you want to delete this service?')) return
     try {
       await axios.delete(`${apiBase}/fleet/${id}`)
-      setFleet(prev => prev.filter(item => item._id !== id))
-      showToast('✅ Service deleted!')
-    } catch {
+      setFleet(prev => prev.filter(f => f._id !== id))
+      showToast('🗑️ Service deleted!')
+      if (refreshGlobalData) refreshGlobalData()
+    } catch (err) {
       alert('Failed to delete service')
     }
   }
@@ -441,9 +447,7 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
                           setExpandedB(isOpen ? null : booking._id)
                           if (!isOpen) handleMarkRead(booking._id).catch(() => {})
                         }}>
-                        {dest.image && (
-                          <img src={dest.image} alt={dest.name} className="w-14 h-14 rounded-xl object-cover shrink-0"/>
-                        )}
+                          <img src={dest.image || '/destinations/lalibela.jpg'} alt={dest.name} className="w-14 h-14 rounded-xl object-cover shrink-0" onError={(e) => { e.target.src = '/destinations/lalibela.jpg' }}/>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
                             <p className="font-black text-[#2d3e23] truncate">{dest.name || 'Tour'}</p>
@@ -745,7 +749,7 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
               <div className="space-y-3">
                 {destinations.map(dest => (
                   <div key={dest._id} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex items-center gap-4">
-                    <img src={dest.image} alt={dest.name} className="w-16 h-16 rounded-xl object-cover shrink-0" />
+                    <img src={dest.image || '/destinations/lalibela.jpg'} alt={dest.name} className="w-16 h-16 rounded-xl object-cover shrink-0" onError={(e) => { e.target.src = '/destinations/lalibela.jpg' }} />
                     <div className="flex-1 min-w-0">
                       <p className="font-black text-[#2d3e23] text-sm truncate">{dest.name}</p>
                       <p className="text-xs text-gray-400">{dest.location} · {dest.country} · {fmt(dest.price)}</p>
@@ -807,7 +811,7 @@ const AdminPanel = ({ apiBase, setCurrentPage }) => {
               <div className="space-y-3">
                 {fleet.map(item => (
                   <div key={item._id} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex items-center gap-4">
-                    <img src={item.image} alt={item.name} className="w-16 h-16 rounded-xl object-cover shrink-0" />
+                    <img src={item.image || '/destinations/danakil.png'} alt={item.name} className="w-16 h-16 rounded-xl object-cover shrink-0" onError={(e) => { e.target.src = '/destinations/danakil.png' }} />
                     <div className="flex-1 min-w-0">
                       <p className="font-black text-[#2d3e23] text-sm truncate">{item.icon} {item.name}</p>
                       <p className="text-xs text-gray-400">{fmt(item.pricePerDay)}/day · {item.category}</p>

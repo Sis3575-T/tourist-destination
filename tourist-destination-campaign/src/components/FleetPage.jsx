@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { API_BASE } from '../api'
+import fleetFallback from '../data/fleet-fallback'
 
 const FleetPage = ({ destinations, onSelectService, onSelectDestination, setCurrentPage }) => {
   const [fleets, setFleets] = useState([])
@@ -10,8 +11,8 @@ const FleetPage = ({ destinations, onSelectService, onSelectDestination, setCurr
   useEffect(() => {
     fetch(`${API_BASE}/fleet`)
       .then(r => r.json())
-      .then(data => { setFleets(Array.isArray(data) ? data : []); setLoading(false) })
-      .catch(() => { setFleets([]); setLoading(false) })
+      .then(data => { setFleets(Array.isArray(data) ? data : fleetFallback); setLoading(false) })
+      .catch(() => { setFleets(fleetFallback); setLoading(false) })
   }, [])
 
   const features = {
@@ -95,7 +96,7 @@ const FleetPage = ({ destinations, onSelectService, onSelectDestination, setCurr
                     }`}
                   >
                     <div className="relative h-52 overflow-hidden">
-                      <img src={fleet.image} alt={fleet.name} className="w-full h-full object-cover" />
+                      <img src={fleet.image || '/destinations/danakil.png'} alt={fleet.name} className="w-full h-full object-cover" onError={(e) => { e.target.src = '/destinations/danakil.png' }} />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                       {isSelected && (
                         <div className="absolute top-4 right-4 w-8 h-8 bg-[#d4af37] rounded-full flex items-center justify-center shadow-lg">
@@ -164,7 +165,7 @@ const FleetPage = ({ destinations, onSelectService, onSelectDestination, setCurr
                     className="cursor-pointer group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                   >
                     <div className="relative h-36 overflow-hidden">
-                      <img src={dest.image} alt={dest.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                      <img src={dest.image || '/destinations/lalibela.jpg'} alt={dest.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onError={(e) => { e.target.src = '/destinations/lalibela.jpg' }} />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                       <div className="absolute bottom-3 left-3 right-3">
                         <p className="text-white font-black text-sm leading-tight">{dest.name}</p>

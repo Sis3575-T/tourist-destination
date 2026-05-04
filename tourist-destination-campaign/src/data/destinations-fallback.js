@@ -8,7 +8,7 @@ const destinations = [
     price: 980,
     bestSeason: 'October to May',
     category: 'Cultural Tours',
-    image: 'https://images.unsplash.com/photo-1582031577677-48d619df39c7?w=1200',
+    image: 'https://images.unsplash.com/photo-1570291254328-8048a01e43b?w=1200',
     activities: ['Church visits', 'Guided heritage tour', 'Photography'],
     duration: '4 days',
     distanceFromAddis: 700
@@ -22,7 +22,7 @@ const destinations = [
     price: 1150,
     bestSeason: 'October to March',
     category: 'Adventure Trips',
-    image: 'https://images.unsplash.com/photo-1504283210-4d31c75d518?w=1200',
+    image: 'https://images.unsplash.com/photo-1504387102698-e6e240ffff54?w=1200',
     activities: ['Multi-day trekking', 'Wildlife watching', 'Camping'],
     duration: '6 days',
     distanceFromAddis: 800
@@ -36,7 +36,7 @@ const destinations = [
     price: 1350,
     bestSeason: 'November to February',
     category: 'Adventure Trips',
-    image: 'https://images.unsplash.com/photo-155864496-3d31c718e5d?w=1200',
+    image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1200',
     activities: ['Volcanic landscapes', 'Salt caravans', 'Desert tour'],
     duration: '5 days',
     distanceFromAddis: 600
@@ -50,7 +50,7 @@ const destinations = [
     price: 720,
     bestSeason: 'October to May',
     category: 'Cultural Tours',
-    image: 'https://images.unsplash.com/photo-1559839651-534629ed0977?w=1200',
+    image: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1200',
     activities: ['Castle tours', 'Cultural storytelling', 'Museum visit'],
     duration: '3 days',
     distanceFromAddis: 730
@@ -64,7 +64,7 @@ const destinations = [
     price: 450,
     bestSeason: 'July to October',
     category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1512277426380-7e70c8c3081?w=1200',
+    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200',
     activities: ['Boat ride', 'Village walk', 'Waterfall viewpoint'],
     duration: '2 days',
     distanceFromAddis: 560
@@ -78,7 +78,7 @@ const destinations = [
     price: 670,
     bestSeason: 'October to March',
     category: 'Cultural Tours',
-    image: 'https://images.unsplash.com/photo-1523805312304-4469d6095ff9?w=1200',
+    image: 'https://images.unsplash.com/photo-1470093851219-69951fcbb533?w=1200',
     activities: ['Archaeological sites', 'Historical museums', 'City tour'],
     duration: '3 days',
     distanceFromAddis: 1000
@@ -92,7 +92,7 @@ const destinations = [
     price: 890,
     bestSeason: 'November to February',
     category: 'City & Heritage',
-    image: 'https://images.unsplash.com/photo-1519046705308-3f5b0f8131c?w=1200',
+    image: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=1200',
     activities: ['Beach walk', 'Old quarter tour', 'Local cuisine'],
     duration: '3 days',
     distanceFromAddis: 1060
@@ -106,7 +106,7 @@ const destinations = [
     price: 760,
     bestSeason: 'November to February',
     category: 'Cultural Tours',
-    image: 'https://images.unsplash.com/photo-1518995798351-3e53a2da0baf?w=1200',
+    image: 'https://images.unsplash.com/photo-1589292851210-938bf90c1c49?w=1200',
     activities: ['Archaeological exploration', 'Guided history walk'],
     duration: '2 days',
     distanceFromAddis: 700
@@ -120,7 +120,7 @@ const destinations = [
     price: 710,
     bestSeason: 'November to March',
     category: 'Coastal & Marine',
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200',
+    image: 'https://images.unsplash.com/photo-1552733407-5d5c46c3bb3?w=1200',
     activities: ['Coastline tour', 'Swimming', 'Photography'],
     duration: '3 days',
     distanceFromAddis: 860
@@ -148,7 +148,7 @@ const destinations = [
     price: 950,
     bestSeason: 'November to February',
     category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1509023462013-8de2c3b59d93?w=1200',
+    image: 'https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?w=1200',
     activities: ['Geo-tour', 'Salt flats visit', 'Photography'],
     duration: '3 days',
     distanceFromAddis: 800
@@ -162,7 +162,7 @@ const destinations = [
     price: 1120,
     bestSeason: 'October to March',
     category: 'Coastal & Marine',
-    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1200',
+    image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=1200',
     activities: ['Snorkeling', 'Boat transfer', 'Beach day'],
     duration: '2 days',
     distanceFromAddis: 850
@@ -190,7 +190,7 @@ const destinations = [
     price: 790,
     bestSeason: 'October to April',
     category: 'City & Heritage',
-    image: 'https://images.unsplash.com/photo-1540494561537-1b3d6d50d2a7?w=1200',
+    image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cd86?w=1200',
     activities: ['Architecture tour', 'Historic cafés', 'Walking tour'],
     duration: '3 days',
     distanceFromAddis: 1080
@@ -204,7 +204,7 @@ const destinations = [
     price: 730,
     bestSeason: 'November to February',
     category: 'City & Heritage',
-    image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=1200',
+    image: 'https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?w=1200',
     activities: ['Old town walk', 'Sea promenade', 'Culture visit'],
     duration: '2 days',
     distanceFromAddis: 1150
@@ -218,7 +218,7 @@ const destinations = [
     price: 1240,
     bestSeason: 'October to March',
     category: 'Coastal & Marine',
-    image: 'https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?w=1200',
+    image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200',
     activities: ['Island boat tour', 'Snorkeling', 'Beach relaxation'],
     duration: '4 days',
     distanceFromAddis: 1200
@@ -232,21 +232,7 @@ const destinations = [
     price: 1100,
     bestSeason: 'June to September',
     category: 'Cultural Tours',
-    image: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1200',
-    activities: ['Tribal visits', 'Traditional ceremonies', 'Nature photography'],
-    duration: '6 days',
-    distanceFromAddis: 520
-  },
-  {
-    _id: '507f1f77bcf86cd799439028',
-    name: 'Bale Mountains Wilderness',
-    location: 'Bale Mountains, Ethiopia',
-    country: 'Ethiopia',
-    description: 'Discover Ethiopia\'s most biodiverse region with endemic wildlife including the Ethiopian wolf and Mountain Nyala. The Bale Mountains National Park offers stunning Afro-alpine landscapes, vast plateaus, and dense forests. It\'s one of the best places in Africa for trekking and wildlife viewing, with over 300 bird species and rare mammals found nowhere else on Earth.',
-    price: 1050,
-    bestSeason: 'October to March',
-    category: 'Nature Tours',
-    image: 'https://images.unsplash.com/photo-1504387102698-e6e240ffff54?w=1200',
+    image: 'https://images.unsplash.com/photo-1520437351795-29a623cdd53?w=1200',
     activities: ['Wildlife spotting', 'Plateau trekking', 'Birdwatching'],
     duration: '5 days',
     distanceFromAddis: 430
@@ -274,24 +260,10 @@ const destinations = [
     price: 590,
     bestSeason: 'November to March',
     category: 'Adventure Trips',
-    image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1200',
+    image: 'https://images.unsplash.com/photo-1474398763683-7e6b8d9d23a1?w=1200',
     activities: ['Cave exploration', 'River walk', 'Photography'],
     duration: '2 days',
     distanceFromAddis: 480
-  },
-  {
-    _id: '507f1f77bcf86cd799439031',
-    name: 'Qohaito Archaeological Site',
-    location: 'Debub Region, Eritrea',
-    country: 'Eritrea',
-    description: 'Step back in time at this ancient pre-Aksumite archaeological site in the highlands. Qohaito is believed to be the site of the ancient city of Koloe, dating back to the 5th century BC. The site features the famous "Tomb of the King", ancient reservoirs, and stunning views of the Great Rift Valley escarpment.',
-    price: 750,
-    bestSeason: 'October to April',
-    category: 'Cultural Tours',
-    image: 'https://images.unsplash.com/photo-1474398763683-7e6b8d9d23a1?w=1200',
-    activities: ['Archaeological tour', 'Highland hiking', 'Historical sites'],
-    duration: '3 days',
-    distanceFromAddis: 1100
   },
   {
     _id: '507f1f77bcf86cd799439032',
@@ -302,7 +274,7 @@ const destinations = [
     price: 690,
     bestSeason: 'October to April',
     category: 'Cultural Tours',
-    image: 'https://images.unsplash.com/photo-1589650600654-4a991e1a3f27?w=1200',
+    image: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1200',
     activities: ['Museum visit', 'Tunnel tour', 'Historical briefing'],
     duration: '2 days',
     distanceFromAddis: 1200
@@ -316,7 +288,7 @@ const destinations = [
     price: 880,
     bestSeason: 'October to March',
     category: 'Coastal & Marine',
-    image: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=1200',
+    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1200',
     activities: ['Whale shark tour', 'Old town walk', 'Coastal relaxation'],
     duration: '3 days',
     distanceFromAddis: 780
@@ -400,7 +372,7 @@ const destinations = [
     price: 1450,
     bestSeason: 'July to October',
     category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200',
+    image: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1200',
     activities: ['Game viewing', 'Maasai village visit', 'Hot air balloon'],
     duration: '5 days',
     distanceFromAddis: 1100
@@ -448,7 +420,7 @@ const destinations = [
     distanceFromAddis: 1000
   },
   {
-    _id: '507f1f77bcf86cd799439043',
+    _id: 'dest_033',
     name: 'Nyungwe Forest Camp',
     location: 'Nyungwe National Park, Rwanda',
     country: 'Rwanda',
@@ -462,7 +434,7 @@ const destinations = [
     distanceFromAddis: 1150
   },
   {
-    _id: '507f1f77bcf86cd799439044',
+    _id: 'dest_034',
     name: 'Bujumbura Lake Retreat',
     location: 'Bujumbura, Burundi',
     country: 'Burundi',
@@ -470,13 +442,13 @@ const destinations = [
     price: 720,
     bestSeason: 'June to September',
     category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200',
+    image: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1200',
     activities: ['Lake tours', 'Beach camping', 'Boat trips'],
     duration: '3 days',
     distanceFromAddis: 1250
   },
   {
-    _id: '507f1f77bcf86cd799439045',
+    _id: 'dest_035',
     name: 'Boma National Park Camp',
     location: 'Boma, South Sudan',
     country: 'South Sudan',
@@ -484,13 +456,13 @@ const destinations = [
     price: 1050,
     bestSeason: 'January to April',
     category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1200',
+    image: 'https://images.unsplash.com/photo-1595781512989-e73ae46944e3?w=1200',
     activities: ['Game drives', 'Migration viewing', 'Community visits'],
     duration: '5 days',
     distanceFromAddis: 1300
   },
   {
-    _id: '507f1f77bcf86cd799439046',
+    _id: 'dest_036',
     name: 'Nimule River Camp',
     location: 'Nimule, South Sudan',
     country: 'South Sudan',
@@ -498,7 +470,7 @@ const destinations = [
     price: 890,
     bestSeason: 'December to March',
     category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1595781512989-e73ae46944e3?w=1200',
+    image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200',
     activities: ['River fishing', 'Boat safari', 'Birdwatching'],
     duration: '4 days',
     distanceFromAddis: 1400
@@ -512,7 +484,7 @@ const destinations = [
     price: 920,
     bestSeason: 'May to November',
     category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200',
+    image: 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=1200',
     activities: ['Volcano trekking', 'Crater exploration', 'Cloud forest hike'],
     duration: '4 days',
     distanceFromAddis: 2800
@@ -526,7 +498,7 @@ const destinations = [
     price: 780,
     bestSeason: 'April to November',
     category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=1200',
+    image: 'https://images.unsplash.com/photo-1555082556-43b791ba1ea3?w=1200',
     activities: ['Lemur spotting', 'Island hopping', 'Beach camping'],
     duration: '4 days',
     distanceFromAddis: 3200
@@ -540,7 +512,7 @@ const destinations = [
     price: 850,
     bestSeason: 'April to November',
     category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1555082556-43b791ba1ea3?w=1200',
+    image: 'https://images.unsplash.com/photo-1589979481223-deb893043163?w=1200',
     activities: ['Lemur tracking', 'Night walks', 'Rainforest hikes'],
     duration: '5 days',
     distanceFromAddis: 3300
@@ -554,7 +526,7 @@ const destinations = [
     price: 1150,
     bestSeason: 'April to May',
     category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1589979481223-deb893043163?w=1200',
+    image: 'https://images.unsplash.com/photo-1589197331516-4b6f3a2b6b3?w=1200',
     activities: ['Palm forest tour', 'Tortoise encounter', 'Beach camping'],
     duration: '3 days',
     distanceFromAddis: 3400
@@ -568,7 +540,7 @@ const destinations = [
     price: 980,
     bestSeason: 'May to December',
     category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1589197331516-4b6f3a2b6b3?w=1200',
+    image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200',
     activities: ['Rainforest hiking', 'Waterfall trek', 'Birdwatching'],
     duration: '3 days',
     distanceFromAddis: 3500

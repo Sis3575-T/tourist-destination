@@ -58,13 +58,23 @@ function App() {
   }
   // ────────────────────────────────────────────────────────────
 
+  const fetchDestinations = async () => {
+    try {
+      const { data } = await axios.get(`${API_BASE}/destinations`)
+      setDestinations(data)
+      setLoadError('')
+    } catch (err) {
+      console.warn('API fetch failed, using local fallback:', err.message)
+      import('./data/destinations-fallback').then(mod => {
+        const localData = Array.isArray(mod.default) ? mod.default : []
+        setDestinations(localData)
+        setLoadError(localData.length > 0 ? '' : 'Unable to load tour data.')
+      })
+    }
+  }
+
   useEffect(() => {
-    // Use local fallback data directly (remote API override for local dev)
-    import('./data/destinations-fallback').then(mod => {
-      const localData = Array.isArray(mod.default) ? mod.default : []
-      setDestinations(localData)
-      setLoadError(localData.length > 0 ? '' : 'Unable to load tour data.')
-    })
+    fetchDestinations()
   }, [])
 
   useEffect(() => {
@@ -131,7 +141,7 @@ function App() {
       case 'contact':
         return <ContactForm setCurrentPage={setCurrentPage} prefillEmail={user?.email || ''} />
       case 'admin':
-        return <AdminPanel apiBase={API_BASE} setCurrentPage={setCurrentPage} />
+        return <AdminPanel apiBase={API_BASE} setCurrentPage={setCurrentPage} refreshGlobalData={fetchDestinations} />
       default:
         return null
     }

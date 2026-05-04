@@ -165,9 +165,10 @@ const DestinationExplorer = ({ destinations, onSelectDestination, setCurrentPage
                   {/* Image */}
                   <div className="relative h-52 overflow-hidden">
                     <img
-                      src={dest.image}
+                      src={dest.image || '/destinations/lalibela.jpg'}
                       alt={dest.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      onError={(e) => { e.target.src = '/destinations/lalibela.jpg' }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 

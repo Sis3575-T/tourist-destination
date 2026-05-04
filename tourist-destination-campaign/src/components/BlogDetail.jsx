@@ -32,6 +32,7 @@ const BlogDetail = ({ blog, setCurrentPage }) => {
           src={blog.image}
           alt={blog.title}
           className="w-full h-full object-cover"
+          onError={(e) => { e.target.src = '/destinations/lalibela.jpg' }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 

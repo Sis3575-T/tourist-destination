@@ -237,7 +237,7 @@ const Dashboard = ({ destinations = [], setCurrentPage, apiBase, userId, user, o
                       <div className="flex items-center gap-4 p-5 cursor-pointer hover:bg-gray-50 transition-colors"
                         onClick={() => setExpanded(isOpen ? null : booking._id)}>
                         <div className="w-14 h-14 rounded-2xl overflow-hidden shrink-0 bg-gray-100">
-                          {dest.image && <img src={dest.image} alt={dest.name} className="w-full h-full object-cover"/>}
+                          {dest.image && <img src={dest.image} alt={dest.name} className="w-14 h-14 rounded-2xl object-cover" onError={(e) => { e.target.src = '/destinations/lalibela.jpg' }}/>}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">

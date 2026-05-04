@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { API_BASE } from '../api'
+import fleetFallback from '../data/fleet-fallback'
 
 const terrainMultipliers = {
   'Danakil Depression Expedition': { multiplier: 1.8, label: 'Extreme Off-road & Remote', difficulty: 'Extreme', color: 'red' },
@@ -26,8 +27,8 @@ const ServiceSelection = ({ destination, selectedDuration, onSelectService, setC
   useEffect(() => {
     fetch(`${API_BASE}/fleet`)
       .then(r => r.json())
-      .then(data => { setFleets(Array.isArray(data) ? data : []); setLoading(false) })
-      .catch(() => { setFleets([]); setLoading(false) })
+      .then(data => { setFleets(Array.isArray(data) ? data : fleetFallback); setLoading(false) })
+      .catch(() => { setFleets(fleetFallback); setLoading(false) })
   }, [])
 
   const getTerrain = (dest) => {
@@ -146,6 +147,7 @@ const ServiceSelection = ({ destination, selectedDuration, onSelectService, setC
                       src={fleet.image}
                       alt={fleet.name}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                      onError={(e) => { e.target.src = '/destinations/danakil.png' }}
                     />
                     <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3 py-2 rounded-xl shadow-lg text-center">
                       <p className="text-lg font-black text-[#2d3e23]">${price}</p>

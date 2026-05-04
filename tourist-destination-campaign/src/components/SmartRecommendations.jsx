@@ -306,9 +306,10 @@ const SmartRecommendations = ({ destinations, onSelectDestination, setCurrentPag
                             >
                               <div className="relative h-56 overflow-hidden">
                                 <img
-                                  src={destination.image}
+                                  src={destination.image || '/destinations/lalibela.jpg'}
                                   alt={destination.name}
                                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                  onError={(e) => { e.target.src = '/destinations/lalibela.jpg' }}
                                 />
                                 <div className="absolute top-4 right-4 bg-[#2d3e23] text-white px-3 py-1.5 rounded-2xl text-base font-bold shadow-lg">
                                   {formatPrice(destination.price)}

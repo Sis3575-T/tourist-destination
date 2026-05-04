@@ -412,7 +412,7 @@ const Booking = ({ destination, service, selectedDuration, setCurrentPage, curre
           {/* Sidebar Summary */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 sticky top-28">
-              <img src={destination.image} alt={destination.name} className="w-full h-40 object-cover rounded-2xl mb-5" />
+              <img src={destination.image} alt={destination.name} className="w-full h-40 object-cover rounded-2xl mb-5" onError={(e) => { e.target.src = '/destinations/lalibela.jpg' }} />
               <h3 className="font-black text-[#2d3e23] text-lg mb-1">{destination.name}</h3>
               <p className="text-gray-400 text-sm mb-1 flex items-center gap-1">
                 <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/></svg>

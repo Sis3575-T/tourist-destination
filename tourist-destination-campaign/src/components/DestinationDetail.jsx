@@ -78,6 +78,7 @@ const DestinationDetail = ({ destination, setCurrentPage, currency, onDurationSe
           src={destination.image}
           alt={destination.name}
           className="w-full h-full object-cover"
+          onError={(e) => { e.target.src = '/destinations/lalibela.jpg' }}
         />
         <div className="absolute inset-0 hero-overlay-gradient" />
 
