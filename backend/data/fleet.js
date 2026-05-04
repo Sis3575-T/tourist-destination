@@ -61,6 +61,42 @@ const fleetSeedData = [
     rating: 4.6,
     reviews: "Verified · 500+ trips",
     icon: "✈️"
+  },
+  {
+    name: "Domestic Flight",
+    description: "Fast and convenient air travel between major cities and tourist destinations. Includes airport transfers and priority boarding for tourists.",
+    image: "https://images.unsplash.com/photo-143649186533-1366c2a9876?w=800&fit=crop",
+    pricePerDay: 450,
+    rating: 4.7,
+    reviews: "Verified · 90+ flights",
+    icon: "✈️"
+  },
+  {
+    name: "Charter Plane Expedition",
+    description: "Private charter flights to remote destinations and national parks. Land closer to attractions with scenic aerial views of landscapes.",
+    image: "https://images.unsplash.com/photo-1520437351795-29a623cdd53?w=800&fit=crop",
+    pricePerDay: 1200,
+    rating: 4.9,
+    reviews: "Verified · 30+ charters",
+    icon: "🛩️"
+  },
+  {
+    name: "Scenic Helicopter Tour",
+    description: "Aerial sightseeing flights over mountains, valleys, and coastlines. Perfect for photography and reaching remote areas quickly.",
+    image: "https://images.unsplash.com/photo-1504853831170-efb742c8c98?w=800&fit=crop",
+    pricePerDay: 1800,
+    rating: 4.8,
+    reviews: "Verified · 15+ flights",
+    icon: "🚁️"
+  },
+  {
+    name: "Commercial Airliner",
+    description: "Standard commercial flights between major cities and tourist hubs. Reliable and cost-effective for longer distances.",
+    image: "https://images.unsplash.com/photo-143649186533-1366c2a9876?w=800&fit=crop",
+    pricePerDay: 600,
+    rating: 4.6,
+    reviews: "Verified · 200+ flights",
+    icon: "✈️"
   }
 ];
 
