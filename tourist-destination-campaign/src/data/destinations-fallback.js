@@ -8,7 +8,7 @@ const destinations = [
     price: 980,
     bestSeason: 'October to May',
     category: 'Cultural Tours',
-    image: 'https://images.unsplash.com/photo-1570291254328-8048a01e43b?w=1200',
+    image: '/destinations/lalibela.jpg',
     activities: ['Church visits', 'Guided heritage tour', 'Photography'],
     duration: '4 days',
     distanceFromAddis: 700
@@ -22,7 +22,7 @@ const destinations = [
     price: 1150,
     bestSeason: 'October to March',
     category: 'Adventure Trips',
-    image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200',
+    image: '/destinations/semien_mountain.jpg',
     activities: ['Multi-day trekking', 'Wildlife watching', 'Camping'],
     duration: '6 days',
     distanceFromAddis: 800
@@ -36,7 +36,7 @@ const destinations = [
     price: 1350,
     bestSeason: 'November to February',
     category: 'Adventure Trips',
-    image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1200',
+    image: '/destinations/danakil.png',
     activities: ['Volcanic landscapes', 'Salt caravans', 'Desert tour'],
     duration: '5 days',
     distanceFromAddis: 600
@@ -50,7 +50,7 @@ const destinations = [
     price: 720,
     bestSeason: 'October to May',
     category: 'Cultural Tours',
-    image: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1200',
+    image: '/destinations/gonder.jpg',
     activities: ['Castle tours', 'Cultural storytelling', 'Museum visit'],
     duration: '3 days',
     distanceFromAddis: 730
@@ -64,7 +64,7 @@ const destinations = [
     price: 450,
     bestSeason: 'July to October',
     category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200',
+    image: '/destinations/blue_nile_falls.png',
     activities: ['Boat ride', 'Village walk', 'Waterfall viewpoint'],
     duration: '2 days',
     distanceFromAddis: 560
@@ -78,7 +78,7 @@ const destinations = [
     price: 670,
     bestSeason: 'October to March',
     category: 'Cultural Tours',
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200',
+    image: '/destinations/axum.jpg',
     activities: ['Archaeological sites', 'Historical museums', 'City tour'],
     duration: '3 days',
     distanceFromAddis: 1000
@@ -92,7 +92,7 @@ const destinations = [
     price: 890,
     bestSeason: 'November to February',
     category: 'City & Heritage',
-    image: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=1200',
+    image: '/destinations/lido_beach.png',
     activities: ['Beach walk', 'Old quarter tour', 'Local cuisine'],
     duration: '3 days',
     distanceFromAddis: 1060
@@ -106,7 +106,7 @@ const destinations = [
     price: 760,
     bestSeason: 'November to February',
     category: 'Cultural Tours',
-    image: 'https://images.unsplash.com/photo-1589292851210-938bf90c1c49?w=1200',
+    image: '/destinations/laas_geel.png',
     activities: ['Archaeological exploration', 'Guided history walk'],
     duration: '2 days',
     distanceFromAddis: 700
@@ -134,7 +134,7 @@ const destinations = [
     price: 680,
     bestSeason: 'December to March',
     category: 'Coastal & Marine',
-    image: 'https://images.unsplash.com/photo-1552733407-5d5c46c3bb3?w=1200',
+    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200',
     activities: ['Boat outing', 'Beach leisure', 'Food experience'],
     duration: '2 days',
     distanceFromAddis: 1200
@@ -148,7 +148,7 @@ const destinations = [
     price: 950,
     bestSeason: 'November to February',
     category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?w=1200',
+    image: '/destinations/lake_assal.png',
     activities: ['Geo-tour', 'Salt flats visit', 'Photography'],
     duration: '3 days',
     distanceFromAddis: 800
@@ -162,7 +162,7 @@ const destinations = [
     price: 1120,
     bestSeason: 'October to March',
     category: 'Coastal & Marine',
-    image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=1200',
+    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1200',
     activities: ['Snorkeling', 'Boat transfer', 'Beach day'],
     duration: '2 days',
     distanceFromAddis: 850
@@ -176,7 +176,7 @@ const destinations = [
     price: 840,
     bestSeason: 'November to March',
     category: 'Nature Tours',
-    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200',
+    image: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=1200',
     activities: ['Forest hiking', 'Birdwatching', 'Nature walks'],
     duration: '3 days',
     distanceFromAddis: 820
@@ -190,7 +190,7 @@ const destinations = [
     price: 790,
     bestSeason: 'October to April',
     category: 'City & Heritage',
-    image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cd86?w=1200',
+    image: '/destinations/asmara.png',
     activities: ['Architecture tour', 'Historic cafés', 'Walking tour'],
     duration: '3 days',
     distanceFromAddis: 1080
@@ -204,7 +204,7 @@ const destinations = [
     price: 730,
     bestSeason: 'November to February',
     category: 'City & Heritage',
-    image: 'https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?w=1200',
+    image: 'https://images.unsplash.com/photo-1548013146-72479768bada?w=1200',
     activities: ['Old town walk', 'Sea promenade', 'Culture visit'],
     duration: '2 days',
     distanceFromAddis: 1150
@@ -218,7 +218,7 @@ const destinations = [
     price: 1240,
     bestSeason: 'October to March',
     category: 'Coastal & Marine',
-    image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200',
+    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1200',
     activities: ['Island boat tour', 'Snorkeling', 'Beach relaxation'],
     duration: '4 days',
     distanceFromAddis: 1200
@@ -232,7 +232,7 @@ const destinations = [
     price: 1100,
     bestSeason: 'June to September',
     category: 'Cultural Tours',
-    image: 'https://images.unsplash.com/photo-1520437351795-29a623cdd53?w=1200',
+    image: 'https://images.unsplash.com/photo-1504387102698-e6e240ffff54?w=1200',
     activities: ['Wildlife spotting', 'Plateau trekking', 'Birdwatching'],
     duration: '5 days',
     distanceFromAddis: 430
@@ -246,7 +246,7 @@ const destinations = [
     price: 1200,
     bestSeason: 'October to March',
     category: 'Adventure Trips',
-    image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200',
+    image: '/destinations/ras_dashen.jpg',
     activities: ['Mountain trekking', 'Summit hike', 'Wildlife viewing'],
     duration: '5 days',
     distanceFromAddis: 830
@@ -260,7 +260,7 @@ const destinations = [
     price: 950,
     bestSeason: 'October to December',
     category: 'Camping Tours',
-    image: 'https://images.unsplash.com/photo-1504387102698-e6e240ffff54?w=1200',
+    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200',
     activities: ['Ethiopian wolf tracking', 'Alpine camping', 'Stargazing'],
     duration: '4 days',
     distanceFromAddis: 400
@@ -344,7 +344,7 @@ const destinations = [
     price: 650,
     bestSeason: 'November to February',
     category: 'Cultural Tours',
-    image: 'https://images.unsplash.com/photo-1504387102698-e6e240ffff54?w=1200',
+    image: 'https://images.unsplash.com/photo-1474398763683-7e6b8d9d23a1?w=1200',
     activities: ['Cave exploration', 'Highland walking', 'Cultural exchange'],
     duration: '2 days',
     distanceFromAddis: 750
@@ -358,7 +358,7 @@ const destinations = [
     price: 720,
     bestSeason: 'November to March',
     category: 'Coastal & Marine',
-    image: 'https://images.unsplash.com/photo-1552733407-5d5c46c3bb3?w=1200',
+    image: 'https://images.unsplash.com/photo-1493558103817-58b2924bce98?w=1200',
     activities: ['Beach leisure', 'Fishing experience', 'Sea cave tour'],
     duration: '3 days',
     distanceFromAddis: 1050

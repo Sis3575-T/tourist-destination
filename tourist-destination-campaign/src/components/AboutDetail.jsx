@@ -5,9 +5,9 @@ const AboutDetail = ({ setCurrentPage }) => {
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <div className="relative h-[40vh] md:h-[50vh] overflow-hidden">
-        <img
-          src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1600&fit=crop"
-          alt="Ethiopian Highlands"
+         <img
+           src="/destinations/semien_mountain.jpg"
+           alt="Ethiopian Highlands"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
@@ -60,9 +60,9 @@ const AboutDetail = ({ setCurrentPage }) => {
           </p>
 
           <div className="relative rounded-2xl overflow-hidden mb-12 shadow-xl">
-            <img 
-              src="https://images.unsplash.com/photo-1528127269322-539801943592?w=1200" 
-              alt="Lalibela Church" 
+             <img 
+               src="/destinations/lalibela.jpg" 
+               alt="Lalibela Church" 
               className="w-full h-80 object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">

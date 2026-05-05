@@ -3,19 +3,19 @@ const Categories = ({ setCurrentPage }) => {
     {
       name: 'Camping Tours',
       description: 'Experience Ethiopia\'s wilderness with our premium camping adventures',
-      image: 'https://images.unsplash.com/photo-1504851149312-7a075b496cc7?w=400',
+       image: 'https://images.unsplash.com/photo-1504387102698-e6e240ffff54?w=1200',
       count: '12+ Tours'
     },
     {
       name: 'Cultural Tours',
       description: 'Immerse yourself in Ethiopia\'s rich history and traditions',
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400',
+       image: 'https://images.unsplash.com/photo-1548013146-72479768bada?w=1200',
       count: '8+ Tours'
     },
     {
       name: 'Adventure Trips',
       description: 'Thrilling adventures from volcanoes to mountain treks',
-      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400',
+       image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200',
       count: '15+ Tours'
     }
   ]

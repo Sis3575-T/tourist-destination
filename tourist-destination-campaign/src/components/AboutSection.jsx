@@ -54,9 +54,9 @@ const AboutSection = ({ setCurrentPage }) => {
             className="relative"
           >
             <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/3]">
-              <img
-                src="https://images.unsplash.com/photo-1528127269322-539801943592?w=900&fit=crop"
-                alt="Ethiopian landscape"
+               <img
+                 src="/destinations/gonder.jpg"
+                 alt="Ethiopian landscape"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#2d3e23]/60 to-transparent" />

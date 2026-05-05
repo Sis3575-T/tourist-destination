@@ -6,7 +6,7 @@ const fleetData = [
     pricePerDay: 150,
     rating: 4.8,
     icon: '🚙',
-    image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=1200',
+    image: '/destinations/4x4_suv_adventure.jpg',
     capacity: 4,
     category: "Adventure"
   },
@@ -17,7 +17,7 @@ const fleetData = [
     pricePerDay: 100,
     rating: 4.7,
     icon: '🚐',
-    image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1200',
+    image: '/destinations/standard_minibus.jpg',
     capacity: 12,
     category: "Standard"
   },
@@ -28,7 +28,7 @@ const fleetData = [
     pricePerDay: 250,
     rating: 4.9,
     icon: '🚌',
-    image: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=1200',
+    image: '/destinations/luxury_coach.jpg',
     capacity: 40,
     category: "Luxury"
   },
@@ -39,7 +39,7 @@ const fleetData = [
     pricePerDay: 55,
     rating: 4.5,
     icon: '🚗',
-    image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=1200',
+    image: '/destinations/economy_sedan.jpg',
     capacity: 4,
     category: "Economy"
   },
@@ -50,7 +50,7 @@ const fleetData = [
     pricePerDay: 200,
     rating: 4.9,
     icon: '🚙',
-    image: 'https://images.unsplash.com/photo-1504387102698-e6e240ffff54?w=1200',
+    image: '/destinations/premium_suv.jpg',
     capacity: 5,
     category: "Premium"
   },
@@ -61,7 +61,7 @@ const fleetData = [
     pricePerDay: 220,
     rating: 5.0,
     icon: '🦁',
-    image: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1200',
+    image: '/destinations/safari_land_cruiser.jpg',
     capacity: 5,
     category: "Safari"
   },
@@ -72,7 +72,7 @@ const fleetData = [
     pricePerDay: 40,
     rating: 4.6,
     icon: '✈️',
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200',
+    image: '/destinations/airport_shuttle_van.jpg',
     capacity: 8,
     category: "Shuttle"
   },
@@ -83,7 +83,7 @@ const fleetData = [
     pricePerDay: 450,
     rating: 4.7,
     icon: '✈️',
-    image: 'https://images.unsplash.com/photo-143649186533-1366c2a2d45?w=1200',
+    image: '/destinations/domestic_flight.jpg',
     capacity: 70,
     category: "Flight"
   },
@@ -94,7 +94,7 @@ const fleetData = [
     pricePerDay: 1200,
     rating: 4.9,
     icon: '🛩️',
-    image: 'https://images.unsplash.com/photo-1520437351795-29a623cdd53?w=1200',
+    image: '/destinations/charter_plane.jpg',
     capacity: 8,
     category: "Charter"
   },
@@ -105,7 +105,7 @@ const fleetData = [
     pricePerDay: 1800,
     rating: 4.8,
     icon: '🚁',
-    image: 'https://images.unsplash.com/photo-1504853831170-efb742c8c98?w=1200',
+    image: '/destinations/helicopter_tour.jpg',
     capacity: 4,
     category: "Helicopter"
   },
@@ -116,7 +116,7 @@ const fleetData = [
     pricePerDay: 600,
     rating: 4.6,
     icon: '🛫',
-    image: 'https://images.unsplash.com/photo-143649186533-1366c2a2d45?w=1200',
+    image: '/destinations/commercial_airliner.jpg',
     capacity: 180,
     category: "Flight"
   },
